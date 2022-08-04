@@ -1,0 +1,19 @@
+autoProposeCode=<\=\#
+commentBorder=\#626262 | null | false | false | false | false
+commentText=\#626262 | null | false | false | false | false
+declBoder=\#A7EC21 | null | false | false | false | false
+doctypeExternalId=\#cf96eb | null | false | false | false | false
+doctypeExternalPubref=\#f0a253 | null | false | false | false | false
+doctypeExtrenalSysref=\#fbd153 | null | false | false | false | false
+doctypeName=\#fea88f | null | false | false | false | false
+eclipse.preferences.version=1
+entityReference=\#DD2867 | null | false | false | false | false
+newFileTemplateName=New HTML File (5.th.btstrp)
+org.eclipse.wst.sse.ui.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates><template autoinsert\="true" context\="html_new" deleted\="false" description\="thymleaf with bootstrap5.2.0" enabled\="true" name\="New HTML File (5.th.btstrp)">&lt;\!DOCTYPE html&gt;&\#13;\r\n&lt;html xmlns\:th\="http\://www.thymeleaf.org"&gt;&\#13;\r\n&lt;link rel\="stylesheet" href\="/bootstrap-5.2.0-dist/css/bootstrap.css"&gt;&\#13;\r\n&lt;link rel\="stylesheet" href\="https\://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"&gt;&\#13;\r\n&lt;script src\="/bootstrap-5.2.0-dist/js/bootstrap.bundle.js" defer\="defer"&gt;&lt;/script&gt;&\#13;\r\n&lt;head&gt;&\#13;\r\n\t&lt;meta charset\="${encoding}"&gt;&\#13;\r\n\t&lt;title&gt;Insert title here${cursor}&lt;/title&gt;&\#13;\r\n&lt;/head&gt;&\#13;\r\n\t&lt;body&gt;&\#13;\r\n\t${cursor}&\#13;\r\n\t&lt;/body&gt;&\#13;\r\n&lt;/html&gt;</template></templates>
+overriddenByCSS=,commentBorder,commentText,declBoder,doctypeExternalId,doctypeExternalPubref,doctypeExtrenalSysref,doctypeName,entityReference,tagAttributeEquals,tagAttributeName,tagAttributeValue,tagBorder,tagName,xmlContent,
+tagAttributeEquals=\#52ca11 | null | false | false | false | false
+tagAttributeName=\#a7ec21 | null | false | false | false | false
+tagAttributeValue=\#17c694 | null | false | true | false | false
+tagBorder=\#808080 | null | false | false | false | false
+tagName=\#03a8d8 | null | true | false | false | false
+xmlContent=\#D9E8F7 | null | false | false | false | false
