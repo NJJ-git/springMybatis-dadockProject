@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>중고거래</title>
+</head>
+<style type="text/css">
+#goods1 {
+	border: 1px solid #000;
+}
+#goods2 {
+	border: 1px solid #000;
+}
+</style>
+<body>
+<header th:insert="market/marketHeader"></header>
+	
+	    <div id="container">
+	        <div id="box">
+	            
+	            <h1>메인 게시판</h1>
+	            <input type="search" name="marketSearch" id="marketSearch">
+	            <button type="submit">검색</button>
+	        </div>
+	    </div>
+	    <div id="goods1">
+			<p>이미지</p>	  
+	   		<p>
+		     	goods1 / 가격
+		   		<a th:href="@{/market/goodsDetail}">물건상세</a>
+		   		<a th:href="@{/market/marketWishlist}">찜</a>
+	   		</p>
+	    </div>
+	    <div id="goods2">
+			<p>이미지</p>	  
+	   		<p>
+		     	goods1 / 가격
+		   		<a th:href="@{/market/goodsDetail}">물건상세</a>
+		   		<a th:href="@{/market/marketWishlist}">찜</a>
+	   		</p>
+	    </div>
+</body>
+</html>
