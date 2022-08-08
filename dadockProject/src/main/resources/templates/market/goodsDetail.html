@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>물건 상세</title>
+</head>
+<body>
+<header th:insert="market/marketHeader"></header>
+<h1>물건 상세</h1>
+<span>
+	<p>이미지:</p>
+	<p>상품이름:</p>
+	<p>가격:</p>
+	<hr>
+	<p> 댓글:
+		<input type="text">
+	</p>
+	<a th:href="@{/market/marketOrder}">결제</a>
+	<a th:href="@{/market/marketWishlist}">찜</a>
+</span>
+</body>
+</html>
