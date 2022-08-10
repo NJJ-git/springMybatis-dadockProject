@@ -6,17 +6,27 @@
 </head>
 <body>
 <header th:insert="market/marketHeader"></header>
-<h1>물건 상세</h1>
-<span>
-	<p>이미지:</p>
-	<p>상품이름:</p>
-	<p>가격:</p>
-	<hr>
-	<p> 댓글:
-		<input type="text">
-	</p>
-	<a th:href="@{/market/marketOrder}">결제</a>
-	<a th:href="@{/market/marketWishlist}">찜</a>
-</span>
+	<div id="box" class="m-3">
+       <h1><i class="bi bi-book"></i>여기는 상품번호랑제목을..넣을가</h1>
+     </div>
+     <div class="d-flex justify-content-center">
+     <div class="card" style="width: 500px;">
+	  <img src="https://tinyurl.com/2qucfhdt" class="card-img-top" alt="...">
+	  	<div class="card-body">
+	    <h2 class="card-title mb-3">우리가 빛의 속도로 갈 수 없다면</h2>
+	    <p class="card-text mb-3" >상태:
+	    	<button class="btn btn-outline-success" autofocus="autofocus">A</button><!--폼 작성시 상태를..고정시키고싶은데...  -->
+	    	<button class="btn btn-outline-success">B</button>
+	    	</p>
+	    	<p class="card-text">가격</p>
+	    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+	    <span class="d-flex flex-row-reverse">
+		    <a th:href="@{/market/marketWishlist}" class="btn btn-primary"><i class="bi bi-bookmark-heart-fill"></i></a>
+		    <a th:href="@{/market/marketOrder}" class="btn btn-primary">결제</a>
+	    </span>
+	  </div>
+     </div>
+</div>
+
 </body>
 </html>

@@ -6,7 +6,7 @@
 </head>
 <body>
 <header th:insert="market/marketHeader"></header>
-<h1>마켓 결제 페이지</h1>
+<h1 class="m-3 font-monospace"> <i class=" bi bi-book"></i> Order</h1>
 	<span> 상품확인
 		<p>이미지:</p>
 		<p>상품이름:</p>
@@ -49,6 +49,6 @@
 			휴대폰:
 		</p>
 	</span>
-	<a th:href="@{/market/marketPay}">결제하기</a>
+	<a th:href="@{/market/marketPay}" class="btn btn-primary">결제하기</a>
 </body>
 </html>
