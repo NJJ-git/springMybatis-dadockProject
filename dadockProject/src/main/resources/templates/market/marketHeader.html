@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>marketHeaderNav</title>
+</head>
+<style type="text/css">
+#headerNav{
+ 	background-color: beige;
+ 	display: flex;
+	justify-content: space-between;
+}
+#headerNav>ul{
+	display: flex;
+	list-style: none;
+	
+}
+#headerNav>ul>li{
+	padding: 7px 10px;
+}
+#headerNav>ul>li>a:hover{
+	background-color:lightblue;
+	padding: 24px 13px;
+	font-weight: bold;
+	font-size: 20px
+	
+
+}
+#headerNav>ul>li>a{
+	padding: 5px;
+	color: black;
+	text-decoration: none;
+}
+</style>
+<body>
+	<nav id="headerNav">
+			<ul>
+				<li>
+					<a href="/market/marketMain">Home</a> 
+					<a href="/market/marketWishlist">찜/보관함</a> 
+					<a href="/market/marketUserDetail">내페이지</a> 
+				</li>
+			</ul>
+		</nav>
+</body>
+</html>
