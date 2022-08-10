@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>내 서재 리스트</title>
+</head>
+<body>
+	<header th:insert="/headerNav"></header>
+	<main>
+		<h1 class="m-3 d-flex justify-content-between align-items-center">내 서재 리스트
+			<a href="/library/insert.do" class="btn btn-sm btn-primary">읽은 책 추가</a>
+		</h1>
+		
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>no</th>
+					<th>책 제목</th>
+					<th>작가</th>
+					<th>출판사</th>
+					<th>등록일</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="library:${libraryList}">
+					<tr th:onclick="location.href='/library/detail/[[${library.library_no}]]'">
+						<td th:text="${library.library_no}"></td>
+						<td th:text="${library.title}"></td>
+						<td th:text="${library.author}"></td>
+						<td th:text="${library.publisher}"></td>
+						<td th:text="${#dates.format(board.post_time, 'yyyy-MM-dd hh:mm:ss')}"></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	
+	</main>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

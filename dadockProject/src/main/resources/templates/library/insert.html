@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>서재 등록 페이지</title>
+</head>
+<body>
+	<header th:insert="/headerNav"></header>
+	<main class="container">
+		<h1 class="m-3">서재 등록 페이지</h1>
+		
+		<form  action="/library/insert.do" method="post" class="row g-3 needs-validation" validate 
+			enctype="multipart/form-data">
+		
+		 
+		  
+		  <div class="mb-3 was-validated">
+		    <label for="inputTitle" class="form-label">책 제목</label>
+		    <input name="title" class="form-control" id="inputTitle" placeholder="제목을 입력하세요" required>
+		    <div class="invalid-feedback">
+		      Please enter a title of book.
+		    </div>
+		  </div>
+		  
+		  <div class="mb-3 was-validated">
+		    <label for="inputTitle" class="form-label">작가</label>
+		    <input name="title" class="form-control" id="inputTitle" placeholder="작가의 이름을 입력하세요" required>
+		    <div class="invalid-feedback">
+		      Please enter a name of writer.
+		    </div>
+		  </div>
+		  
+		  <div class="mb-3 was-validated">
+		    <label for="inputTitle" class="form-label">출판사</label>
+		    <input name="title" class="form-control" id="inputTitle" placeholder="출판사를 입력하세요" required>
+		    <div class="invalid-feedback">
+		      Please enter a publisher.
+		    </div>
+		  </div>
+		  
+		  
+		  <!-- 별점 -->
+		  
+		  
+		  <div class="mb-3 was-validated">
+		    <label for="inputContents" class="form-label">노트</label>
+		    <textarea name="contents" class="form-control" id="inputContents" placeholder="내용을 입력하세요" required></textarea>
+		    <div class="invalid-feedback">
+		      Please enter a message in the contents.
+		    </div>
+		  </div>
+		  
+		  <div class="mb-3">
+		    <label for="inputTitle" class="form-label">이미지</label>
+		    <input name="imgFiles" class="form-control mb-1" type="file">
+		  </div>
+
+		  <div class="col-12">
+		    <button class="btn btn-primary" type="submit">Submit form</button>
+		  </div>
+		</form>
+		
+	</main>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>서재 등록 페이지</title>
+</head>
+<body>
+	<header th:insert="/headerNav"></header>
+	<main class="container">
+		<h1 class="m-3">
+			<small th:text="${library.library_no}"></small>
+			<span th:text="${library.title}"></span>
+		</h1>
+	
+		<p>
+			글쓴이 아이디: <strong></strong>,
+			이름: <strong></strong>
+		</p>
+		
+		<p>
+			게시일: <span th:text="${board.post_time}"></span>
+		</p>
+		
+		<div>
+			<th:block th:each="boardImg: ${board.boardImgs}">
+				
+			</th:block>
+			
+		</div>		
+			
+	
+			<div>
+				<a th:href="" class="btn btn-success">
+					수정
+				</a>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
+
+
+
+
+
+
+
+
