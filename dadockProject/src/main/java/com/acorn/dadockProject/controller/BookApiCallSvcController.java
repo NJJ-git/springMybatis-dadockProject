@@ -8,14 +8,18 @@ import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.acorn.dadockProject.dto.BookApiCallSvc;
 
 @Controller
 public class BookApiCallSvcController {
-	@RequestMapping(value = "/search")
-    public ResponseEntity search(String str) {
+	@RequestMapping("/search")
+	
+	@GetMapping("/list")
+    public ResponseEntity search(String str, Model model) {
         BookApiCallSvc bookApiCallService = new BookApiCallSvc();
         JSONObject result = new JSONObject();
         String text="";

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -16,8 +16,10 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="/public/demo/demo.css" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/fa855fbb4b.js" crossorigin="anonymous"></script>
+  
 </head>
 <body class="index-page sidebar-collapse" style="overflow-x: hidden; padding: 0,80px,0,80px">
+<header th:insert="headerNav"></header>
   <div class="tim-container" id="menu-dropdown">
     <div class="row">
       <div class="col-md-12">
@@ -32,8 +34,8 @@
           <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="navbar-nav mr-auto">
 
-              <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" href="#pk" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: large;">소설</a>
+              <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" href="#pk" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: large;">소설</button>
                 <ul class="dropdown-menu dropdown-info" aria-labelledby="dropdownMenuButton" style="float: left;">
                   <a class="dropdown-item" href="#pk">나라별 소설</a>
                   <div class="dropdown-divider"></div>
@@ -43,7 +45,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#pk">테마소설</a>
                 </ul>
-              </div>
+              </li>
               
               <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" href="#pk" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: large;">시/에세이</a>
