@@ -21,7 +21,7 @@ public class UserController {
 	
 	@GetMapping("/list/{page}")
 	public String list(@PathVariable int page, Model model) {
-		List<UserDto>userList=(userMapper.selectAll());
+		List<UserDto> userList=(userMapper.selectAll());
 		System.out.println(userList);
 		model.addAttribute(userList);
 		
@@ -52,6 +52,9 @@ public class UserController {
 			return "redirect:/user/detail/"+userId;
 	}
   }
+	
+	@GetMapping("/login.do")
+	public void login() {}
 }
 
 
