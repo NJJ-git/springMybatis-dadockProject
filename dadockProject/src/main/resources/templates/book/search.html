@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset=UTF-8>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+	<title>Dadock::다독</title>
+</head>
+<body>
+<header th:insert="headerNav"></header>
+	<div class="container">
+      <div class="row">
+        <div class="col">
+          <form method="get" role="searchbox" action="./searchList">
+            <input type="search" class="form-control" placeholder="도서 검색" name="text">
+         	<button class="btn btn-warning btn-round" type="submit" style="font-size: 16px;">검색</button>
+          </form>
+        </div>
+      </div>
+    </div>
+<footer th:insert="footer"></footer>
+</body>
+</html>
