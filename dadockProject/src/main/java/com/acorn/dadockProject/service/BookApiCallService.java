@@ -9,9 +9,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-public class BookApiCallSvc {
+@Service
+public class BookApiCallService {
 	public JSONObject get(String url) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -28,7 +30,7 @@ public class BookApiCallSvc {
 
         JSONParser jsonParser = new JSONParser();
         Object object = jsonParser.parse(data);
-        System.out.println("object : "+object);
+//        System.out.println("object : "+object);
         JSONObject jsonObject = (JSONObject)object;
         return jsonObject;
     }

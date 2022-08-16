@@ -60,7 +60,7 @@ link varchar(255),
 discount int,
  primary key(isbn)
 ) 
-ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE= utf8mb4_0900_ai_ci;
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 insert into read_book (isbn, title, author, img, publisher, pubdate, description, link, discount) values
 ('9788946421851', '내 생애 단 한 번 (장영희 에세이 | 때론 아프게, 때론 불꽃같이)', '장영희', 'https://shopping-phinf.pstatic.net/main_3248051/32480513418.20220527085451.jpg', '샘터(샘터사)', '20210730', 
