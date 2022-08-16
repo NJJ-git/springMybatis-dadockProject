@@ -26,7 +26,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.acorn.dadockProject.dto.BookDto;
 
-/*@Service
+@Service
 public class BookApiCallService {
 	public JSONObject get(String url) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
@@ -48,9 +48,9 @@ public class BookApiCallService {
         JSONObject jsonObject = (JSONObject)object;
         return jsonObject;
     }
-}*/
+}
 
-@Service
+/*@Service
 public class BookApiCallService {
     private static String clientID = "oHHQl3B9tdmJcsAmpzSZ";
     private static String clientSecret = "g0qmX35VwT";
@@ -156,4 +156,5 @@ public class BookApiCallService {
         }
         return list;
     }
-}
+}*/
+
