@@ -1,3 +1,13 @@
+//데이터 변경 log//
+
+-- 2022-08-16 -- 
+1. dibs 테이블명 wishlist로 변경 (칼럼 이름 함께 변경)
+	wishlist 테이블 wishlist boolean 삭제.
+2. isbn 데이터 타입 변경 (bigint -> varchar(255))
+3. library 테이블 추가
+
+
+
 ////////// 테이블 목록 //////////
 
 +------------------+
@@ -49,7 +59,7 @@ insert into user (user_id, pw, name, email, phone, level, point)  values
 
 drop table read_book;
 create table read_book(
-isbn bigint,
+isbn varchar(255),
 title varchar(255),
 author varchar(255),
 img varchar(255),
@@ -58,8 +68,9 @@ pubdate date,
 description text,
 link varchar(255),
 discount int,
+star int not null default 0,
  primary key(isbn)
-) 
+)
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 insert into read_book (isbn, title, author, img, publisher, pubdate, description, link, discount) values
@@ -75,7 +86,7 @@ title varchar(255),
 content varchar(255),
 user_id varchar(255),
 level int,
-isbn bigint,
+isbn varchar(255),
 start_date date,
 end_date date,
 address varchar(255),
@@ -106,7 +117,7 @@ drop table comment;
 create table comment(
 comment_no int auto_increment,
 user_id varchar(255),
-isbn bigint,
+isbn varchar(255),
 content varchar(255),
  primary key(comment_no),
  foreign key(user_id) references user(user_id) on delete cascade on update cascade,
@@ -126,7 +137,7 @@ post_time datetime default current_timestamp,
 img_path varchar(255),
 content text,
 book_title varchar(255),
-isbn bigint,
+isbn varchar(255),
 address varchar(255),
 price int,
  primary key(market_board_no),
@@ -159,14 +170,13 @@ img_path varchar(255),
 );
 
 
-
 drop table dibs;
-create table dibs(
-dibs_no int auto_increment,
-dibs boolean,
+drop table wishlist;
+create table wishlist(
+wishlist_no int auto_increment,
 market_board_no int,
 user_id varchar(255),
- primary key(dibs_no),
+ primary key(wishlist_no),
  foreign key(market_board_no) references market_board(market_board_no) on delete cascade on update cascade,
  foreign key(user_id) references user(user_id) on delete cascade on update cascade,
  unique key (market_board_no, user_id)
@@ -187,6 +197,19 @@ phone varchar(255),
  primary key(pay_no),
  foreign key(market_board_no) references market_board(market_board_no) on delete cascade on update cascade,
  foreign key(user_id) references user(user_id) on delete cascade on update cascade
+);
+
+drop table library;
+create table library(
+library_no int auto_increment,
+isbn varchar(255),
+user_id varchar(255),
+title varchar(255),
+author varchar(255),
+publisher varchar(255),
+end_date datetime,
+star int not null default 0,
+ primary key(library_no)
 );
 
 commit;
