@@ -1,34 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybaits.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.dadockProject.mapper.UserMapper">
-	
 
-	<select id="selectAll" resultType="UserDto">
+
+	<select id="selectPageAll" resultType="User">
 		SELECT * FROM USER
 	</select>
 	
+	<select id="selectOne" resultType="User">
+		SELECT * FROM USER WHERE user_id=#{userId}
+	</select>
+
+	<select id="selectPwOne" resultType="User">
+		SELECT * FROM USER WHERE user_id=#{userId} AND pw=#{pw}
+	</select>
 	
-	<insert id="insertOne" parameterType="UserDto">
-		INSERT INTO USER
-			(user_id,pw,name,signup,email,phone,address) VALUES 
-			(#(user_id).#{pw},#{name},#{signup},#{email},#{phone},#{address}) 
-	</insert>
-	
-	<update id="updateOne" parameterType="UserDto">
+	<update id="updateOne" parameterType="User">
 		UPDATE USER SET
 			pw=#{pw},
 			name=#{name},
-			signup=#{signup},
 			email=#{email},
 			phone=#{phone},
-			address=#{address}
+			address1=#{address},
+			address2=#{address_detail}
 			WHERE user_id=#{user_id}
 	</update>
 	
+	<insert id="registerOne" parameterType="User">
+		INSERT INTO USER
+			(user_id,name,pw,phone,email,address1,address2) VALUES
+			(#{user_id},#{name},#{pw},#{phone},#{email},#{address},#{address_detail})
+	</insert>
 	
 	<delete id="deleteOne" parameterType="String">
 		DELETE FROM USER WHERE user_id=#{userId}
 	</delete>
-
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
