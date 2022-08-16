@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>다독마켓 물건 등록 페이지</title>
+</head>
+<header th:insert="market/marketHeader"></header>
+<body>
+	<main class="container">
+		<h1 class="m-3">물건 등록</h1>
+		<form action="/market/goodsInsert.do" method="post" class="row g-3 needs-validation" validate
+		enctype="multipart/form-data">
+			<div class="mb-3 was-validated" >
+		    <label for="inputId" class="form-label">글쓴이(아이디)</label>
+		    
+		  </div>
+		
+		  <div class="mb-3 was-validated" >
+		    <label for="inputTitle" class="form-label">제목</label>
+		    <input name="title" class="form-control" type="text"  th:value="${marketBoard.title}">
+		  </div>
+		  <div class="mb-3" >
+		    <label for="inputTitle" class="form-label" >책 제목
+		    	<input name="book_title" class="form-control" type="text" th:value="${marketBoard.book_title}"> </label>
+		    <a href="#" class="btn btn-sm btn-primary">검색</a>
+		  </div>
+		  <div>
+		  	<input type="checkbox"> 최상
+		  	<input type="checkbox"> 상
+		  	<input type="checkbox"> 중
+		  </div>
+		  <!-- 스프링은 이름이 같은 인풋요소를 배열로 받는다! -->
+		  <div class="mb-3" >
+		    <label for="inputTitle" class="form-label">이미지</label>
+		    <input name="imgFiles" class="form-control mb-1"  type="file">
+		    <input name="imgFiles" class="form-control mb-1"  type="file">
+		    <input name="imgFiles" class="form-control mb-1"  type="file">
+		    <input name="imgFiles" class="form-control mb-1"  type="file">
+		    <input name="imgFiles" class="form-control mb-1"  type="file">
+		  </div>
+			 <div class="mb-3 was-validated" >
+		    <label for="inputTitle" class="form-label">가격</label>
+		    <input name="title" class="form-control" id="inputImgFile" placeholder="가격을 입력하세요" required 
+		    th:value="${marketBoard.price}">
+		    <div class="invalid-feedback">
+		    가격을 입력하세요
+		    </div>
+		  </div>
+		  <div class="mb-3 was-validated" >
+		    <label for="inputContents" class="form-label">내용</label>
+		    <textarea name="contents" class="form-control" id="inputContents" placeholder="내용을 입력하세요" required
+		    th:value="${marketBoard.content}"></textarea>
+		    <div class="invalid-feedback">
+		      글 내용을 입력하세요
+		    </div>
+		  </div>
+
+			  <div class="col-12">
+			    <button class="btn btn-primary" type="submit">등록</button>
+			  </div>
+		</form>
+
+	</main>
+</body>
+</html>
