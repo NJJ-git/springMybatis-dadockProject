@@ -3,24 +3,32 @@ package com.acorn.dadockProject.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.acorn.dadockProject.dto.ReadBook;
+import com.acorn.dadockProject.mapper.ReadBookMapper;
 import com.acorn.dadockProject.service.BookApiCallService;
-
 @Controller
 @RequestMapping("/book")
 public class BookController {
+	@Autowired
+	private ReadBookMapper readBookMapper;
+	
 	@GetMapping("/register")		
 	public void register() {
 		
@@ -30,10 +38,13 @@ public class BookController {
 	public void detail() {
 		
 	}
-	
+	@CrossOrigin
 	@GetMapping("/recommend")
-	public void recommend() {
-		
+	public String list(Model model) {
+		List<ReadBook> recommendList=readBookMapper.selectAll();
+		model.addAttribute("recommendList",recommendList);
+		System.out.println(recommendList);
+		return "/book/recommend";
 	}
 	
 	@GetMapping("/search")
