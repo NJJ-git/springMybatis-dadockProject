@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset=UTF-8>
+<title>::login::</title>
+</head>
+<body>
+<header th:insert="/headerNav"></header>
+	<main class="container">
+		<h1 class="m-3 row">
+			다독 :: 로그인 페이지
+		</h1>
+		<div>
+			<form action="/user/login.do" method="post" class="col-12 col-sm-8 col-lg-6">
+			  <div class="mb-3">
+			    <label for="inputId" class="form-label">ID</label>
+			    <input type="text" name="user_id" class="form-control" id="inputId" aria-describedby="idHelp">
+			    <div id="idHelp" class="form-text">아이디를 입력하세요.</div>
+			  </div>
+			  <div class="mb-3">
+			    <label for="inputPw" class="form-label">PW</label>
+			    <input type="password" name="pw" class="form-control" id="inputPw">
+			  </div>
+			  <button type="submit" class="btn btn-outline-primary">로그인 </button>
+			</form>
+		</div>
+	</main>
+
+</body>
+</html>
