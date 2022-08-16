@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.dadockProject.mapper.MarketMapper">
+ <resultMap type="marketBoard" id="marketBoardMap">
+	<id column="market_board_no" property="market_board_no"/>
+	<result column="user_id" property="user_id"/>
+	<result column="title" property="title"/>
+	<result column="post_time" property="post_time"/>
+	<result column="content" property="content"/>
+	<result column="book_title" property="book_title"/>
+	<result column="isbn" property="isbn"/>
+	<result column="address" property="address"/>
+	<result column="price" property="price"/>
+	<collection property="marketBoardImgs" javaType="java.util.ArrayList" ofType="MarketBoardImg" foreignColumn="market_board_no">
+		<id column="market_board_img_no" property="market_board_img_no" />
+		<result column="img_market_board_no" property="market_board_no"/>
+		<result column="img_img_path" property="img_path"/>
+	</collection>
+</resultMap>
+	<select id="selectAll" resultType="MarketBoard" resultMap="marketBoardMap">
+		select *,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no ) img_img_path
+		 from market_board 
+	</select>
+	<select id="selectOne" parameterType="int" resultMap="marketBoardMap">
+		select * ,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no ) img_img_path
+		 from market_board  where market_board_no=#{market_board_no}
+	</select>
+	<insert id="insertOne" parameterType="marketBoard" useGeneratedKeys="true" keyProperty="market_board_no"> <!--정확히 뭐가 필요한지 몰겠네  -->
+		insert into market_board (user_id,title,book_title,price,content) 
+		values (#{user_id},#{title},#{book_title},#{price},#{content})
+	</insert>
+	<update id="updateOne" parameterType="MarketBoard">
+		update market_board set
+		 title#={title}
+		 book_title=#{book_title}
+		 content=#{content}
+		 price=#{price}
+		 where market_board_no=#{market_board_no}
+	</update>
+	<delete id="deleteOne" parameterType="int">
+		delete from market_board where market_board_no=#{market_board_no}
+	</delete>
+
+
+
+
+
+
+</mapper>
