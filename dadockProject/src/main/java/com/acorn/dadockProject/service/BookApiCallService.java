@@ -1,15 +1,7 @@
 package com.acorn.dadockProject.service;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,11 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import com.acorn.dadockProject.dto.BookDto;
 
 @Service
 public class BookApiCallService {
@@ -44,7 +31,6 @@ public class BookApiCallService {
 
         JSONParser jsonParser = new JSONParser();
         Object object = jsonParser.parse(data);
-//        System.out.println("object : "+object);
         JSONObject jsonObject = (JSONObject)object;
         return jsonObject;
     }
@@ -111,7 +97,7 @@ public class BookApiCallService {
                         if(b != null)
                             b.setLink(parser.nextText());
                         break;
-                    case "image":
+                    case "img":
                         if(b != null)
                             b.setImage(parser.nextText());
                         break;

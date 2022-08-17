@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
 +-------------+
@@ -23,7 +25,9 @@ import lombok.Data;
  */
 
 @Data
-public class BookDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Book {
 	private String isbn;
 	private String title;
 	private String author;
