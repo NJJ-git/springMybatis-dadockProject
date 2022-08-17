@@ -1,3 +1,13 @@
+//데이터 변경 log//
+
+-- 2022-08-16 -- 
+1. dibs 테이블명 wishlist로 변경 (칼럼 이름 함께 변경)
+	wishlist 테이블 wishlist boolean 삭제.
+2. isbn 데이터 타입 변경 (bigint -> varchar(255))
+3. library 테이블 추가
+
+
+
 ////////// 테이블 목록 //////////
 
 +------------------+
