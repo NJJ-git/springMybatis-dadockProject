@@ -21,14 +21,14 @@
 			name=#{name},
 			email=#{email},
 			phone=#{phone},
-			address1=#{address},
-			address2=#{address_detail}
+			address=#{address},
+			address_detail=#{address_detail}
 			WHERE user_id=#{user_id}
 	</update>
 	
 	<insert id="registerOne" parameterType="User">
 		INSERT INTO USER
-			(user_id,name,pw,phone,email,address1,address2) VALUES
+			(user_id,name,pw,phone,email,address,address_detail) VALUES
 			(#{user_id},#{name},#{pw},#{phone},#{email},#{address},#{address_detail})
 	</insert>
 	
