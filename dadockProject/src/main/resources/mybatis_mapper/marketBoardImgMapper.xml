@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.dadockProject.mapper.MarketBoardImgMapper">
+	<insert id="insertOne">
+		insert into market_board_img (market_board_img_no,market_board_no,img_path) 
+		values (#{market_board_img_no},#{market_board_no},#{img_path})
+	</insert>
+	<select id="selectMarketBoardNo" resultType="marketBoardImg" parameterType="int">
+		select * from market_board_img
+			where market_board_no=#{marketBoardNo}
+	</select>
+	<select id="selectCountMarketBoardNo" parameterType="int" resultType="int">
+		select count(*) from market_board_img
+			where market_board_no=#{marketBoardNo}
+	</select>
+	<select id="selectOne" resultType="MarketBoardImg" parameterType="int">
+		select * from market_board_img
+			where market_board_no=#{marketBoardNo}
+	</select>
+	<delete id="deleteOne" parameterType="int">
+		delete from market_board_img
+			where where market_board_no=#{marketBoardNo}
+	</delete>
+</mapper>

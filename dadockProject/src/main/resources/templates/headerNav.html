@@ -1,54 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="/bootstrap-5.2.0-dist/css/bootstrap.css">
-<!--<script src="/bootstrap-5.2.0-dist/js/bootstrap.js"></script>-->
-<script th:src="@{/bootstrap-5.2.0-dist/js/bootstrap.bundle.js}"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<script th:src="@{/bootstrap-5.2.0-dist/js/bootstrap.bundle.js}"></script>
+<head>
+	<link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset=UTF-8>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+	<title>Dadock::다독</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-  
-    <a class="navbar-brand" href="/">HOME</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  	<div>
+	  	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <a class="navbar-brand" href="#">상단</a>
+  	</div>
     
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/library/list">내 서재</a>
+          <a class="nav-link active" aria-current="page"href="/">홈</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">달력</a>
+          <a class="nav-link" href="#">책사진</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">책가격</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            책목록
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">어떤것</a></li>
+            <li><a class="dropdown-item" href="#">어떤어떤것</a></li>
+            <li><a class="dropdown-item" href="#">어떤어떤어떤것</a></li>
+          </ul>
         </li>
       </ul>
-      <div class="d-flex">
-      	<th:block th:if="${session.loginUser==null}">
-      		<a class="btn btn-sm btn-success" href="/user/login.do">LOG-IN</a> / 
-      		<a href="/user/signup.do" class="btn btn-sm btn-danger">SIGN-UP</a>    	
-      	</th:block>
-      	
-      	<!--<th:block th:unless="${session.loginUser==null}">
-      		<a th:href="@{/user/detail/{user_id}(user_id=${session.loginUser.user_id})}" 
-      		class="btn btn-sm btn-outline-secondary">
-      			<span th:text="${session.loginUser.name}"></span>
-      			(<span th:text="${session.loginUser.user_id}"></span>)
-      		</a> / 
-      		<a href="/user/logout.do" class="btn btn-sm btn-danger">LOG-OUT</a>
-      	</th:block>-->
-      	
-      </div>
       
+      <hr>
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
+    </form>
+    <hr>
     </div>
+    <div class="btn-group" role="group" aria-label="Basic outlined example">
+    <th:block th:if="${session.loginUser==null}">
+	  <a class="btn btn-outline-secondary" href="/user/login.do">로그인</a>
+	  <a class="btn btn-outline-secondary" href="/user/signup.do" >회원가입</a>
+    </th:block>
+	    <th:block th:unless="${session.loginUser==null}">
+			<a th:href="@{/user/detail/{user_id}(user_id=${session.loginUser.user_id})}" 
+				class="btn btn-sm btn-outline-secondary">
+				<span th:text="${session.loginUser.name}"></span>
+				<span th:text="${session.loginUser.user_id}"></span>
+			</a>
+	 		<a href="/user/logout.do" class="btn btn-sm btn-outline-secondary">로그아웃</a>			
+		</th:block>
+	</div>
   </div>
 </nav>
-
+</body>
 </html>
-
-
-
-
-
-
-

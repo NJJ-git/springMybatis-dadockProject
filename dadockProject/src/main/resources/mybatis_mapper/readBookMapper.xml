@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybaits.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.dadockProject.mapper.ReadBookMapper">
+	<resultMap type="ReadBook" id="ReadBookMap">
+		<id column="isbn" property="isbn"/>
+		<result column="title" property="title"/>
+		<result column="author" property="author"/>
+		<result column="img" property="img"/>
+		<result column="publisher" property="publisher"/>
+		<result column="publisher" property="publisher"/>
+		<result column="pubdate" property="pubdate"/>
+		<result column="descriptinon" property="descriptinon"/>
+		<result column="link" property="link"/>
+		<result column="discount" property="discount"/>
+	</resultMap>
+
+	<select id="selectAll" resultType="ReadBook">
+		SELECT * FROM read_book
+	</select>
+	
+	
+	<insert id="insertOne" parameterType="ReadBook">
+		INSERT INTO ReadBook
+			(isbn,title,author,img,publisher,pubdate,descriptinon,link,discount) VALUES 
+			(#(isbn),#{title},#{author},#{img},#{publisher},#{pubdate},#{descriptinon},#{link},#{discount}) 
+	</insert>
+	
+	<update id="updateOne" parameterType="ReadBook">
+		UPDATE ReadBook SET
+			isbn=#{isbn},
+			title=#{title},
+			author=#{author},
+			img=#{img},
+			descriptinon=#{descriptinon},
+			link=#{link},
+			discount=#{discount},
+			WHERE ReadBook=#{ReadBook}
+	</update>
+	
+	
+	<delete id="deleteOne" parameterType="String">
+		DELETE FROM USER WHERE ReadBook=#{ReadBook}
+	</delete>
+
+</mapper>

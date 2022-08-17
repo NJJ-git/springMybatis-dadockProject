@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>물건 상세</title>
+</head>
+<body>
+<header th:insert="market/marketHeader"></header>
+	
+	<div id="box" class="m-3">
+       <h1 th:text="'글번호:'+${marketBoard.market_board_no}"><i class="bi bi-book"></i></h1>
+       <a th:href="@{/market/goodsUpdate/{no}(no=${marketBoard.market_board_no})}" class="btn btn-success">수정</a>
+       <a th:href="@{/market/goodsDelete/{no}(no=${marketBoard.market_board_no})}" class="btn btn-danger">삭제</a>
+     </div>
+     <div class="d-flex justify-content-center">
+     <div class="card" style="width: 500px;">
+     <div>
+  		<div th:each="boardImg:${marketBoard.marketBoardImgs}">
+  			<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="card-img-top" alt="...">
+  		</div>
+	  	</div>
+	  	<div class="card-body">
+	  	제목:
+	    <h2 class="card-title mb-3" th:text="${marketBoard.title}"></h2>
+	    등록시간:
+	    <h5 class="card-title mb-3" th:text="${marketBoard.post_time}"></h5>
+	    책 제목:
+	    <h2 class="card-title mb-3" th:text="${marketBoard.book_title}"></h2>
+	    <p class="card-text mb-3" >상태: 
+	    	<button class="btn btn-outline-success" autofocus="autofocus">A</button><!--폼 작성시 상태를..고정시키고싶은데...  -->
+	    	<button class="btn btn-outline-success">B</button>
+	    	</p>
+	    	가격:
+	    	<p class="card-text" th:text="${marketBoard.price}" ></p>
+	    	설명:
+	    <p class="card-text" th:text="${marketBoard.content}"></p>
+	    <span class="d-flex flex-row-reverse">
+		    <a th:href="@{/market/marketWishlist}" class="btn btn-primary"><i class="bi bi-bookmark-heart-fill"></i></a>
+		    <a th:href="@{/market/marketOrder}" class="btn btn-primary">결제</a>
+	    </span>
+	  </div>
+     </div>
+</div>
+
+</body>
+</html>

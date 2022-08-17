@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="../static/bootstrap-5.2.0-dist/">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<script th:src="@{/bootstrap-5.2.0-dist/js/bootstrap.bundle.js}"></script>
+<head>
+<title>recommend Book</title>
+<link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset=UTF-8>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+	name='viewport' />
+<meta name="viewport" content="width=device-width" />
+
+</head>
+
+<body>
+	<header th:insert="headerNav"></header>
+	<div class="container-fluid">
+		<div class="row">
+
+			<th:block th:each="recommend : ${recommendList}"
+				<div class="col-md-3">
+					<div>
+						<img th:src="${recommend.img}" alt=""
+							style="height: 350px; width: 250px; padding: 20px;">
+						<hr>
+						<p th:text="|제목 : ${recommend.title}|"></p>
+						<p th:text="|저자 : ${recommend.author}|"></p>
+						<p th:text="|출판사 : ${recommend.publisher}|"></p>
+						<p th:text="|Isbn : ${recommend.isbn}|"></p>
+						<hr>
+					</div>
+				</div>
+
+			</th:block>
+
+		</div>
+	</div>
+	
+
+</body>
+<footer th:insert="footer"></footer>
+</html>
