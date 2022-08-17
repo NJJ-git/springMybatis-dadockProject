@@ -13,6 +13,7 @@
 		<result column="descriptinon" property="descriptinon"/>
 		<result column="link" property="link"/>
 		<result column="discount" property="discount"/>
+		<result column="star" property="star"/>
 	</resultMap>
 
 	<select id="selectAll" resultType="ReadBook">
@@ -22,8 +23,8 @@
 	
 	<insert id="insertOne" parameterType="ReadBook">
 		INSERT INTO ReadBook
-			(isbn,title,author,img,publisher,pubdate,descriptinon,link,discount) VALUES 
-			(#(isbn),#{title},#{author},#{img},#{publisher},#{pubdate},#{descriptinon},#{link},#{discount}) 
+			(isbn,title,author,img,publisher,pubdate,descriptinon,link,discount,star) VALUES 
+			(#(isbn),#{title},#{author},#{img},#{publisher},#{pubdate},#{descriptinon},#{link},#{discount},#{star}) 
 	</insert>
 	
 	<update id="updateOne" parameterType="ReadBook">
@@ -35,6 +36,7 @@
 			descriptinon=#{descriptinon},
 			link=#{link},
 			discount=#{discount},
+			star=#{star}
 			WHERE ReadBook=#{ReadBook}
 	</update>
 	
