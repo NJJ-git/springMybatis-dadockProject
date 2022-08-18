@@ -14,8 +14,8 @@
 | Tables_in_dadock |
 +------------------+
 | comment          |
-| dibs             |
 | grade            |
+| library          |
 | market_board     |
 | market_board_img |
 | market_reply     |
@@ -23,6 +23,7 @@
 | read_book        |
 | user             |
 | user_group       |
+| wishlist         |
 +------------------+
 
 ////////// 데이터 입력 //////////
@@ -213,3 +214,8 @@ star int not null default 0,
 );
 
 commit;
+
+///2022-08-18 서지현 db 수정
+ALTER TABLE wishlist RENAME wishList;
+ALTER TABLE wishList ADD COLUMN jjim boolean ;
+ALTER TABLE market_board ADD state int ;

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>중고거래</title>
 </head>
-
+<!-- <header th:insert="headerNav"></header> -->
 <header th:insert="market/marketHeader"></header>
 <body>
 	
@@ -33,16 +33,20 @@
 	      <div class="card-body" >
 	      제목:
 	        <p class="card-title" th:text="${marketBoard.title}"></p> 
-	        책제목:
-	        <p class="card-text" th:text="${marketBoard.book_title}">책제목</p>
+	        <!-- 책제목:
+	        <p class="card-text" th:text="${marketBoard.book_title}"></p> -->
+	        가격:
+	        <p class="card-text" th:text="${marketBoard.price}"></p>
 	        내용:
 	        <p class="card-text" th:text="${marketBoard.content}">내용</p>
 	        <p class="card-text" th:text="${#dates.format(marketBoard.post_time,'yyyy-MM-dd: hh:mm:ss')}"><small class="text-muted">등록일</small></p>
 	      </div>
 		    <span class="d-flex flex-row-reverse">
-		    	<a th:href="@{/market/marketWishlist}" class="btn btn-primary"><i class="bi bi-bookmark-heart-fill"></i></a>
+		    	<a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
+		    	th:href="@{/market/wishList}" class="btn btn-outline-warning">
+		    	<i class="bi bi-heart"></i></a>
 		    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
-		    	class="btn btn-primary">자세히</a><!-- detail버튼 뭐 쓰지? -->
+		    	class="btn btn-warning">자세히</a><!-- detail버튼 뭐 쓰지? -->
 		    </span>
 	    </div>
 	  </div>
