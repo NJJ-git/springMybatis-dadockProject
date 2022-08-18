@@ -181,13 +181,13 @@ public class MarketController {
 	 * {msg="찜 성공";} }else { if(jjim=false) {msg="찜 실패";} } } catch (Exception e) {
 	 * e.printStackTrace(); if(jjim=false) {msg="찜 실패(오류)";} }
 	 * model.addAttribute("msg",msg); return "redirect:/market/goodsList/1"; }
-	 * 
-	 * @GetMapping("/marketPay/{marketBoardNo}") public String marketPay (
-	 * 
-	 * @PathVariable int marketBoardNo, Model model) { MarketBoard
-	 * marketBoard=marketMapper.selectOne(marketBoardNo);
-	 * model.addAttribute("marketBoard",marketBoard); return "/market/marketPay"; }
-	 */
+	  */
+	  @GetMapping("/marketPay/{marketBoardNo}") public String marketPay (
+	  
+	  @PathVariable int marketBoardNo, Model model) { MarketBoard
+	  marketBoard=marketMapper.selectOne(marketBoardNo);
+	  model.addAttribute("marketBoard",marketBoard); return "/market/marketPay"; }
+	 
 	
 	@GetMapping("/marketUserDetail")
 	public void marketUserDetail () {
