@@ -12,15 +12,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.UserMapper;
+import com.acorn.dadockProject.service.UserServiceImp;
+
+import lombok.AllArgsConstructor;
+
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	UserServiceImp userService;
 	
 	@GetMapping("/list/{page}")
 	public String list(@PathVariable int page, Model model) {
@@ -103,6 +111,7 @@ public class UserController {
 	//회원가입 문제 해결..
 	@GetMapping("/signup.do")
 	public void signup() throws Exception{};
+	
 	@PostMapping("/signup.do")
 	public String signup(User user) throws Exception{
 		System.out.println(user);
@@ -116,11 +125,16 @@ public class UserController {
 			return "redirect:/signup.do";
 		}
 	}
+	@GetMapping("/getSearchList")
+	private String getSerchList(@RequestParam("type") String type,
+			@RequestParam("keyword") String keyword, Model model) throws Exception{
+		List<User> getSerchList= userService.getSearchList(type,keyword);
+		System.out.println(getSerchList);
+		model.addAttribute("userList", getSerchList);
+		return "/user/list";
+	}
+	
 }
-
-
-
-
 
 
 

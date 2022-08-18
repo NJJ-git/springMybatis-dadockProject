@@ -17,9 +17,12 @@ import lombok.Data;
 | email          | varchar(255) | YES  | UNI | NULL              |                   |
 | phone          | varchar(255) | YES  | UNI | NULL              |                   |
 | address        | varchar(255) | YES  |     | NULL              |                   |
+| address_detail | varchar(255) | YES  |     | NULL              |                   |
 | level          | int          | YES  |     | NULL              |                   |
 | point          | int          | YES  |     | NULL              |                   |
-| address_detail | varchar(255) | YES  |     | NULL              |                   |
+| profile_img    | varchar(255) | YES  |     | NULL              |                   |
+| type           | varchar(255) | YES  |     | NULL              |                   |
+| keyword        | varchar(255) | YES  |     | NULL              |                   |
 +----------------+--------------+------+-----+-------------------+-------------------+*/
 @Data
 public class User {
@@ -32,6 +35,11 @@ public class User {
 	private String phone;
 	private String address;
 	private String address_detail;
+	private String profile_img;
 	private int level;
 	private int point;
+	
+	//검색
+	private String type; //
+	private String keyword; //검색 내용
 }

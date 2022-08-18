@@ -35,6 +35,21 @@
 	<delete id="deleteOne" parameterType="String">
 		DELETE FROM USER WHERE user_id=#{userId}
 	</delete>
+	
+	<select id="selectSearchList"  resultType="User">
+		SELECT * FROM USER WHERE <!-- delete_yn='N' -->
+		<choose>
+			<when test="type !=null and type.equals('user_id')">
+				 user_id LIKE CONCAT ('%',#{keyword}, '%')
+			</when>
+			<when test="type !=null and type.equals('name')">
+				 name LIKE CONCAT ('%',#{keyword}, '%')
+			</when>
+			<when test="type !=null and type.equals('email')">
+				 email LIKE CONCAT ('%',#{keyword}, '%')
+			</when>
+		</choose>
+	</select>
 </mapper>
 
 

@@ -14,4 +14,5 @@ public interface UserMapper {
 	int deleteOne(String userId);
 	int updateOne(User user);
 	int registerOne(User user);
+	List<User> selectSearchList(String type,String keyword);
 }
