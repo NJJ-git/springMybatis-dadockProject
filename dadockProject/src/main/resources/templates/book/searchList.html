@@ -46,15 +46,15 @@
       	<!-- 검색결과 존재할 때 -->
 	    <th:block th:each="book : ${bookList}">
       	<div class="col-md-6 border" style="height: vh30;">
-      		<div class="row p-4">
-	      		<div class="col-4" th:onclick="|location.href='@{../detail/__${book.isbn}__}'|">
-	      		<!-- Lazy Loading -->
-	      		<th:block th:if="${bookStat.count<7}">
-		    	<input type="image" th:src="${book.image}" style="width: 80%;" form="bookDetail">
-	      		</th:block>
-	      		<th:block th:if="${bookStat.count>=7}">
-		    	<input type="image" class="lazy" th:data-src="${book.image}" style="width: 80%;" form="bookDetail">
-	      		</th:block>
+      		<div class="row p-4" style="justify-content: center;">
+	      		<div class="col-4" th:onclick="|location.href='@{/book/detail/__${book.isbn}__}'|" type="button">
+     		<th:block th:if="${bookStat.count<7}">
+	    		<img th:src="${book.image}" style="width: 80%;">
+      		</th:block>
+      		<!-- Lazy Loading -->
+      		<th:block th:if="${bookStat.count>=7}">
+	    		<img class="lazy" th:data-src="${book.image}" style="width: 80%;">
+      		</th:block>
 	      		</div>
 	      		<div class="col-6">
 				<p th:text="|제목 : ${book.title}|"></p>
@@ -63,16 +63,6 @@
 				<p th:text="|ISBN : ${book.isbn}|"></p>
 	      		</div>
 	      		<!-- detail에 보낼 hidden input -->
-	      		<form id="bookDetail" action="/book/detail" method="post" name="bookDetail">
-	      			<input type="text" name="isbn" th:value="${book.isbn}" hidden readonly/>
-	      			<input type="text" name="title" th:value="${book.title}" hidden readonly/>
-	      			<input type="text" name="author" th:value="${book.author}" hidden readonly/>
-	      			<input type="text" name="image" th:value="${book.image}" hidden readonly/>
-	      			<input type="text" name="publisher" th:value="${book.publisher}" hidden readonly/>
-	      			<input type="text" name="pubdate" th:value="${book.pubdate}" hidden readonly/>
-	      			<textarea name="description" th:text="${book.description}" hidden readonly></textarea>
-	      			<input type="text" name="link" th:value="${book.link}" hidden readonly/>
-	      		</form>                
       		</div>
       	</div>
 	    </th:block>

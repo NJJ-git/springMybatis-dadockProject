@@ -7,16 +7,13 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.acorn.dadockProject.dto.Book;
 import com.acorn.dadockProject.dto.Paging;
@@ -34,6 +31,7 @@ public class BookController {
 	BookApiCallService bookApiCallService;
 	@Autowired
 	ObjectMapper objectMapper;
+	
 
 	
 	@GetMapping("/register")		
@@ -41,39 +39,24 @@ public class BookController {
 		
 	}
 	
-//	@GetMapping("/detail/{isbn}")
-//	public String detail(@PathVariable String isbn) {
-//		return "/book/detail";
-//	}
-	@PostMapping("/detail")
-	public String detail(Book book, Model model) {
-		String isbn=book.getIsbn();
-		String title=book.getTitle();
-		String author=book.getAuthor();
-		String image=book.getImage();
-		String publisher=book.getPublisher();
-		String pubdate=book.getPubdate();
-		String description=book.getDescription();
-		String link=book.getLink();
+	@GetMapping("/detail/{isbn}")
+	public String detail(@PathVariable String isbn, Book book,
+			Model model) throws Exception {
 		
-		System.out.println(isbn);		
-		System.out.println(title);		
-		System.out.println(author);		
-		System.out.println(image);		
-		System.out.println(publisher);		
-		System.out.println(pubdate);		
-		System.out.println(description);		
-		System.out.println(link);		
+		JSONArray naver_result_arr=new JSONArray();
 
-		model.addAttribute(isbn);
-		model.addAttribute(title);
-		model.addAttribute(author);
-		model.addAttribute(image);
-		model.addAttribute(publisher);
-		model.addAttribute(pubdate);
-		model.addAttribute(description);
-		model.addAttribute(link);
+		JSONObject naver_result = bookApiCallService.get("https://openapi.naver.com/"
+				+ "v1/search/book.json?query='"+isbn+"'");
 		
+		naver_result_arr=(JSONArray) naver_result.get("items");
+		
+		// JSONArray 파싱
+		String jsonBookArray=naver_result.get("items").toString();
+		
+		List<Book> bookDetails=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
+		Book bookDetail=bookDetails.get(0);
+		model.addAttribute("bookDetails", bookDetails);
+		System.out.println(bookDetail);
 		return "/book/detail";
 	}
 	
@@ -103,12 +86,11 @@ public class BookController {
 		
 		JSONObject naver_result = bookApiCallService.get("https://openapi.naver.com/"
 				+ "v1/search/book.json?start="+start+"&display="+display+"&query="+query);
-		naver_result_arr=(JSONArray) naver_result.get("items");
 		
+		naver_result_arr=(JSONArray) naver_result.get("items");
 		
 		// JSONArray 파싱
 		String jsonBookArray=naver_result.get("items").toString();
-		
 		
 		List<Book> bookList=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		
