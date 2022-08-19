@@ -8,7 +8,7 @@ import lombok.Data;
 +-------------+--------------+------+-----+---------+-------+
 | Field       | Type         | Null | Key | Default | Extra |
 +-------------+--------------+------+-----+---------+-------+
-| isbn        | bigint       | NO   | PRI | NULL    |       |
+| isbn        | varchar(255) | NO   | PRI | NULL    |       |
 | title       | varchar(255) | YES  |     | NULL    |       |
 | author      | varchar(255) | YES  |     | NULL    |       |
 | img         | varchar(255) | YES  |     | NULL    |       |
@@ -17,6 +17,7 @@ import lombok.Data;
 | description | text         | YES  |     | NULL    |       |
 | link        | varchar(255) | YES  |     | NULL    |       |
 | discount    | int          | YES  |     | NULL    |       |
+| star        | int          | NO   |     | 0       |       |
 +-------------+--------------+------+-----+---------+-------+
  
  */
@@ -31,4 +32,5 @@ public class ReadBook {
 	private String description;
 	private String link;
 	private int discount;
+	private int star;
 }

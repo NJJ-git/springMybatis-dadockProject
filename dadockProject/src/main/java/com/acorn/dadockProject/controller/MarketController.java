@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.acorn.dadockProject.dto.MarketBoard;
 import com.acorn.dadockProject.dto.MarketBoardImg;
+import com.acorn.dadockProject.dto.WishList;
 import com.acorn.dadockProject.mapper.MarketBoardImgMapper;
 import com.acorn.dadockProject.mapper.MarketMapper;
+import com.acorn.dadockProject.mapper.WishListMapper;
 import com.acorn.dadockProject.service.MarketService;
 
 //application.proferties에 입력하고 가져와야함!
@@ -34,6 +37,7 @@ public class MarketController {
 	@Autowired MarketMapper marketMapper;
 	@Autowired MarketService marketService;
 	@Autowired MarketBoardImgMapper marketBoardImgMapper;
+	@Autowired WishListMapper wishListMapper;
 	
 	@GetMapping("/goodsList/{page}")
 	public String goodsList (@PathVariable int page,Model model) {
@@ -47,11 +51,15 @@ public class MarketController {
 	public void goodsInsert() {}
 	
 	@PostMapping("/goodsInsert.do")
-	public String insert(MarketBoard marketBoard,
-			List<MultipartFile> imgFiles){
+	public String insert(int state,
+				MarketBoard marketBoard,
+				List<MultipartFile> imgFiles
+){
 		System.out.println("marketBoardinsert"+marketBoard);
 		System.out.println("savePathinsert"+savePath);
-		
+			
+				System.out.println("state"+state);
+			
 		
 		int insert=0;
 		try {
@@ -84,12 +92,12 @@ public class MarketController {
 			return "redirect:/market/goodsInsert.do";
 		}
 	}
-	
+	//modelㅇ
 	@GetMapping("/goodsDetail/{marketBoardNo}")
 	public String goodsDetail(@PathVariable int marketBoardNo, Model model) {
 		
 		MarketBoard marketBoard=marketMapper.selectOne(marketBoardNo);
-		System.out.println("marketBoard 출력:"+marketBoard);
+		System.out.println("marketBoard Detail 출력:"+marketBoard);
 		model.addAttribute("marketBoard",marketBoard);
 		
 		return "/market/goodsDetail";
@@ -97,9 +105,10 @@ public class MarketController {
 	}
 	
 	@GetMapping("/goodsUpdate/{marketBoardNo}") //로그인 추가 
-	public String goodsUpdate (@PathVariable int marketBoardNo) {
-		
+	public String goodsUpdate (@PathVariable int marketBoardNo , Model model) {
 		  MarketBoard marketBoard=marketMapper.selectOne(marketBoardNo);
+		  
+		  model.addAttribute(marketBoard);
 		 return "/market/goodsUpdate" ;
 		 
 		
@@ -107,15 +116,15 @@ public class MarketController {
 	@PostMapping("/goodsUpdate.do")
 	public String goodsUpdate (
 			MarketBoard marketBoard,
-			@RequestParam(name = "MarketboardImgNo",required = false) int[] marketBoardNos,
+			@RequestParam(name = "MarketboardImgNo",required = false) int[] marketBoardImgNos,
 			@RequestParam(name = "imgFile",required = false) MultipartFile[]imgFiles) {
 		int update=0;
-		System.out.println(Arrays.toString(marketBoardNos)); //삭제할이미지 번호들
+		System.out.println(Arrays.toString(marketBoardImgNos)); //삭제할이미지 번호들
 		System.out.println(Arrays.toString(imgFiles));
 		System.out.println("업데이트:"+marketBoard);
 		try {
 			int mBoardImgCount=marketBoardImgMapper.selectCountMarketBoardNo(marketBoard.getMarket_board_no());
-			int insertMBoardImgLength=MARKET_BOARD_IMG_LIMIT-mBoardImgCount+((marketBoardNos!=null)?marketBoardNos.length:0);
+			int insertMBoardImgLength=MARKET_BOARD_IMG_LIMIT-mBoardImgCount+((marketBoardImgNos!=null)?marketBoardImgNos.length:0);
 			if(imgFiles!=null && insertMBoardImgLength>0) {
 				List<MarketBoardImg> mBoardImgs=new ArrayList<MarketBoardImg>();
 				for(MultipartFile imgFile : imgFiles) {
@@ -134,7 +143,7 @@ public class MarketController {
 					marketBoard.setMarketBoardImgs(mBoardImgs);
 				}
 			}
-			update=marketService.updateMBoardDelteMBoardImg(marketBoard, marketBoardNos);
+			update=marketService.updateMBoardDelteMBoardImg(marketBoard, marketBoardImgNos);
 		} catch (Exception e) {e.printStackTrace();}
 		if(update>0) {
 			return "redirect:/market/goodsDetail/"+marketBoard.getMarket_board_no();
@@ -158,20 +167,41 @@ public class MarketController {
 			
 		}
 	}
+	//user_id는 나중에 user쪽 작업 끝나면 추가하기! "/wishList/{userId}/{marketBoardNo}/{jjim}/"
+	/*
+	 * @GetMapping("/wishList/{marketBoardNo}/{jjim}") public String wishListInsert
+	 * (
+	 * 
+	 * @PathVariable int marketBoardNo,
+	 * 
+	 * @PathVariable boolean jjim, Model model) { String msg=""; WishList
+	 * wishList=new WishList(); wishList.setMarket_board_no(marketBoardNo);
+	 * wishList.setJjim(jjim); int insert=0; try {
+	 * insert=wishListMapper.addWishlist(wishList); if(insert>0) { if(jjim=true)
+	 * {msg="찜 성공";} }else { if(jjim=false) {msg="찜 실패";} } } catch (Exception e) {
+	 * e.printStackTrace(); if(jjim=false) {msg="찜 실패(오류)";} }
+	 * model.addAttribute("msg",msg); return "redirect:/market/goodsList/1"; }
+	  */
+	  @GetMapping("/marketPay/{marketBoardNo}") public String marketPay (
+	  
+	  @PathVariable int marketBoardNo, Model model) { MarketBoard
+	  marketBoard=marketMapper.selectOne(marketBoardNo);
+	  model.addAttribute("marketBoard",marketBoard); return "/market/marketPay"; }
+	 
 	
-	@GetMapping("/marketWishlist")
-	public void marketWishlist () {
-	}
 	@GetMapping("/marketUserDetail")
 	public void marketUserDetail () {
 	}
 	@GetMapping("/marketOrder")
 	public void marketOrder () {
 	}
-	@GetMapping("/marketPay")
-	public void marketPay () {
-	}
 	@GetMapping("/marketPayDetail")
 	public void marketPayDeatail () {
 	}
+	@GetMapping("/wishList")
+	public void marketWishList () {
+	}
+	
+	     
+	
 }

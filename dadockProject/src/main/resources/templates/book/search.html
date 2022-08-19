@@ -13,13 +13,29 @@
 	<div class="container">
       <div class="row">
         <div class="col">
-          <form method="get" role="searchbox" action="./searchList">
-            <input type="search" class="form-control" placeholder="도서 검색" name="text">
-         	<button class="btn btn-warning btn-round" type="submit" style="font-size: 16px;">검색</button>
+          <form method="get" role="searchbox" action="./searchList/1">
+          	<div class="col-sm-4 input-group mt-3">
+          		<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          			<i class="bi bi-menu-down"></i>
+          		</button>
+          		<ul class="dropdown-menu">
+    				<li><a class="dropdown-item" href="#">제목,키워드</a></li>
+				    <li><a class="dropdown-item" href="#">저자</a></li>
+				   	<li><a class="dropdown-item" href="#">ISBN</a></li>
+				</ul>
+            	<input type="search" class="form-control" placeholder="도서 검색" name="text">
+         		<button class="btn btn-outline-secondary" type="submit">
+         			<i class="bi bi-search"></i>
+         		</button>
+          	</div>
           </form>
         </div>
       </div>
     </div>
+    <div>
+    
+    </div>
+    <p th:text="${total}"></p>
 <footer th:insert="footer"></footer>
 </body>
 </html>

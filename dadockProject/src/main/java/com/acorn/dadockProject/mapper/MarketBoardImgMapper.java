@@ -16,4 +16,5 @@ public interface MarketBoardImgMapper {
 	int deleteOne (int marketBoardNo);
 	
 	
+	
 }

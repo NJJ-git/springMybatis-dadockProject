@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.acorn.dadockProject.dto.MarketBoard;
+
 @Mapper
 public interface MarketMapper {
 	List<MarketBoard> selectAll();
@@ -13,5 +14,7 @@ public interface MarketMapper {
 	MarketBoard selectOne (int marketBoardNo);
 	int updateOne(MarketBoard marketBoard);
 	int deleteOne(int marketBoardNo);
+	int insertOne(int state);
+	
 	
 }
