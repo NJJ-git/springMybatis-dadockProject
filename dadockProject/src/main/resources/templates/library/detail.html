@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>서재 등록 페이지</title>
+<script th:src="@{/public/js/library/detail.js}" defer="defer" ></script>
+</head>
+<body>
+	<header th:insert="/headerNav"></header>
+	<main class="container">
+		<h1 class="m-3">
+			<small th:text="${library.library_no}"></small>
+			<span th:text="${library.title}"></span>
+		</h1>
+	
+			
+	
+			<div>
+				<a th:href="" class="btn btn-success">
+					수정
+				</a>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
+
+
+
+
+
+
+
+
