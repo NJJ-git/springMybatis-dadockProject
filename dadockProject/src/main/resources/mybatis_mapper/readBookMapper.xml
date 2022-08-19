@@ -15,9 +15,24 @@
 		<result column="discount" property="discount"/>
 		<result column="star" property="star"/>
 	</resultMap>
-
+<!-- SELECT *,
+				isbn no,
+				(SELECT AVG(grade) FROM RECOMMEND WHERE isbn=no) grade_avg 
+					FROM read_book WHERE EXISTS(SELECT * FROM RECOMMEND WHERE isbn=no)
+					order by grade_avg desc
+					limit 0,20 -->
+	<select id="selectByUserRecommendAll" resultType="ReadBook">
+		SELECT *FROM read_book 
+		
+	</select>
+	<select id="selectByAppAll" resultType="ReadBook">
+		SELECT *FROM read_book 
+		
+	</select>
+	
 	<select id="selectAll" resultType="ReadBook">
-		SELECT * FROM read_book
+		SELECT *FROM read_book 
+		
 	</select>
 	
 	

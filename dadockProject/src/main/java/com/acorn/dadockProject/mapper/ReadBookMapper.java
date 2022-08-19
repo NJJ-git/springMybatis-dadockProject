@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.acorn.dadockProject.dto.ReadBook;
-import com.acorn.dadockProject.dto.UserDto;
 
 @Mapper
 public interface ReadBookMapper {
