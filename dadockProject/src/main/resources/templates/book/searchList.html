@@ -65,13 +65,13 @@
 	      		<!-- detail에 보낼 hidden input -->
 	      		<form id="bookDetail" action="/book/detail" method="post" name="bookDetail">
 	      			<input type="text" name="isbn" th:value="${book.isbn}" hidden readonly/>
-	      			<input type="text" name="title" th:value="${book.title}" hidden readonly/>
+	      			<input type="text" name="title" th:value="${book.title}" hidden  readonly/>
 	      			<input type="text" name="author" th:value="${book.author}" hidden readonly/>
-	      			<input type="text" name="image" th:value="${book.image}" hidden readonly/>
-	      			<input type="text" name="publisher" th:value="${book.publisher}" hidden readonly/>
-	      			<input type="text" name="pubdate" th:value="${book.pubdate}" hidden readonly/>
-	      			<textarea name="description" th:text="${book.description}" hidden readonly></textarea>
-	      			<input type="text" name="link" th:value="${book.link}" hidden readonly/>
+	      			<input type="text" name="image" th:value="${book.image}" hidden  readonly/>
+	      			<input type="text" name="publisher" th:value="${book.publisher}" hidden  readonly/>
+	      			<input type="text" name="pubdate" th:value="${book.pubdate}" hidden  readonly/>
+	      			<textarea name="description" th:text="${book.description}" hidden  readonly></textarea>
+	      			<input type="text" name="link" th:value="${book.link}" hidden  readonly/>
 	      		</form>                
       		</div>
       	</div>

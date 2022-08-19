@@ -3,7 +3,7 @@ package com.acorn.dadockProject.controller;
 import java.net.URLEncoder;
 import java.util.List;
 
-
+import org.apache.ibatis.annotations.Select;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,9 +79,13 @@ public class BookController {
 	
 	@CrossOrigin
 	@GetMapping("/recommend")
-	public String list(Model model) {
-		List<ReadBook> recommendList=readBookMapper.selectAll();
+	public String list(Model model ) {
+//		List<ReadBook> recommendList=readBookMapper.selectAll();
+		List<ReadBook> recommendList=readBookMapper.selectByUserRecommendAll(); //db
+		List<ReadBook> applicationList=readBookMapper.selectByAppAll(); //naver or db
+
 		model.addAttribute("recommendList",recommendList);
+		model.addAttribute("applicationList",applicationList);
 		System.out.println(recommendList);
 		return "/book/recommend";
 	}
