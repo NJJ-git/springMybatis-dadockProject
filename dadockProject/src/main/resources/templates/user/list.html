@@ -3,14 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Dadock::다독</title>
+<link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
 </head>
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
 			<h1 class="m-3 d-flex justify-content-between align-items-center">
-				<span>관리자 페이지 :: 회원 리스트</span>
+				<span>회원 리스트</span>
 				<a href="/user/adminRegister.do" class="small btn btn-secondary">등록</a>
 			</h1>
+			<p>
+				페이지 : 
+				<span class="badge text-bg-success" th:text="${page}"></span> /
+				<span class="badge text-bg-primary" th:text="${rowCount}"></span>
+			</p>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -43,8 +49,9 @@
 					</tr>
 				</tbody>
 			</table>
+			<!-- 회원검색 -->
 			<div>
-				<form action="/user/getSearchList" name="serch-form" autocomplete="off">
+				<form name="serch-form" autocomplete="off">
 				 	<select name="type">
 				 		<option selected value="">검색 내용 선택</option>
 				 		<option value="user_id">아이디</option>
@@ -52,9 +59,11 @@
 				 		<option value="email">이메일</option>
 					</select>
 					<input type="text" name="keyword" value=""></input>
-					<input type="submit" class="btn btn-sm btn-primary mr-2" value="검색">
+					<input type="button" onclick="getSearchList()" class="btn btn-sm btn-primary mr-2" value="검색">
 				</form>				
 			</div>
+			<!-- 회원검색 -->
+			<div class="d-flex justify-content-center" th:insert="/paging"></div>
 	</main>
 	<footer th:insert="footer"></footer>
 </body>
