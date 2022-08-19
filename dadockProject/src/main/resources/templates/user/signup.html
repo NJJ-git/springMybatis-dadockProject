@@ -35,8 +35,23 @@
                         <div class="register-card">
                             <h3 class="title"></h3>
                             <form action="/user/signup.do" method="post" name="signupForm">
-                                <label for="inputId">아이디</label>
-                                <input type="text" class="form-control" placeholder="id@example.com" name="user_id">
+                           			<br>
+                                	<label for="inputId">아이디</label>
+                                	<input type="text" class="form-control" placeholder="id@example.com" name="user_id">
+                                	<!-- 
+                                	멘트 
+                                	<div class="col-auto">
+					    			    <span id="idHelp" class="col-auto form-text">
+									      Must be 4-20 characters long.
+									    </span>
+									    <span class="valid-feedback">
+								     	 	사용 가능한 아이디
+									    </span>
+									   	<span class="invalid-feedback">
+								     	 	중복된 아이디(4글자 이상 입력)
+									    </span>
+									</div>	
+                                	-->
                                     <br>
                                     <label for="inputName">이름</label>
                                     <input type="text" class="form-control" placeholder="이름" name="name">
@@ -84,5 +99,4 @@ window.onload = function(){
 }
 </script>
 <!-- 카카오톡 -->
-
 </html>

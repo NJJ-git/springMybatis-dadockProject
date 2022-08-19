@@ -47,7 +47,7 @@ signup datetime default current_timestamp,
 email varchar(255),
 phone varchar(255),
 address varchar(255),
-address_detail varchar(255)
+address_detail varchar(255),
 level int,
 point int,
   primary key(user_id),

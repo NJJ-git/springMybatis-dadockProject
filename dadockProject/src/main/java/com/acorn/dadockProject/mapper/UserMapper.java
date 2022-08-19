@@ -8,7 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.acorn.dadockProject.dto.User;
 @Mapper
 public interface UserMapper {
-	List<User> selectPageAll();
+	List<User> selectPageAll(int startRow,int pageSize);
+	int selectPageAllCount();
 	User selectOne(String userId);
 	User selectPwOne(String userId, String pw);
 	int deleteOne(String userId);

@@ -36,8 +36,9 @@
                         <div class="register-card">
                             <h3 class="title"></h3>
                             <form action="/user/update.do" method="post" class="detail-form">
-                                <label>아이디</label>
-                                <input type="text" class="form-control" placeholder="id@example.com" th:value="${user.user_id}"  name="user_id" readonly>
+                                	<br>
+                                	<label>아이디</label>
+                                	<input type="text" class="form-control" placeholder="id@example.com" th:value="${user.user_id}"  name="user_id" readonly>
                                     <br>
                                     <label>이름</label>
                                     <input type="text" class="form-control" placeholder="이름" th:value=${user.name} name="name">
@@ -46,10 +47,10 @@
                                     <input type="password" class="form-control" placeholder="비밀번호" th:value=${user.pw} name="pw">
                                     <br>
                                     <label>주소</label>
-                                    <input type="text" id="address_kakao" class="form-control" placeholder="주소" name="address" readonly>
+                                    <input type="text" id="address_kakao" class="form-control" placeholder="주소" th:value="${user.address}" name="address" readonly>
                                      <br>
                                     <label>상세주소</label>
-                                    <input type="text" class="form-control" placeholder="상세주소" name="address_detail">
+                                    <input type="text" class="form-control" placeholder="상세주소" th:value="${user.address_detail}" name="address_detail">
                                     <br>
                                     <label>이메일</label>
                                     <input type="text" class="form-control" placeholder="이메일" th:value=${user.email} name="email">
@@ -64,6 +65,8 @@
                                     <input type="text" class="form-control" th:value="${1}" name="level">
                                     <br>
                                     <button class="btn btn-danger btn-block">수정</button>
+                                    <button type="button" class="btn btn-danger btn-block"
+                                    th:onclick="location.href='/user/delete/'+[[${user.user_id}]]">삭제</button>
                              </form>
                         </div>
                     </div>
