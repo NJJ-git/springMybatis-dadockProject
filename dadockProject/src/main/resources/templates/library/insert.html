@@ -7,13 +7,20 @@
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
+	
 		<h1 class="m-3">서재 등록 페이지</h1>
 		
-		<form  action="/library/insert.do" method="post" class="row g-3 needs-validation" validate 
+		<hr>
+	
+	    <form class="d-flex" role="search">
+	      <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
+	    </form>
+		  
+		<form action="/library/insert.do" method="post" class="row g-3 needs-validation" 
 			enctype="multipart/form-data">
 		
 		 
-		  
+<!--  
 		  <div class="mb-3 was-validated">
 		    <label for="inputTitle" class="form-label">책 제목</label>
 		    <input name="title" class="form-control" id="inputTitle" placeholder="제목을 입력하세요" required>
@@ -23,7 +30,7 @@
 		  </div>
 		  
 		  <div class="mb-3 was-validated">
-		    <label for="inputTitle" class="form-label">작가</label>
+		    <label for="inputTitle" class="form-label">저자</label>
 		    <input name="title" class="form-control" id="inputTitle" placeholder="작가의 이름을 입력하세요" required>
 		    <div class="invalid-feedback">
 		      Please enter a name of writer.
@@ -37,43 +44,44 @@
 		      Please enter a publisher.
 		    </div>
 		  </div>
+-->
+		
+		<div class="row mb-3 g-3 align-items-center">
+			<div class="col-auto">
+				<label for="inputEndDate" class="col-form-label">완독일</label>
+			</div>
+			<div class="col-auto">
+				<input type="date" name="endDate" id="inputEndDate" class="form-control" required>
+			</div>
+		</div>
+		
+		<div class="dropdown-center">
+			 <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+				  <option selected>별점</option>
+					  <option value="1">★</option>
+					  <option value="2">★★</option>
+					  <option value="3">★★★</option>
+					  <option value="4">★★★★</option>
+					  <option value="5">★★★★★</option>
+			  </select>
+		</div>
 		  
-		  
-		  <!-- 별점 -->
-		  
-		  
-		  <div class="mb-3 was-validated">
-		    <label for="inputContents" class="form-label">노트</label>
+		<div class="mb-3 was-validated">
+		    <label for="inputContents" class="form-label">코멘트</label>
 		    <textarea name="contents" class="form-control" id="inputContents" placeholder="내용을 입력하세요" required></textarea>
 		    <div class="invalid-feedback">
 		      Please enter a message in the contents.
 		    </div>
-		  </div>
+		</div>
 		  
-		  <div class="mb-3">
-		    <label for="inputTitle" class="form-label">이미지</label>
-		    <input name="imgFiles" class="form-control mb-1" type="file">
-		  </div>
-
-		  <div class="col-12">
-		    <button class="btn btn-primary" type="submit">Submit form</button>
+		<div class="col-12">
+		    <button class="btn btn-primary" type="submit">서재 등록</button>
 		  </div>
 		</form>
 		
 	</main>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

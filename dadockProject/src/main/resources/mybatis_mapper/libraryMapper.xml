@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybaits.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.acorn.dadockProject.mapper.LibraryMapper">
+
+	<resultMap type="Library" id="libraryMap">
+		<id column="library_no" property="library_no"/>
+		<result column="isbn" property="isbn"/>
+		<result column="user_id" property="user_id"/>
+		<result column="title" property="title"/>
+		<result column="author" property="author"/>
+		<result column="publisher" property="publisher"/>
+		<result column="end_date" property="end_date"/>
+		<result column="star" property="star"/>
+	</resultMap>
+
+	<select id="selectAll" resultType="Library" resultMap="libraryMap">
+		SELECT
+			library_no, title, author, publisher, end_date, star
+			FROM library 
+			ORDER BY library_no
+	</select>
+	
+	<select id="selectOne" resultMap="libraryMap" parameterType="int">
+		SELECT * FROM library WHERE library_no=#{library_no}
+	</select>
+	
+	<insert id="insertOne" parameterType="Library"
+	useGeneratedKeys="true" keyProperty="library_no">
+		INSERT INTO Library
+			(user_id, title, author, publisher, end_date, star) 
+			VALUES 
+			(#{user_id}, #{title}, #{author}, #{publisher}, #{end_date}, #{star})
+	</insert>
+	
+	<update id="updateOne" parameterType="Library">
+		UPDATE Library SET
+			end_date=#{end_date},
+			star=#{star}
+			WHERE library_no=#{library_no}
+	</update>
+	
+	<delete id="deleteOne" parameterType="int">
+		DELETE FROM library WHERE library_no=#{library_no}
+	</delete>
+
+</mapper>
+
+
