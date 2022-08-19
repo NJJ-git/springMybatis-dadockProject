@@ -8,7 +8,7 @@
 	<header th:insert="/headerNav"></header>
 	<main class="container">
 			<h1 class="m-3 d-flex justify-content-between align-items-center">
-				<span>유저 리스트</span>
+				<span>관리자 페이지 :: 회원 리스트</span>
 				<a href="/user/adminRegister.do" class="small btn btn-secondary">등록</a>
 			</h1>
 			<table class="table table-hover">
@@ -19,7 +19,7 @@
 						<th>가입일</th>
 						<th>이메일</th>
 						<th>폰</th>
-						<th>주소</th>
+						<th>주소+(상세주소)</th>
 						<th>레벨</th>
 						<th>포인트</th>
 						<th>상세(수정)</th>
@@ -32,7 +32,7 @@
 						<td th:text="${#dates.format(user.signup,'yyyy-MM-dd')}"></td>
 						<td th:text="${user.email}"></td>
 						<td th:text="${user.phone}"></td>
-						<td th:text="${user.address}"></td>
+						<td th:text="${user.address}+'('+${user.address_detail}+')'"></td>
 						<td th:text="${user.level}"></td>
 						<td th:text="${user.point}"></td>
 						<td>
@@ -43,6 +43,18 @@
 					</tr>
 				</tbody>
 			</table>
+			<div>
+				<form action="/user/getSearchList" name="serch-form" autocomplete="off">
+				 	<select name="type">
+				 		<option selected value="">검색 내용 선택</option>
+				 		<option value="user_id">아이디</option>
+				 		<option value="name">이름</option>
+				 		<option value="email">이메일</option>
+					</select>
+					<input type="text" name="keyword" value=""></input>
+					<input type="submit" class="btn btn-sm btn-primary mr-2" value="검색">
+				</form>				
+			</div>
 	</main>
 	<footer th:insert="footer"></footer>
 </body>

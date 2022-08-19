@@ -12,15 +12,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.UserMapper;
+import com.acorn.dadockProject.service.UserServiceImp;
+
+import lombok.AllArgsConstructor;
+
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	UserServiceImp userService;
 	
 	@GetMapping("/list/{page}")
 	public String list(@PathVariable int page, Model model) {
@@ -31,19 +39,21 @@ public class UserController {
 	}
 	@GetMapping("/detail/{userId}")
 	public String detail(@PathVariable String userId , Model model) {
+		System.out.println(userId);
 		User user=userMapper.selectOne(userId);
-		model.addAttribute(user);
+		model.addAttribute("user",user);
 		System.out.println(user);
 		return "/user/detail";
 	}
 	@PostMapping("/update.do")
 	public String update(User user) {
 		int update=0;
+		System.out.println(user);
 		update=userMapper.updateOne(user);
 		if(update>0) {
 			return "redirect:/user/list/1";
 		}else {
-			return "redirect:/user/detail/"+user;
+			return "redirect:/user/detail/"+user.getUser_id();
 		}
 	}
 	@GetMapping("/delete/{userId}")
@@ -98,24 +108,33 @@ public class UserController {
 			return "redirect:/user/login.do";
 		}
 	}
-	@GetMapping("/logout.do")
-	public String logout(HttpSession session) {
-		//session.invalidate();
-		session.removeAttribute("loginUser");
-		return "redirect:/";
-	}
-	@GetMapping("/signup.do")//회원가입 페이지 생성하기 위한 매핑
-	public void signup() {}//public void signup() 하면 페이지가 생긴다
+	//회원가입 문제 해결..
+	@GetMapping("/signup.do")
+	public void signup() throws Exception{};
+	
 	@PostMapping("/signup.do")
-	public void signup(User user) {
+	public String signup(User user) throws Exception{
 		System.out.println(user);
+		int signup=0;
+		try {
+			signup=userMapper.registerOne(user);
+		} catch (Exception e) {e.printStackTrace();}
+		if(signup>0) {
+			return "redirect:/";
+		}else {
+			return "redirect:/signup.do";
+		}
+	}
+	@GetMapping("/getSearchList")
+	private String getSerchList(@RequestParam("type") String type,
+			@RequestParam("keyword") String keyword, Model model) throws Exception{
+		List<User> getSerchList= userService.getSearchList(type,keyword);
+		System.out.println(getSerchList);
+		model.addAttribute("userList", getSerchList);
+		return "/user/list";
 	}
 	
 }
-
-
-
-
 
 
 
