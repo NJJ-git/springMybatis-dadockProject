@@ -18,27 +18,26 @@
 <body>
 	<header th:insert="headerNav"></header>
 	<hr>
-	<div class="m-4">
+	<div class="m-5">
 		<div class="card text-center">
 			<div class="card-body ">
 				<h2 class="card-title">추천도서</h2>
 				<h4 class="card-text">유저추천</h4>
 			</div>
 		</div>
-	</div>
 		<hr>
 		<div class="container-fluid">
 		<div class="row">
 		<th:block th:each="recommend : ${recommendList}">
-			<div class="col-md-3" style="width: 300px; margin:1px; margin-bottom: 30px;">
+			<div class="col-md-3" style="width: 282px; margin:1px; margin-bottom: 30px;">
 
 				<img th:src="${recommend.img}"
-					style="border-radius: 15px; height: 350px; width: 250px; padding: 10px;">
+					style="border-radius: 10px; height: 350px; width: 250px; padding: 2px;">
 				<hr>
 				<p th:text="|제목 : ${recommend.title}|"></p>
 				<p th:text="|저자 : ${recommend.author}|"></p>
-				<p th:text="|ISBN : ${recommend.isbn}|"></p>
 				<p th:text="|출판사 : ${recommend.publisher}|"></p>
+				<p th:text="|ISBN : ${recommend.isbn}|"></p>
 				<p th:text="|별점 : ${recommend.star}|"></p>
 				<hr>
 		<div>
@@ -46,7 +45,7 @@
 				<i class="fa-solid fa-book-open">상세</i>
 			</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<button class="btn btn-outline-warning btn-round" data-toggle="modal"
 				data-target="#commentModal9791191114225">
 				<!-- th:data-target -->
@@ -57,35 +56,35 @@
 		</th:block>
 		</div>
 	</div> 
+	</div>
+		<div class="m-5">
 		<hr>
-		<div class="m-4">
 		<div class="card text-center">
 			<div class="card-body ">
 				<h2 class="card-title">어플추천</h2>
 			</div>
 		</div>
-	</div>
 		<hr>
 		<div class="container-fluid">
 		<div class="row">
-		<th:block th:each="recommend : ${recommendList}">
-			<div class="col-md-3" style="width: 300px; margin:1px; margin-bottom: 30px;">
+		<th:block th:each="applicationList : ${applicationList}">
+			<div class="col-md-3" style="width: 282px; margin:1px; margin-bottom: 30px;">
 
-				<img th:src="${recommend.img}"
-					style="border-radius: 15px; height: 350px; width: 250px; padding: 10px;">
+				<img th:src="${applicationList.img}"
+					style="border-radius: 10px; height: 350px; width: 250px; padding: 2px;">
 				<hr>
-				<p th:text="|제목 : ${recommend.title}|"></p>
-				<p th:text="|저자 : ${recommend.author}|"></p>
-				<p th:text="|ISBN : ${recommend.isbn}|"></p>
-				<p th:text="|출판사 : ${recommend.publisher}|"></p>
-				<p th:text="|별점 : ${recommend.star}|"></p>
+				<p th:text="|제목 : ${applicationList.title}|"></p>
+				<p th:text="|저자 : ${applicationList.author}|"></p>
+				<p th:text="|출판사 : ${applicationList.publisher}|"></p>
+				<p th:text="|ISBN : ${applicationList.isbn}|"></p>
+				<p th:text="|별점 : ${applicationList.star}|"></p>
 				<hr>
 				<div>
 					<button class="btn btn-outline-warning btn-round">
 						<i class="fa-solid fa-book-open">상세</i>
 					</button>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<button class="btn btn-outline-warning btn-round" data-toggle="modal"
 						data-target="#commentModal9791191114225">
 						<!-- th:data-target -->
@@ -96,6 +95,7 @@
 		</th:block>
 	</div>
 </div> 
+</div>				
 				<hr>
 </body>
 
