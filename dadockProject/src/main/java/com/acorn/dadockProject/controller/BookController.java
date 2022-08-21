@@ -39,7 +39,7 @@ public class BookController {
 		
 	}
 	
-	@GetMapping("/detail/{isbn}")
+	@GetMapping("/detail/{isbn}") //isbn 검색// 
 	public String detail(@PathVariable String isbn, Book book,
 			Model model) throws Exception {
 		
@@ -78,14 +78,14 @@ public class BookController {
 		
 	}
 	
-	@GetMapping("/searchList/{page}")
+	@GetMapping("/searchList/{page}") //키워ㅜ드 검색 페이징 섞여있음
 	public String searchList(@PathVariable int page, @RequestParam String text, Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 
 		int display=30;
 		int start=((page-1)*display)+1;
 		int row=display;
-		
+		 
 		String query=URLEncoder.encode(text, "UTF-8");
 		
 		JSONObject naver_result = bookApiCallService.get("https://openapi.naver.com/"

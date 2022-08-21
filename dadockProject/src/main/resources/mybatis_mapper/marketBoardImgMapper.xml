@@ -5,6 +5,7 @@
 	<insert id="insertOne">
 		insert into market_board_img (market_board_img_no,market_board_no,img_path) 
 		values (#{market_board_img_no},#{market_board_no},#{img_path})
+		
 	</insert>
 	<select id="selectMarketBoardNo" resultType="marketBoardImg" parameterType="int">
 		select * from market_board_img

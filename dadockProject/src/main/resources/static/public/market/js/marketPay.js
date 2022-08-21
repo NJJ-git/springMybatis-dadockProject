@@ -3,9 +3,10 @@ $(document).ready(function(){
 		marketPay(); // 버튼 클릭하면 호출
 	});
 })
-
+	    
 // 버튼 클릭시 실행
-$("#marketPay").click(function () {        
+$("#marketPay").click(function () {   
+	var no = document.getElementById('marketBoardNo').value;
 	var IMP = window.IMP; // 생략가능        
 	IMP.init('imp08476032');         
 	// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용        
@@ -16,7 +17,7 @@ $("#marketPay").click(function () {
       pay_method: 'card',               
       merchant_uid: 'merchant_' + new Date().getTime(),               
       name: '주문명:결제테스트',  //결제창에서 보여질 이름      
-      amount: 100,             //가격  최소 결제가격 100원        
+      amount: 100,             //가격  최소 결제가격 100원  이건 냅두기      
       buyer_email: 'iamport@siot.do',         
       buyer_name: '구매자이름',           
       buyer_tel: '010-1234-5678',        
@@ -30,11 +31,11 @@ $("#marketPay").click(function () {
     		  msg += '상점 거래ID : ' + rsp.merchant_uid;       
     		  msg += '결제 금액 : ' + rsp.paid_amount;            
     		  msg += '카드 승인번호 : ' + rsp.apply_num;  
-    		  location.href = "marketOrder"        
-    		  } else {               
-    			  var msg = '결제에 실패하였습니다.';     
-    			  msg += '에러내용 : ' + rsp.error_msg;            
-    			  }
+    		  location.href = "/market/marketOrder/"+no ;       
+		  } else {               
+			  var msg = '결제에 실패하였습니다.';     
+			  msg += '에러내용 : ' + rsp.error_msg;            
+		  }
     	  alert(msg);       
    });    
 });

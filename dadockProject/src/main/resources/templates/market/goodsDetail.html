@@ -6,13 +6,15 @@
 </head>
 <body>
 <!-- <header th:insert="headerNav"></header> -->
-<header th:insert="market/marketHeader"></header>
-	
+<header th:insert="headerNav"></header>
+<div class="card-group">	
 	<div id="box" class="m-3">
+       <div class="d-flex flex-row-reverse">
+    	   <a th:href="@{/market/goodsDelete/{no}(no=${marketBoard.market_board_no})}" class="btn btn-danger">삭제</a>
+	       <a th:href="@{/market/goodsUpdate/{no}(no=${marketBoard.market_board_no})}" class="btn btn-success">수정</a>
+       </div>
        <h1 th:text="'No.'+${marketBoard.market_board_no}"> <i class="bi bi-book"></i></h1>
        <h1 th:text="'state.'+${marketBoard.state}"></h1>
-       <a th:href="@{/market/goodsUpdate/{no}(no=${marketBoard.market_board_no})}" class="btn btn-success">수정</a>
-       <a th:href="@{/market/goodsDelete/{no}(no=${marketBoard.market_board_no})}" class="btn btn-danger">삭제</a>
      </div>
      <div class="d-flex justify-content-center">
      <div class="card" style="width: 500px;">
@@ -29,9 +31,9 @@
 	   <!--  책 제목:
 	    <h2 class="card-title mb-3" th:text="${marketBoard.book_title}"></h2> -->
 	    <p class="card-text mb-3" >상태: 
-	    	<button class="btn btn-outline-success" th:autofocus="${(marketBoard.state==1)?'true':'false'}">최상</button> 
-	    	<button class="btn btn-outline-success" th:autofocus="${(marketBoard.state==2)?'true':'false'}">상</button>
-	    	<button class="btn btn-outline-success" th:autofocus="${(marketBoard.state==3)?'true':'false'}">중</button>
+	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==1)?'active':''}">최상</button> 
+	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==2)?'active':''}">상</button> 
+	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==3)?'active':''}">중</button> 
 	    	</p> 
 	    	가격:
 	    	<p class="card-text" th:text="${marketBoard.price}" ></p>
@@ -53,6 +55,32 @@
 	  </div>
      </div>
 </div>
-
+		 <div>
+		 <h2 class="d-flex justify-content-between">
+				<span>댓글 리스트
+					<small th:text="${marketReplys?.size}"></small>
+				</span>
+				<!-- <button  class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#replyCollapse">
+					토글
+				</button>  -->
+			</h2>
+			<div class="card text-bg-warning mb-3" style="width: 18rem;">
+			  <ul class="list-group list-group-flush">
+			  	<form action="/reply/insert.do" method="post" enctype="multipart/form-data">
+				  <div class="card-footer">
+					댓글등록
+				    <input name="title" type="text" class="form-control">
+				  </div>
+				    
+			   		 <p class="mb-1">
+						<button type="reset" class="btn btn-sm btn-outline-warning">초기화</button>
+						<button type="submit" class="btn btn-sm btn-outline-primary">제출</button>
+						<input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
+					</p>
+					</form>
+			  </ul>
+		 </div>
+</div>
+</div>		
 </body>
 </html>
