@@ -44,8 +44,7 @@
 				<img th:src="${book.image}" th:alt="${book.title}" style="width: 100%;">
 			</div>
 			<div type="button" style="text-align: center;">
-				내 서재 담기
-				<i class="bi bi-box2-heart-fill"></i>
+			<a th:href="|/library/insert/${book.isbn}|">내 서재 담기<i class="bi bi-box2-heart-fill"></i></a>	
 			</div>
 		</div>
 		<br>

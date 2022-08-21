@@ -8,43 +8,77 @@
 	<header th:insert="/headerNav"></header>
 	<main class="container">
 	
-		<h1 class="m-3">서재 등록 페이지</h1>
-		
-		<hr>
+	<!-- 책 정보 불러오기 -->
 	
-	    <form class="d-flex" role="search">
-	      <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-	    </form>
-		  
-		<form action="/library/insert.do" method="post" class="row g-3 needs-validation" 
-			enctype="multipart/form-data">
+	<th:block th:each="book:${bookDetails}">
+		<p th:text="${book}"></p>
 		
-		 
-<!--  
-		  <div class="mb-3 was-validated">
-		    <label for="inputTitle" class="form-label">책 제목</label>
-		    <input name="title" class="form-control" id="inputTitle" placeholder="제목을 입력하세요" required>
-		    <div class="invalid-feedback">
-		      Please enter a title of book.
-		    </div>
-		  </div>
-		  
-		  <div class="mb-3 was-validated">
-		    <label for="inputTitle" class="form-label">저자</label>
-		    <input name="title" class="form-control" id="inputTitle" placeholder="작가의 이름을 입력하세요" required>
-		    <div class="invalid-feedback">
-		      Please enter a name of writer.
-		    </div>
-		  </div>
-		  
-		  <div class="mb-3 was-validated">
-		    <label for="inputTitle" class="form-label">출판사</label>
-		    <input name="title" class="form-control" id="inputTitle" placeholder="출판사를 입력하세요" required>
-		    <div class="invalid-feedback">
-		      Please enter a publisher.
-		    </div>
-		  </div>
--->
+		<h1 class="m-3">서재 등록 페이지</h1>
+
+		<form id="insertForm" action="/library/insert.do" method="post" class="row g-3 needs-validation">
+		
+		<div class="container row">
+			<div class="col-4 mb-3 was-validated">
+				<img th:src="${book.image}" style=width:300px>
+			</div> 
+			
+			
+			<div class="col-6 mb-3 was-validated">
+			  <input name="isbn" class="form-control" id="inputIsbn" th:value="${book.isbn}" readonly>
+			  <input name="title" class="form-control" id="inputTitle" th:value="${book.title}" readonly>
+			  <input name="author" class="form-control" id="inputAuthor" th:value="${book.author}" readonly>
+			  <input name="publisher" class="form-control" id="inputPublisher" th:value="${book.publisher}" readonly>
+			</div>
+		</div>
+			
+			<div class="mb-3 was-validated">
+			  <input name="pubdate" class="form-control" id="inputPubdate" th:value="${book.pubdate}" readonly hidden>
+			</div>
+			<div>
+			  <textarea name="description" class="form-control" id="inputDescription" th:text="${book.description}" readonly hidden></textarea>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="link" class="form-control" id="inputLink" th:value="${book.link}" readonly hidden>
+			</div>
+			 
+
+			<!-- <div class="mb-3 was-validated">
+			  <input name="discount" class="form-control" id="inputDiscount" th:value="${book.discount}" readonly>
+			</div> 
+			<div class="mb-3 was-validated">
+			  <input name="star" class="form-control" id="inputStar" th:value="${book.star}" readonly>
+			</div>   -->
+			
+			
+<!-- 			
+			<div class="mb-3 was-validated">
+			  <input name="library_no" class="form-control" id="inputLibrary_no" th:value="${library.library_no}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="isbn" class="form-control" id="inputIsbn" th:value="${library.isbn}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="user_id" class="form-control" id="inputUser_id" th:value="${library.user_id}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="title" class="form-control" id="inputTitle" th:value="${library.title}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="author" class="form-control" id="inputAuthor" th:value="${library.author}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="publisher" class="form-control" id="inputPublisher" th:value="${library.publisher}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="end_date" class="form-control" id="inputEnd_date" th:value="${library.end_date}" readonly>
+			</div>
+			<div class="mb-3 was-validated">
+			  <input name="star" class="form-control" id="inputStar" th:value="${library.star}" readonly>
+			</div>
+ -->
+
+		
+		
 		
 		<div class="row mb-3 g-3 align-items-center">
 			<div class="col-auto">
@@ -75,11 +109,13 @@
 		</div>
 		  
 		<div class="col-12">
-		    <button class="btn btn-primary" type="submit">서재 등록</button>
+		    <button id="insertForm" class="btn btn-primary" type="submit">서재 등록</button>
 		  </div>
-		</form>
+	</form>
 		
-	</main>
+</th:block>
+
+</main>
 </body>
 </html>
 
