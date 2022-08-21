@@ -8,20 +8,68 @@
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
+	<form action="/user/update.do" method="post">
 		<h1 class="m-3">
 			<small th:text="${library.library_no}"></small>
 			<span th:text="${library.title}"></span>
 		</h1>
-	
-			
-	
-			<div>
-				<a th:href="" class="btn btn-success">
-					수정
-				</a>
-			</div>
+		
+		<div class="row mb-3 g-3 align-items-center">
+			<div class="col-auto">
+				isbn
+			</div>	
+			<div class="col-auto">
+				<strong th:text="${book.isbn}"></strong>	
+			</div>	
 		</div>
-	</main>
+		<div class="row mb-3 g-3 align-items-center">
+			<div class="col-auto">
+				저자
+			</div>	
+			<div class="col-auto">
+				<strong th:text="${book.author}"></strong>	
+			</div>	
+		</div>
+		<div class="row mb-3 g-3 align-items-center">
+			<div class="col-auto">
+				출판사
+			</div>	
+			<div class="col-auto">
+				<strong th:text="${book.publisher}"></strong>	
+			</div>	
+		</div>
+	
+	
+		
+		<div class="row mb-3 g-3 align-items-center">
+		  <div class="col-auto">
+		    <label for="inputEndDate" class="col-form-label">완독일</label>
+		  </div>
+		  <div class="col-auto">
+		    <input type="date" name="end_date" id="inputEndDate" class="form-control" 
+		    th:value="${#dates.format(library.end_date,'yyyy-MM-dd')}">
+		  </div>
+		</div>
+		
+		<!-- 별점 -->
+		
+		<div class="form-floating">
+		  <textarea class="form-control" placeholder="Leave a comment here" 
+		  style="height: 100px; resize: none; " th:text="${library.comment}"></textarea>
+		</div>
+		
+
+				
+		<p>
+			<button type="submit" class="btn btn-outline-primary">수정</button>
+			<a th:href="@{/library/delete/{user_id}(no=${library.library_no},user_id=${user.user_id})}" 
+				class="btn btn-danger">삭제</a>
+			<input type="hidden" name="user.user_id" th:value="${library.user.user_id}">
+			<input type="hidden" name="library_no" th:value="${library.library_no}">
+		</p>
+		
+</form>
+</main>
 </body>
 </html>
 
