@@ -13,7 +13,16 @@
 		<result column="descriptinon" property="descriptinon"/>
 		<result column="link" property="link"/>
 		<result column="discount" property="discount"/>
-		<result column="star" property="star"/>
+		<collection property="libraries" javaType="java.util.ArrayList" ofType="Library" foreignColumn="isbn">
+			<id column="library_no" property="library_no"/>
+			<result column="lisbn" property="isbn"/>
+			<result column="luser_id" property="user_id"/>
+			<result column="ltitle" property="title"/>
+			<result column="lauthor" property="author"/>
+			<result column="lpublisher" property="publisher"/>
+			<result column="lend_date" property="end_date"/>
+			<result column="lstar" property="star"/>
+		</collection>
 	</resultMap>
 <!-- SELECT *,
 				isbn no,
@@ -21,20 +30,21 @@
 					FROM read_book WHERE EXISTS(SELECT * FROM RECOMMEND WHERE isbn=no)
 					order by grade_avg desc
 					limit 0,20 -->
-	<select id="selectByUserRecommendAll" resultType="ReadBook">
-		SELECT *FROM read_book 
-		
+	<select id="selectByUserRecommendAll" resultMap="ReadBookMap">
+		select *, lisbn, ifnull(lstar,0) lstar from read_book r left join (select isbn lisbn, truncate(avg(star),1) lstar from library group by isbn) l on r.isbn=l.lisbn order by lstar desc limit 20
 	</select>
+	
 	<select id="selectByAppAll" resultType="ReadBook">
 		SELECT *FROM read_book 
-		
 	</select>
 	
 	<select id="selectAll" resultType="ReadBook">
 		SELECT *FROM read_book 
-		
 	</select>
 	
+	<select id="selectStar" resultType="Library" parameterType="String">
+		SELECT l.isbn, ifnull(max(avg_star),0) star FROM read_book r left join (select isbn, truncate(avg(star),1) avg_star from library group by isbn) l on r.isbn=l.isbn WHERE r.isbn=#{isbn} 
+	</select>
 	
 	<insert id="insertOne" parameterType="ReadBook">
 		INSERT INTO ReadBook

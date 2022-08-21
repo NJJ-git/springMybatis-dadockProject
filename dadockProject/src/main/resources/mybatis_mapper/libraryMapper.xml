@@ -34,6 +34,11 @@
 			(#{user_id}, #{title}, #{author}, #{publisher}, #{end_date}, #{star})
 	</insert>
 	
+	<insert id="insertBook">
+		INSERT INTO read_book (isbn, title, author, image, publisher, pubdate, description, link)
+		VALUES (#{isbn}, #{title}, #{author}, #{image}, #{publisher}, #{pubdate}, #{description}, #{link})
+	</insert>
+	
 	<update id="updateOne" parameterType="Library">
 		UPDATE Library SET
 			end_date=#{end_date},

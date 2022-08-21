@@ -7,7 +7,10 @@
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
-	
+	<!-- 책 정보 불러오기 -->
+	<th:block th:each="book:${bookDetails}">
+		<p th:text="${book}"></p>
+	</th:block>
 		<h1 class="m-3">서재 등록 페이지</h1>
 		
 		<hr>
