@@ -6,7 +6,7 @@
 </head>
 <!-- <header th:insert="headerNav"></header> -->
 
-<header th:insert="market/marketHeader"></header>
+<header th:insert="headerNav"></header>
 <body>
 	<main class="container">
 		<h1 class="m-3">물건 등록</h1>
@@ -26,7 +26,7 @@
 		    	<input name="book_title" class="form-control" type="text"> </label>
 		    <a href="#" class="btn btn-sm btn-primary">검색</a>
 		  </div> -->
-		  <div>
+		  <div class="mb-3 was-validated">
 		  	<input name="state" type="radio" value="1"> 최상
 		  	<input name="state" type="radio" value="2"> 상
 		  	<input name="state" type="radio" value="3"> 중

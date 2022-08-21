@@ -24,7 +24,9 @@ import com.acorn.dadockProject.dto.WishList;
 import com.acorn.dadockProject.mapper.MarketBoardImgMapper;
 import com.acorn.dadockProject.mapper.MarketMapper;
 import com.acorn.dadockProject.mapper.WishListMapper;
+import com.acorn.dadockProject.service.BookApiCallService;
 import com.acorn.dadockProject.service.MarketService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 //application.proferties에 입력하고 가져와야함!
 
@@ -39,6 +41,13 @@ public class MarketController {
 	@Autowired MarketBoardImgMapper marketBoardImgMapper;
 	@Autowired WishListMapper wishListMapper;
 	
+	///책검색 ㅌㅅㅌ///
+	@Autowired
+	BookApiCallService bookApiCallService;
+	@Autowired
+	ObjectMapper objectMapper;
+	
+	
 	@GetMapping("/goodsList/{page}")
 	public String goodsList (@PathVariable int page,Model model) {
 		List<MarketBoard> goodsList=marketMapper.selectAll();
@@ -49,6 +58,7 @@ public class MarketController {
 	
 	@GetMapping("/goodsInsert.do") //로그인 폼 만들면 세션 추가해서 로그인 한 사람만..등록가능하게 하기
 	public void goodsInsert() {}
+	
 	
 	@PostMapping("/goodsInsert.do")
 	public String insert(int state,
@@ -182,21 +192,40 @@ public class MarketController {
 	 * e.printStackTrace(); if(jjim=false) {msg="찜 실패(오류)";} }
 	 * model.addAttribute("msg",msg); return "redirect:/market/goodsList/1"; }
 	  */
-	  @GetMapping("/marketPay/{marketBoardNo}") public String marketPay (
-	  
-	  @PathVariable int marketBoardNo, Model model) { MarketBoard
+  @GetMapping("/marketPay/{marketBoardNo}") //결제페이지
+  	public String marketPay (
+  			@PathVariable int marketBoardNo, 
+  			Model model) { 
+	  MarketBoard marketBoard;
 	  marketBoard=marketMapper.selectOne(marketBoardNo);
-	  model.addAttribute("marketBoard",marketBoard); return "/market/marketPay"; }
+	  model.addAttribute("marketBoard",marketBoard); 
+	  return "/market/marketPay"; 
+	  }
 	 
 	
+	@GetMapping("/marketOrder/{marketBoardNo}") // 결제완료 페이지 /marketOrder/{marketBoardNo}로 넘기기..
+	public String marketOrder (
+			@PathVariable int marketBoardNo,
+			Model model) {
+		MarketBoard marketBoard;
+		marketBoard=marketMapper.selectOne(marketBoardNo);
+		model.addAttribute("marketBoard",marketBoard); 
+		return "/market/marketOrder";
+		
+	}
+	
+	@GetMapping("/marketPayDetail/{marketBoardNo}") //결제 완료 후 상세내역
+	public String marketPayDeatail (
+			@PathVariable int marketBoardNo,
+			Model model) {
+		MarketBoard marketBoard;
+		marketBoard=marketMapper.selectOne(marketBoardNo);
+		model.addAttribute("marketBoard",marketBoard); 
+		return "/market/marketPayDetail";
+		
+	}
 	@GetMapping("/marketUserDetail")
 	public void marketUserDetail () {
-	}
-	@GetMapping("/marketOrder")
-	public void marketOrder () {
-	}
-	@GetMapping("/marketPayDetail")
-	public void marketPayDeatail () {
 	}
 	@GetMapping("/wishList")
 	public void marketWishList () {

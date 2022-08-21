@@ -3,9 +3,37 @@
 <head> 
 </head> 
 <body> 
+<header th:insert="headerNav"></header>
 
-
-   <h1>결제완료!</h1>
+ <!--   <h1>결제완료!</h1> -->
+   <!-- <a class="btn btn-danger">주문내역</a> -->
+   <!--모달버튼  -->
+   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+   <!-- 모달창 -->
+ <div class="modal" tabindex="-1" id="exampleModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">주문완료</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>주문완료!</p>
+      </div>
+      <div class="modal-footer">
+       <a th:href="@{/market/marketPayDetail/{no}/(no=${marketBoard.market_board_no})}" class="btn btn-outline-warning">주문상세내역으로 이동</a> 
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
      </body> 
+     <script>
+     const exampleModal=new bootstrap.Modal("#exampleModal")
+     exampleModal.show();
+     </script>
      </html>
      

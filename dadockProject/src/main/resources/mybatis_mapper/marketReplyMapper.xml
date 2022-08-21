@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="com.acorn.dadockProject.mapper.MarketReplyMapper">
+	<resultMap type="marketReply" id="marketReplyMap">
+		<id column="market_reply_no" property="market_reply_no"/>
+		<result column="contents" property="contents"/>
+		<result column="post_time" property="post_time"/>
+		<result column="market_board_no" property="market_board_no"/>
+		<association property="user" javaType="User">
+			<id column="user_id" property="user_id"/>
+		</association>
+	</resultMap>
+	<select id="selectOne" resultType="MarketReply" parameterType="int">
+		select *, user_id 'user.user_id' 
+		from market_reply 
+		where market_reply_no=#{marketReplyNo} <!-- delete할때 -->
+	</select>
+	<!-- updateOne,insertOne -->
+	<insert id="insertOne" parameterType="marketReply">
+		insert  into market_reply (contents,market_board_no,user_id)
+		values 
+		(#{contents},#{market_board_no},#{user_id})
+	</insert>
+	<update id="updateOne" parameterType="marketReply">
+		update reply set
+			contents=#{contents}
+			where market_reply_no=#{marketReplyNo}
+	</update>
+	<delete id="deleteOne" parameterType="int">
+		delete from market_reply where market_reply_no=#{marketReplyNo} 
+	</delete>
+	</mapper>    

@@ -14,9 +14,9 @@ import lombok.Data;
  * */
 @Data
 public class MarketBoardImg {
-	 public int market_board_img_no;
-	 public int market_board_no; 
-	 public String img_path;
+	private int market_board_img_no;
+	private int market_board_no; 
+	private String img_path;
 	 
 	
 }
