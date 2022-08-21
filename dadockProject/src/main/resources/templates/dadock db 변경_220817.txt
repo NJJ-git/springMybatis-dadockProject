@@ -5,9 +5,18 @@
 	wishlist 테이블 wishlist boolean 삭제.
 2. isbn 데이터 타입 변경 (bigint -> varchar(255))
 3. library 테이블 추가 (star 칼럼 확인)
---2022-08-17 --
+
+-- 2022-08-17 --
 1. user 테이블 address_detail 칼럼 추가
 
+-- 2022-08-18 --
+1. library 샘플db insert
+
+-- 2022-08-19 --
+1. user 테이블 type 칼럼 추가
+2. user 테이블 keyword 칼럼 추가 
+alter table user add column type varchar(255);
+alter table user add column keyword varchar(255);
 
 ////////// 테이블 목록 //////////
 
@@ -50,6 +59,8 @@ address varchar(255),
 address_detail varchar(255),
 level int,
 point int,
+type varchar(255),
+keyword varchar(255),
   primary key(user_id),
   unique(phone),
   unique(email)

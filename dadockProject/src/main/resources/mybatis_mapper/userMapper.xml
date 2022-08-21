@@ -27,6 +27,19 @@
 			email=#{email},
 			phone=#{phone},
 			address=#{address},
+			address_detail=#{address_detail},
+			level=${level},
+			point=${point}
+			WHERE user_id=#{user_id}
+	</update>
+	
+	<update id="modifyOne" parameterType="User">
+		UPDATE USER SET
+			pw=#{pw},
+			name=#{name},
+			email=#{email},
+			phone=#{phone},
+			address=#{address},
 			address_detail=#{address_detail}
 			WHERE user_id=#{user_id}
 	</update>
