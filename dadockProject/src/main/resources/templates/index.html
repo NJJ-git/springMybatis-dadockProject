@@ -6,85 +6,85 @@
 	<meta charset=UTF-8>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" href="/slider/dist/css/splide.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js" defer="defer"></script>
 	<title>Dadock::다독</title>
 </head>
 <body>
-	<header th:insert="headerNav"></header>
-	
-   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#ffe"></rect><text x="50%" y="50%" fill="#888" dy=".3em">ㅁㅁㅁㅁㅁ</text></svg>
-    
-          <div class="carousel-caption d-none d-md-block">
-            <h5 style="color:gray">첫번째 슬라이더 제목</h5>
-            <p style="color:gray">Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#ffe"></rect><text x="50%" y="50%" fill="#888" dy=".3em">Second slide</text></svg>
-    
-          <div class="carousel-caption d-none d-md-block">
-            <h5 style="color:gray">두번째 슬라이더 제목</h5>
-            <p style="color:gray">Some representative placeholder content for the second slide.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#ffe"></rect><text x="50%" y="50%" fill="#888" dy=".3em">Third slide</text></svg>
-    
-          <div class="carousel-caption d-none d-md-block">
-            <h5 style="color:gray">세번째 슬라이더 제목</h5>
-            <p style="color:gray">Some representative placeholder content for the third slide.</p>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-    <br>
-    <!-- card -->
-    <div class="row row-cols-1 row-cols-md-3 g-4 m-4" style="justify-content: space-between;">
-  <div class="col">
-    <div class="card">
-      <img src="/public/img/joshua-stannard.jpg" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">사진</h5>
-        <p class="card-text">사진설명</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="/public/img/bruno-abatti.jpg" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">사진</h5>
-        <p class="card-text">사진설명</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="/public/img/soroush-karimi.jpg" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">사진</h5>
-        <p class="card-text">사진설명</p>
-      </div>
-    </div>
-  </div>
+<header th:insert="headerNav"></header>
+<!-- 검색바 -->
+<div class="container">
+	<div class="row">
+    	<form method="get" role="searchbox" action="book/searchList/1">
+        	<div class="col-sm-4 input-group mt-3">
+            	<input type="search" class="form-control" placeholder="도서 검색" name="text">
+         		<button class="btn btn-outline-secondary" type="submit">
+         			<i class="bi bi-search"></i>
+         		</button>
+			</div>
+		</form>
+	</div>
 </div>
-    <!-- card -->
-	<footer th:insert="footer"></footer>
+<!-- Carousel 시작  -->
+<div class="m-5">
+<hr>
+	<div class="card text-left">
+		<div class="card-body ">
+			<p class="h4 card-title">유저 추천</p>
+			<!-- <h4 class="card-text">다독 추천</h4> -->
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div id="card-slider" class="splide">
+		  	<div class="splide__track row">
+				<ul class="splide__list">
+					<th:block th:each="recommend : ${recommendList}">
+						<li class="splide__slide">
+							<div class="m-4 col" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+								<img th:src="${recommend.img}"  class="w-100 mb-1 border" style="max-height:45vh;">
+							</div>
+							<div class="align-self-end">
+								<div class="mb-3 text-truncate" th:text="|제목 : ${recommend.title}|"></div>
+								<div class="mb-3 text-truncate" th:text="|저자 : ${recommend.author}|"></div>
+								<!-- 별점 start -->
+					    		<div class="mb-3">
+					    			<!-- 별점 null 일때 -->
+		                        	<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
+					    		<th:block th:each="library:${recommend.libraries}">
+					    			<th:block th:if="${library.star!=0&&library.star!=5}">
+									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+									</th:block>
+		                           	<span th:if="${library.star==5}">★★★★★</span>
+		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+					    		</th:block>
+								</div>
+							</div>
+						</li>
+					</th:block>
+				</ul>
+			</div>
+		</div>
+	</div>
+<hr>
+</div>
+<!-- carousel 끝 -->
+
+<!-- carousel용 스트립트 -->
+<script type="text/javascript">
+document.addEventListener( 'DOMContentLoaded', function () {
+	  new Splide( '#card-slider', {
+			perPage    : 5,
+			breakpoints: {
+				640: {
+					perPage: 1,
+				},
+			},
+	  } ).mount();
+} );
+</script>
+
+<footer th:insert="footer"></footer>
 </body>
 
 </html>

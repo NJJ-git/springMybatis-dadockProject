@@ -4,7 +4,6 @@
 
 
 <head>
-<title>recommend Book</title>
 <link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset=UTF-8>
@@ -12,7 +11,7 @@
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
 	name='viewport' />
 <meta name="viewport" content="width=device-width" />
-
+<title>recommend Book</title>
 </head>
 
 <body>
@@ -22,81 +21,115 @@
 		<div class="card text-center">
 			<div class="card-body ">
 				<h2 class="card-title">추천도서</h2>
-				<h4 class="card-text">유저추천</h4>
+				<h4 class="card-text">다독추천</h4>
 			</div>
 		</div>
 		<hr>
 		<div class="container-fluid">
-		<div class="row">
-		<th:block th:each="recommend : ${recommendList}">
-			<div class="col-md-3" style="width: 282px; margin:1px; margin-bottom: 30px;">
-
-				<img th:src="${recommend.img}"
-					style="border-radius: 10px; height: 350px; width: 250px; padding: 2px;">
-				<hr>
-				<p th:text="|제목 : ${recommend.title}|"></p>
-				<p th:text="|저자 : ${recommend.author}|"></p>
-				<p th:text="|출판사 : ${recommend.publisher}|"></p>
-				<p th:text="|ISBN : ${recommend.isbn}|"></p>
-				<p th:text="|별점 : ${recommend.star}|"></p>
-				<hr>
-		<div>
+			<div class="row" style="justify-content: center;">
+				<th:block th:each="recommend : ${recommendList}">
+					<div class="col-md-2"
+						style="width: 282px; margin: 1px; margin-bottom: 30px;">
+						<div
+							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+							<img th:src="${recommend.img}"
+								style="border-radius: 10px; height: 350px; width: 250px; padding: 2px;">
+						<div>
+							<hr>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|제목 : ${recommend.title}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|저자 : ${recommend.author}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|출판사 : ${recommend.publisher}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|ISBN : ${recommend.isbn}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+				<!-- 				<a th:if="${recommend.star != 0}" class="on"  th:each="num : ${#numbers.sequence(0, recommend.star -1)}">★</a>
+                            	<a th:unless="${recommend.star != 0}">★★★★★</a> -->
+							</div>
+							<hr>
+						</div>
+						</div>
+						<!-- <div>
 			<button class="btn btn-outline-warning btn-round">
 				<i class="fa-solid fa-book-open">상세</i>
 			</button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<button class="btn btn-outline-warning btn-round" data-toggle="modal"
 				data-target="#commentModal9791191114225">
-				<!-- th:data-target -->
+				th:data-target
 				<i class="fa-solid fa-comments">코멘트</i>
 			</button>
-		</div>
+		</div> -->
+					</div>
+				</th:block>
 			</div>
-		</th:block>
 		</div>
-	</div> 
 	</div>
-		<div class="m-5">
+	<div class="m-5">
 		<hr>
 		<div class="card text-center">
 			<div class="card-body ">
-				<h2 class="card-title">어플추천</h2>
+				<h2 class="card-title">유저추천</h2>
 			</div>
 		</div>
 		<hr>
 		<div class="container-fluid">
-		<div class="row">
-		<th:block th:each="applicationList : ${applicationList}">
-			<div class="col-md-3" style="width: 282px; margin:1px; margin-bottom: 30px;">
-
-				<img th:src="${applicationList.img}"
-					style="border-radius: 10px; height: 350px; width: 250px; padding: 2px;">
-				<hr>
-				<p th:text="|제목 : ${applicationList.title}|"></p>
-				<p th:text="|저자 : ${applicationList.author}|"></p>
-				<p th:text="|출판사 : ${applicationList.publisher}|"></p>
-				<p th:text="|ISBN : ${applicationList.isbn}|"></p>
-				<p th:text="|별점 : ${applicationList.star}|"></p>
-				<hr>
-				<div>
-					<button class="btn btn-outline-warning btn-round">
-						<i class="fa-solid fa-book-open">상세</i>
-					</button>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button class="btn btn-outline-warning btn-round" data-toggle="modal"
-						data-target="#commentModal9791191114225">
-						<!-- th:data-target -->
-						<i class="fa-solid fa-comments">코멘트</i>
-					</button>
-				</div>
+			<div class="row" style="justify-content: center;">
+				<th:block th:each="recommend : ${recommendList}">
+					<div class="col-md-2"
+						style="width: 282px; margin: 1px; margin-bottom: 30px;">
+						<div
+							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+							<img th:src="${recommend.img}"
+								style="border-radius: 10px; height: 350px; width: 250px; padding: 2px;">
+						<div>
+							<hr>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|제목 : ${recommend.title}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|저자 : ${recommend.author}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|출판사 : ${recommend.publisher}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								th:text="|ISBN : ${recommend.isbn}|"></div>
+							<div class="mb-3"
+								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+								<!-- <a th:if="${recommend.star != 0}" class="on"  th:each="num : ${#numbers.sequence(0, recommend.star -1)}">★</a>
+                            	<a th:unless="${recommend.star != 0}">★★★★★</a> -->
+							</div>
+						</div>
+						</div>
+						<!-- <div>
+			<button class="btn btn-outline-warning btn-round">
+				<i class="fa-solid fa-book-open">상세</i>
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-outline-warning btn-round" data-toggle="modal"
+				data-target="#commentModal9791191114225">
+				th:data-target
+				<i class="fa-solid fa-comments">코멘트</i>
+			</button>
+		</div> -->
+					</div>
+				</th:block>
 			</div>
-		</th:block>
+		</div>
 	</div>
-</div> 
-</div>				
-				<hr>
+
+	<hr>
 </body>
 
 

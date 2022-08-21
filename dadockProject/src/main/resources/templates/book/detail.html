@@ -10,18 +10,11 @@
 </head>
 <body>
 <header th:insert="headerNav"></header>
+<!-- 검색바 -->
     <div class="container">
       <div class="row">
-          <form method="get" role="searchbox" action="./searchList/1">
+          <form method="get" role="searchbox" action="/book/searchList/1">
           	<div class="col-sm-4 input-group mt-3">
-          		<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          			<i class="bi bi-menu-down"></i>
-          		</button>
-          		<ul class="dropdown-menu">
-    				<li><a class="dropdown-item" href="#">제목,키워드</a></li>
-				    <li><a class="dropdown-item" href="#">저자</a></li>
-				   	<li><a class="dropdown-item" href="#">ISBN</a></li>
-				</ul>
             	<input type="search" class="form-control" placeholder="도서 검색" name="text">
          		<button class="btn btn-outline-secondary" type="submit">
          			<i class="bi bi-search"></i>
@@ -30,73 +23,77 @@
           </form>
       </div>
     </div>
-
 <div class="m-4">
 <hr>
-<th:block th:each="book : ${bookDetails}">
 <div class="title">
 	<div class="row" style="justify-content: center;">
 		<div>
-			<h5 th:text="|상세정보 > ${book.title}|"></h5>
+			<p class="h5 text-truncate" th:text="|상세정보 > ${bookDetail.title}|"></p>
 		</div>
 		<div class="col-10 col-md-4 justify-content-center">
-			<div>
-				<img th:src="${book.image}" th:alt="${book.title}" style="width: 100%;">
+			<div class="mx-5 border">
+				<img class="w-100" th:src="${bookDetail.image}" th:alt="${bookDetail.title}">
 			</div>
-			<div type="button" style="text-align: center;">
-				내 서재 담기
-				<i class="bi bi-box2-heart-fill"></i>
+			<div class="text-center">
+			<!-- 별점 start -->
+			<th:block th:each="library:${star}">
+				<th:block th:if="${library.star!=0&&library.star!=5}">
+				<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+			--><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+				</th:block>
+		        <span th:if="${library.star==5}">★★★★★</span>
+		        <span th:if="${library.star==0}">☆☆☆☆☆</span>
+		        </th:block>
+			</div>
+			<!-- 별점 end -->
+			<!-- 내서재 담기 -->
+			<div type="button" class="text-center">
+				<a th:href="|/library/insert/${bookDetail.isbn}|">내 서재 담기<i class="bi bi-box2-heart-fill"></i></a>	
 			</div>
 		</div>
 		<br>
 		<div class="col-md-6">
-			<div class="accordion" id="accordionPanelsStayOpenExample">
+			<div class="accordion">
 			  <div class="accordion-item">
-			    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-			      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+			    <h2 class="accordion-header" id="headingOne">
+			      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 			        책 정보
 			      </button>
 			    </h2>
-			    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+			    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
 			      <div class="accordion-body">
-			        <p th:text="|제목 : ${book.title}|"></p>
-                  	<p th:text="|저자 : ${book.author}|"></p>
-                  	<p th:text="|ISBN : ${book.isbn}|"></p>
-                  	<p th:text="|출판사 : ${book.publisher}|"></p>
-                  	<p th:text="|출간일 : ${book.pubdate}|"></p>
-                  	<a th:href="${book.link}">책 보러가기 (네이버)</a>
-                  	<div class="col">
-					별점 : 
-					<i class="bi bi-star"></i>
-					<i class="bi bi-star"></i>
-					<i class="bi bi-star"></i>
-					<i class="bi bi-star"></i>
-					<i class="bi bi-star"></i>
-				</div>
+			        <p class="text-truncate" th:text="|제목 : ${bookDetail.title}|"></p>
+                  	<p class="text-truncate" th:text="|저자 : ${bookDetail.author}|"></p>
+                  	<p th:text="|ISBN : ${bookDetail.isbn}|"></p>
+                  	<p th:text="|출판사 : ${bookDetail.publisher}|"></p>
+                  	<p th:text="|출간일 : ${bookDetail.pubdate}|"></p>
 			      </div>
 			    </div>
 			  </div>
 			  <div class="accordion-item">
-			    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+			    <h2 class="accordion-header" id="headingTwo">
+			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 			        책 소개
 			      </button>
 			    </h2>
-			    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+			    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
 			      <div class="accordion-body">
-			        [[${book.description}]]
+			        [[${bookDetail.description}]]
 			      </div>
 			    </div>
 			  </div>
 			  <div class="accordion-item">
-			    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+			    <h2 class="accordion-header" id="headingThree">
+			      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
 			        Comments
 			      </button>
 			    </h2>
-			    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+			    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
 			      <div class="accordion-body">
-			        spring_board reply 활용
+			         <th:block th:each="comment:${commentList}">
+			        	<p th:text="|작성자 : ${comment.user_id}|"></p>
+			        	<p th:text="|내용 : ${comment.content}|"></p>
+			        </th:block>
 			      </div>
 			    </div>
 			  </div>
@@ -104,7 +101,6 @@
 		</div>
 	</div>
 </div>
-</th:block>
 <hr>
 </div>
     <script>

@@ -15,15 +15,7 @@
         <div class="col">
           <form method="get" role="searchbox" action="../searchList/1">
           	<div class="col-sm-4 input-group mt-3">
-          		<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          			<i class="bi bi-menu-down"></i>
-          		</button>
-          		<ul class="dropdown-menu">
-    				<li><a class="dropdown-item" href="#">제목,키워드</a></li>
-				    <li><a class="dropdown-item" href="#">저자</a></li>
-				   	<li><a class="dropdown-item" href="#">ISBN</a></li>
-				</ul>
-            	<input type="search" class="form-control" placeholder="도서 검색" name="text" required>
+            	<input type="search" class="form-control" placeholder="도서 검색" th:value="${text}" name="text" required>
          		<button class="btn btn-outline-secondary" type="submit">
          			<i class="bi bi-search"></i>
          		</button>
@@ -31,38 +23,55 @@
           </form>
         </div>
       </div>
-      <hr>
-      <p></p>
-<p th:text="|검색 결과 수 : ${total}|" style="text-align: right;"></p>
-     <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
-      <div class="row" style="justify-content: space-between;">
+    <hr>
+	<p th:text="|검색 결과 수 : ${total}|" style="text-align: right;"></p>
+    <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
+    	<div class="row" style="justify-content: space-between;">
       	<!-- 검색결과 존재하지 않을 때 -->
       	<th:block th:if="${total==0}">
       	<div class="col-12" style="text-align: center;">
-      		<h2>검색 결과가 없습니다.</h2>
+      		<p class="h2 text-truncate">검색 결과가 없습니다.</p>
       	</div>
       	</th:block>
       	
       	<!-- 검색결과 존재할 때 -->
 	    <th:block th:each="book : ${bookList}">
-      	<div class="col-md-6 border" style="height: vh30;">
-      		<div class="row p-4" style="justify-content: center;">
-	      		<div class="col-4" th:onclick="|location.href='@{/book/detail/__${book.isbn}__}'|" type="button">
+      	<div class="col-md-6 border-top border-bottom h-vh30" >
+      		<div class="row p-4 justify-content-center">
+	      		<div class="col-4 text-center" th:onclick="|location.href='@{/book/detail/__${book.isbn}__}'|" type="button">
      		<th:block th:if="${bookStat.count<7}">
-	    		<img th:src="${book.image}" style="width: 80%;">
+	    		<img class="border" th:src="${book.image}" style="width: 80%;">
       		</th:block>
       		<!-- Lazy Loading -->
       		<th:block th:if="${bookStat.count>=7}">
-	    		<img class="lazy" th:data-src="${book.image}" style="width: 80%;">
+	    		<img class="lazy border" th:data-src="${book.image}" style="width: 80%;">
       		</th:block>
+		      		<div class="mt-2" type="button">
+							<a class="text-decoration-none" th:href="|/library/insert/${book.isbn}|">담기 <i class="bi bi-box2-heart-fill"></i></a>	
+					</div>
+	      				<!-- 별점 start -->
+	      			<div>
+	      			<th:block th:each="readBook:${readBookList}">
+						<th:block th:each="library:${readBook.libraries}">
+	      					<th:block th:if="${#strings.equals(library.isbn, book.isbn)}">
+								<th:block th:if="${library.star!=0&&library.star!=5}">
+									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!--span 줄바꿈 방지
+								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+								</th:block>
+				            	<span th:if="${library.star==5}">★★★★★</span>
+				            	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+				        	</th:block>
+						</th:block>
+	      			</th:block>
+	      			</div>
 	      		</div>
+		      		
 	      		<div class="col-6">
-				<p th:text="|제목 : ${book.title}|"></p>
-				<p th:text="|저자 : ${book.author}|"></p>
-				<p th:text="|출판사 : ${book.publisher}|"></p>
-				<p th:text="|ISBN : ${book.isbn}|"></p>
+					<p class="text-truncate" th:text="|제목 : ${book.title}|"></p>
+					<p class="text-truncate" th:text="|저자 : ${book.author}|"></p>
+					<p th:text="|출판사 : ${book.publisher}|"></p>
+					<p th:text="|ISBN : ${book.isbn}|"></p>
 	      		</div>
-	      		<!-- detail에 보낼 hidden input -->
       		</div>
       	</div>
 	    </th:block>

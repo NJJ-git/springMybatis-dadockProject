@@ -1,6 +1,7 @@
 package com.acorn.dadockProject.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -17,7 +18,6 @@ import lombok.Data;
 | description | text         | YES  |     | NULL    |       |
 | link        | varchar(255) | YES  |     | NULL    |       |
 | discount    | int          | YES  |     | NULL    |       |
-| star        | int          | NO   |     | 0       |       |
 +-------------+--------------+------+-----+---------+-------+
  
  */
@@ -32,5 +32,6 @@ public class ReadBook {
 	private String description;
 	private String link;
 	private int discount;
-	private int star;
+	
+	private List<Library> libraries;
 }
