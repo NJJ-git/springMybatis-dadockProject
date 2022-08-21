@@ -26,6 +26,7 @@
 <div class="m-4">
 <hr>
 <div class="title">
+	<th:block th:each="bookDetail:${bookDetails}">
 	<div class="row" style="justify-content: center;">
 		<div>
 			<p class="h5 text-truncate" th:text="|상세정보 > ${bookDetail.title}|"></p>
@@ -90,16 +91,13 @@
 			    </h2>
 			    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
 			      <div class="accordion-body">
-			         <th:block th:each="comment:${commentList}">
-			        	<p th:text="|작성자 : ${comment.user_id}|"></p>
-			        	<p th:text="|내용 : ${comment.content}|"></p>
-			        </th:block>
 			      </div>
 			    </div>
 			  </div>
 			</div>
 		</div>
 	</div>
+</th:block>
 </div>
 <hr>
 </div>
