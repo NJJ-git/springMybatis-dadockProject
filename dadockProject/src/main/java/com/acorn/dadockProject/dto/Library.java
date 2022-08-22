@@ -1,6 +1,6 @@
 package com.acorn.dadockProject.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 
 /*
 
-  +------------+--------------+------+-----+---------+----------------+
++------------+--------------+------+-----+---------+----------------+
 | Field      | Type         | Null | Key | Default | Extra          |
 +------------+--------------+------+-----+---------+----------------+
 | library_no | int          | NO   | PRI | NULL    | auto_increment |

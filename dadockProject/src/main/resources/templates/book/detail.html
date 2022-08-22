@@ -91,6 +91,14 @@
 			    </h2>
 			    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
 			      <div class="accordion-body">
+			      	<th:block th:each="comment:${comments}">
+			      	<hr>
+			      	<p th:text="|작성자 : ${comment.user_id}|"></p>
+			      	<div>
+						<p th:text="${comment.content}"></p>			      	
+			      	</div>
+			      	<hr>
+			      	</th:block>
 			      </div>
 			    </div>
 			  </div>
@@ -101,35 +109,6 @@
 </div>
 <hr>
 </div>
-    <script>
-      $(document).ready(function() {
-
-        if ($("#datetimepicker").length != 0) {
-          $('#datetimepicker').datetimepicker({
-            icons: {
-              time: "fa fa-clock-o",
-              date: "fa fa-calendar",
-              up: "fa fa-chevron-up",
-              down: "fa fa-chevron-down",
-              previous: 'fa fa-chevron-left',
-              next: 'fa fa-chevron-right',
-              today: 'fa fa-screenshot',
-              clear: 'fa fa-trash',
-              close: 'fa fa-remove'
-            }
-          });
-        }
-
-        function scrollToDownload() {
-
-          if ($('.section-download').length != 0) {
-            $("html, body").animate({
-              scrollTop: $('.section-download').offset().top
-            }, 1000);
-          }
-        }
-      });
-    </script>
 </body>
 <footer th:insert="footer"></footer>
 </html>

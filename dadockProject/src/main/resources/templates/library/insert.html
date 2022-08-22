@@ -4,119 +4,128 @@
 <meta charset="UTF-8">
 <title>서재 등록 페이지</title>
 </head>
+<style>
+/* 별점 CSS */
+	.star-rating {
+	  display:flex;
+	  flex-direction: row-reverse;
+	  font-size:1.5em;
+	  justify-content:space-around;
+	  text-align:center;
+	  width:5em;
+	}
+	.star-rating input {
+	  display:none;
+	}
+	.star-rating label {
+	  color:#ccc;
+	  cursor:pointer;
+	}
+	.star-rating :checked ~ label {
+	  color:#f90;
+	}
+	.star-rating label:hover,
+	.star-rating label:hover ~ label {
+	  color:#fc0;
+	}
+</style>
 <body>
-	<header th:insert="/headerNav"></header>
+<header th:insert="/headerNav"></header>
 	<main class="container">
-	
-	<!-- 책 정보 불러오기 -->
-	
+	<!-- 책 정보 불러오기(페이지 전체 반복) -->
+	<h1 class="m-3">서재 등록 페이지</h1>
 	<th:block th:each="book:${bookDetails}">
-		<p th:text="${book}"></p>
 		
-		<h1 class="m-3">서재 등록 페이지</h1>
-
-		<form id="insertForm" action="/library/insert.do" method="post" class="row g-3 needs-validation">
-		
+		<!-- library db 입력 -->
+		<form id="insertForm" name="insertForm" action="/book/insert.do" method="post" class="needs-validation">
 		<div class="container row">
-			<div class="col-4 mb-3 was-validated">
-				<img th:src="${book.image}" style=width:300px>
+			<div class="col-4 mb-3">
+				<div class="w-100">
+					<img th:src="${book.image}" class="w-100 border">
+				</div>
 			</div> 
-			
-			
-			<div class="col-6 mb-3 was-validated">
-			  <input name="isbn" class="form-control" id="inputIsbn" th:value="${book.isbn}" readonly>
-			  <input name="title" class="form-control" id="inputTitle" th:value="${book.title}" readonly>
-			  <input name="author" class="form-control" id="inputAuthor" th:value="${book.author}" readonly>
-			  <input name="publisher" class="form-control" id="inputPublisher" th:value="${book.publisher}" readonly>
+			<div class="col-8 mb-3 row">
+			  	<hr>
+				<p class="h5">제목</p>
+				<p th:text="${book.title}"></p>
+				<p class="h5">저자</p>
+				<p th:text="${book.author}"></p>
+				<p class="h5">출판사</p>
+				<p th:text="${book.publisher}"></p>
+				<p class="h5">ISBN</p>
+				<p th:text="${book.isbn}"></p>
+				<hr>
+				<!-- 별점 입력 -->
+				<div class="col-3">
+					<p class="h6">별점 입력</p>
+				  	<div class="star-rating w-100" name="star" id="inputStar">
+						<input type="radio" id="5-stars" name="star" value="5" />
+						<label for="5-stars" class="star">★</label>
+						<input type="radio" id="4-stars" name="star" value="4" />
+						<label for="4-stars" class="star">★</label>
+						<input type="radio" id="3-stars" name="star" value="3" />
+						<label for="3-stars" class="star">★</label>
+						<input type="radio" id="2-stars" name="star" value="2" />
+						<label for="2-stars" class="star">★</label>
+						<input type="radio" id="1-star" name="star" value="1" />
+						<label for="1-star" class="star">★</label>
+					</div>
+				</div>
+				<div class="col-8">
+					<label for="inputEndDate" class="form-label">완독일</label>
+					<div class="input-group w-100 has-validation">
+						<input type="date" name="end_date" id="inputEndDate" class="form-control" aria-describedby="inputGroupPrepend" required>
+					</div>
+					<div class="invalid-feedback">
+        				날짜를 입력하세요.
+      				</div>
+				</div>
 			</div>
 		</div>
-			
-			<div class="mb-3 was-validated">
-			  <input name="pubdate" class="form-control" id="inputPubdate" th:value="${book.pubdate}" readonly hidden>
-			</div>
-			<div>
-			  <textarea name="description" class="form-control" id="inputDescription" th:text="${book.description}" readonly hidden></textarea>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="link" class="form-control" id="inputLink" th:value="${book.link}" readonly hidden>
-			</div>
-			 
-
-			<!-- <div class="mb-3 was-validated">
-			  <input name="discount" class="form-control" id="inputDiscount" th:value="${book.discount}" readonly>
-			</div> 
-			<div class="mb-3 was-validated">
-			  <input name="star" class="form-control" id="inputStar" th:value="${book.star}" readonly>
-			</div>   -->
-			
-			
-<!-- 			
-			<div class="mb-3 was-validated">
-			  <input name="library_no" class="form-control" id="inputLibrary_no" th:value="${library.library_no}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="isbn" class="form-control" id="inputIsbn" th:value="${library.isbn}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="user_id" class="form-control" id="inputUser_id" th:value="${library.user_id}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="title" class="form-control" id="inputTitle" th:value="${library.title}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="author" class="form-control" id="inputAuthor" th:value="${library.author}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="publisher" class="form-control" id="inputPublisher" th:value="${library.publisher}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="end_date" class="form-control" id="inputEnd_date" th:value="${library.end_date}" readonly>
-			</div>
-			<div class="mb-3 was-validated">
-			  <input name="star" class="form-control" id="inputStar" th:value="${library.star}" readonly>
-			</div>
- -->
-
-		
-		
-		
-		<div class="row mb-3 g-3 align-items-center">
-			<div class="col-auto">
-				<label for="inputEndDate" class="col-form-label">완독일</label>
-			</div>
-			<div class="col-auto">
-				<input type="date" name="endDate" id="inputEndDate" class="form-control" required>
-			</div>
-		</div>
-		
-		<div class="dropdown-center">
-			 <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-				  <option selected>별점</option>
-					  <option value="1">★</option>
-					  <option value="2">★★</option>
-					  <option value="3">★★★</option>
-					  <option value="4">★★★★</option>
-					  <option value="5">★★★★★</option>
-			  </select>
-		</div>
+			<input type="text" name="isbn" th:value="${book.isbn}" >
+			<input type="text" name="title" th:value="${book.title}" >
+			<input type="text" name="author" th:value="${book.author}" >
+			<input type="text" name="publisher" th:value="${book.publisher}" >
+		<!-- library db 입력 끝 -->
 		  
-		<div class="mb-3 was-validated">
-		    <label for="inputContents" class="form-label">코멘트</label>
-		    <textarea name="contents" class="form-control" id="inputContents" placeholder="내용을 입력하세요" required></textarea>
-		    <div class="invalid-feedback">
-		      Please enter a message in the contents.
-		    </div>
-		</div>
-		  
+		<!-- read_book db 입력 -->
+			<input type="text" name="img" th:value="${book.image}" >
+			<input type="date" name="pubdate" th:value="${#temporals.createDate(book.pubdate,'yyyyMMdd')}">
+			<input type="text" name="link" th:value="${book.link}" >
+			<textarea name="description" th:text="${book.description}" ></textarea>
+		<!-- comment db 입력 -->
+			<div class="mb-3 has-validation">
+		    	<label for="inputContent" class="form-label">코멘트</label>
+		    	<textarea name="content" class="form-control" id="inputContent" form="insertForm" required></textarea>
+		    	<div class="invalid-feedback">
+		      		내용을 입력하세요. 
+		    	</div>
+			</div>
+		
 		<div class="col-12">
-		    <button id="insertForm" class="btn btn-primary" type="submit">서재 등록</button>
+		    <input type="button" class="btn btn-primary" onclick="doubleSubmitCheck(this.form)" value="서재등록"/>
 		</div>
-	</form>
-		
+		</form>
 </th:block>
-
 </main>
+<footer th:insert="/footer"></footer>
 </body>
+<script type="text/javascript">
+	// 중복 sbumit 방지 스크립트
+    var doubleSubmitFlag = false;// 중복 sbumit 방지 플래그
+	  
+    function doubleSubmitCheck(form){ 
+	
+        if(doubleSubmitFlag){ // true일 경우 추가 sbumit 불가
+			alert('데이터 저장중...');
+            return false;
+        }else{
+            doubleSubmitFlag = true;
+			form.action="/book/insert.do";
+			form.submit();
+        }
+    }
+</script>
 </html>
 
 

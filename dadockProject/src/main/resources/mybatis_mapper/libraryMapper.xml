@@ -26,12 +26,16 @@
 		SELECT * FROM library WHERE library_no=#{library_no}
 	</select>
 	
+	<select id="selectUserIdAndIsbn">
+		SELECT * FROM library WHERE user_id=#{user_id} AND isbn=#{isbn}
+	</select>
+	
 	<insert id="insertOne" parameterType="Library"
 	useGeneratedKeys="true" keyProperty="library_no">
 		INSERT INTO Library
-			(user_id, title, author, publisher, end_date, star) 
+			(user_id, title, author, publisher, end_date, star, isbn) 
 			VALUES 
-			(#{user_id}, #{title}, #{author}, #{publisher}, #{end_date}, #{star})
+			(#{user_id}, #{title}, #{author}, #{publisher}, #{end_date}, #{star}, #{isbn})
 	</insert>
 	
 	<insert id="insertBook">

@@ -11,5 +11,7 @@
 		select * from comment where user_id=#{user_id}
 	</select>
 	
-	
+	<insert id="insertOne" parameterType="Comment">
+		insert into comment (user_id, isbn, content) values (#{user_id}, #{isbn}, #{content})
+	</insert>
 </mapper>

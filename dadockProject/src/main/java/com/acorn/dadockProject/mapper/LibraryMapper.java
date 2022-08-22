@@ -13,6 +13,7 @@ public interface LibraryMapper {
 	List<Library> selectAll();
 	
 	Library selectOne(int libraryNo);
+	Library selectUserIdAndIsbn(String isbn, String user_id);
 	int insertBook(Book book);
 	int insertOne(Library library);
 	int updateOne(Library library);

@@ -8,7 +8,6 @@
 		<result column="author" property="author"/>
 		<result column="img" property="img"/>
 		<result column="publisher" property="publisher"/>
-		<result column="publisher" property="publisher"/>
 		<result column="pubdate" property="pubdate"/>
 		<result column="descriptinon" property="descriptinon"/>
 		<result column="link" property="link"/>
@@ -34,8 +33,8 @@
 		select *, lisbn, ifnull(lstar,0) lstar from read_book r left join (select isbn lisbn, truncate(avg(star),1) lstar from library group by isbn) l on r.isbn=l.lisbn order by lstar desc limit 20
 	</select>
 	
-	<select id="selectByAppAll" resultType="ReadBook">
-		SELECT *FROM read_book 
+	<select id="selectByAppRecommendAll" resultMap="ReadBookMap">
+		select *, lisbn, ifnull(lstar,0) lstar from read_book r left join (select isbn lisbn, truncate(avg(star),1) lstar from library group by isbn) l on r.isbn=l.lisbn order by lstar desc limit 20 
 	</select>
 	
 	<select id="selectAll" resultType="ReadBook">
@@ -47,9 +46,9 @@
 	</select>
 	
 	<insert id="insertOne" parameterType="ReadBook">
-		INSERT INTO ReadBook
-			(isbn,title,author,img,publisher,pubdate,descriptinon,link,discount,star) VALUES 
-			(#(isbn),#{title},#{author},#{img},#{publisher},#{pubdate},#{descriptinon},#{link},#{discount},#{star}) 
+		INSERT IGNORE INTO read_book
+			(isbn,title,author,img,publisher,pubdate,description,link) VALUES 
+			(#{isbn},#{title},#{author},#{img},#{publisher},#{pubdate},#{description},#{link}) 
 	</insert>
 	
 	<update id="updateOne" parameterType="ReadBook">
