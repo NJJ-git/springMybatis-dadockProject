@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,6 +21,7 @@ import com.acorn.dadockProject.dto.Book;
 import com.acorn.dadockProject.dto.Library;
 import com.acorn.dadockProject.mapper.LibraryMapper;
 import com.acorn.dadockProject.service.BookApiCallService;
+import com.acorn.dadockProject.service.LibraryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +38,11 @@ public class LibraryController {
 	@Autowired
 	private LibraryMapper libraryMapper;
 	
+	@Autowired
+	private LibraryService libraryService;
+	
+	
+	
 	@GetMapping("/list/{page}")
 	public String list(@PathVariable int page, Model model) {
 		
@@ -45,11 +52,41 @@ public class LibraryController {
 		return "/library/list";
 	}
 	
-	@GetMapping("/detail")
-	public void detail() {}
+	@GetMapping("/detail/{libraryNo}")
+	public String detail(@PathVariable int libraryNo, Model model) {
+		Library library = libraryMapper.selectOne(libraryNo);
+		model.addAttribute(library);
+		System.out.println(library);
+		return "/library/detail";
+	}
+	
+	@PostMapping("/update.do")
+	public String update(Library library) {
+		int update = 0;
+		update = libraryMapper.updateOne(library);
+		if(update>0) {
+			return "redirect:/library/list/1";
+		}else {
+			return "redirect:/library/detail/{libraryNo}";
+		}
+	}
+	
+	@GetMapping("/delete/{libraryNo}")
+	public void delete(@PathVariable int libraryNo) {
+		int delete = 0;
+		try {
+			delete = libraryService.removeLibrary(libraryNo);
+		} catch (Exception e) {e.printStackTrace();}
+		/*
+		 * if(delete>0) { return "redirect:/library/list/1"; }else { return
+		 * "redirect:/library/detail/{libraryNo}"; }
+		 */
+	}
+	
 	
 	@GetMapping("/insert/{isbn}")
-	public String insert(@PathVariable String isbn, Book book,
+	public String insert(
+			@PathVariable String isbn, Book book,
 			Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 
@@ -81,13 +118,6 @@ public class LibraryController {
 		}else {
 			return "redirect:/library/list/1";
 		}
-	}
-	
-	@GetMapping("/update/{page}")
-	public void update() {}
-	
-	@GetMapping("/delete")
-	public void delete() {}
-	
+	}	
 	
 }
