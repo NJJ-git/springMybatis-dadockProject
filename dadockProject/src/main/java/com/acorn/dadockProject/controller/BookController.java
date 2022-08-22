@@ -78,7 +78,7 @@ public class BookController {
 		
 	}
 	
-	@GetMapping("/searchList/{page}") //키워ㅜ드 검색 페이징 섞여있음
+	@GetMapping("/searchList/{page}") //키워드 검색 페이징 섞여있음
 	public String searchList(@PathVariable int page, @RequestParam String text, Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 

@@ -1,11 +1,16 @@
 package com.acorn.dadockProject.controller;
 
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +23,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.acorn.dadockProject.dto.Book;
+import com.acorn.dadockProject.dto.Library;
 import com.acorn.dadockProject.dto.MarketBoard;
 import com.acorn.dadockProject.dto.MarketBoardImg;
+import com.acorn.dadockProject.dto.Paging;
 import com.acorn.dadockProject.dto.WishList;
 import com.acorn.dadockProject.mapper.MarketBoardImgMapper;
 import com.acorn.dadockProject.mapper.MarketMapper;
+import com.acorn.dadockProject.mapper.ReadBookMapper;
 import com.acorn.dadockProject.mapper.WishListMapper;
 import com.acorn.dadockProject.service.BookApiCallService;
 import com.acorn.dadockProject.service.MarketService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 //application.proferties에 입력하고 가져와야함!
@@ -56,9 +66,50 @@ public class MarketController {
 		return "/market/goodsList";
 	}
 	
-	@GetMapping("/goodsInsert.do") //로그인 폼 만들면 세션 추가해서 로그인 한 사람만..등록가능하게 하기
-	public void goodsInsert() {}
+	@GetMapping("/goodsInsertSearch1") //책 검색
+	public void goodsInsertSearch1() {
+		
+	}
 	
+	
+	@GetMapping("/goodsInsertSearch/{isbn}") // insert
+	public String goodsInsertSearch(@PathVariable String isbn, Book book,
+			Model model) throws Exception {
+		JSONArray naver_result_arr=new JSONArray();
+
+		JSONObject naver_result = bookApiCallService.get("https://openapi.naver.com/"
+				+ "v1/search/book.json?query='"+isbn+"'");
+		
+		naver_result_arr=(JSONArray) naver_result.get("items");
+		
+		// JSONArray 파싱
+		String jsonBookArray=naver_result.get("items").toString();
+		
+		List<Book> bookDetails=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
+		Book bookDetail=bookDetails.get(0);
+		model.addAttribute("bookDetails", bookDetails);
+		System.out.println(bookDetail);
+		
+		return "/market/goodsInsertSearch";
+	}
+	
+    @PostMapping("/goodsInsertSearch.do")
+    public String goodsInsertSearch(MarketBoard marketBoard) {
+    		int insert=0;
+    		insert=marketMapper.insertOne(marketBoard);
+    		if(insert>0) {
+    			return "redirect:/market/goodsList/1";
+    		}else {
+    			return "redirect:/market/goodsList/1";
+    		}
+    	}
+	
+	
+	
+	@GetMapping("/goodsInsert.do") //로그인 폼 만들면 세션 추가해서 로그인 한 사람만..등록가능하게 하기
+	public void goodsInsert (){
+		
+	}
 	
 	@PostMapping("/goodsInsert.do")
 	public String insert(int state,
@@ -227,10 +278,52 @@ public class MarketController {
 	@GetMapping("/marketUserDetail")
 	public void marketUserDetail () {
 	}
-	@GetMapping("/wishList")
-	public void marketWishList () {
+	
+	
+	@GetMapping("/wishList/{page}")
+	public String marketWishList (@PathVariable int page,Model model) {
+		List<MarketBoard> wishList=marketMapper.selectAll();
+		System.out.println("wishList:"+wishList);
+		model.addAttribute("wishList",wishList);
+		return "/market/goodsList";
 	}
 	
-	     
+	@GetMapping("/insert/{isbn}")
+	public String insert(@PathVariable String isbn, Book book,
+			Model model) throws Exception {
+		JSONArray naver_result_arr=new JSONArray();
+
+		JSONObject naver_result = bookApiCallService.get("https://openapi.naver.com/"
+				+ "v1/search/book.json?query='"+isbn+"'");
+		
+		naver_result_arr=(JSONArray) naver_result.get("items");
+		
+		// JSONArray 파싱
+		String jsonBookArray=naver_result.get("items").toString();
+		
+		List<Book> bookDetails=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
+		Book bookDetail=bookDetails.get(0);
+		model.addAttribute("bookDetails", bookDetails);
+		System.out.println(bookDetail);
+		
+		return "/market/insert";
+	}
+	
+	@PostMapping("/wishListInsert.do")
+	public String insert(MarketBoard marketBoard
+		) {
+		int insert=0;
+		String userId;
+		try {
+			insert=marketService.uploadBoard(marketBoard);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(insert>0) {
+			return "redirect:/market/wishList/1";
+		}else {
+			return "redirect:/market/wishList/1";
+		}
+	}
 	
 }

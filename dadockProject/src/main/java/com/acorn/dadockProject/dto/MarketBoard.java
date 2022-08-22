@@ -34,7 +34,7 @@ public  class MarketBoard {
 	private String img_path; //
 	private String content;
 	private String  book_title;
-	private int isbn;
+	private String isbn;
 	private String address;
 	private int price;
 	private int state;
