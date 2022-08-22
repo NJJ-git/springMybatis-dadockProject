@@ -26,23 +26,23 @@ import java.util.List;
 
 import lombok.Data;
 @Data
-public class MarketBoard {
-	public int market_board_no; //pk
-	public String user_id; // user테이블에서 가져와야하나? 아닌가? 몰라
-	public String title;
-	public Date post_time;
-	public String img_path; //
-	public String content;
-	public String  book_title;
-	public int isbn;
-	public String address;
-	public int price;
-	public int state;
+public  class MarketBoard {
+	private int market_board_no; //pk
+	private String user_id; // user테이블에서 가져와야하나? 아닌가? 몰라
+	private String title;
+	private Date post_time;
+	private String img_path; //
+	private String content;
+	private String  book_title;
+	private int isbn;
+	private String address;
+	private int price;
+	private int state;
 	
 	//private MarketBoardImg marketBoardImg;
 	private List<MarketBoardImg> marketBoardImgs;
 	
-	
+	private List<MarketReply> marketReplys;
 	////조인..//
 	
 	

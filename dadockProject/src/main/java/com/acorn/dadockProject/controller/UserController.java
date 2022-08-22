@@ -1,6 +1,7 @@
 package com.acorn.dadockProject.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +63,26 @@ public class UserController {
 			return "redirect:/user/detail/"+user.getUser_id();
 		}
 	}
+	@GetMapping("/modify/{userId}")
+		public String modify(@PathVariable String userId, Model model) {
+			User user=userMapper.selectOne(userId);
+			model.addAttribute("user",user);
+			System.out.println(user);
+			return "/user/modify";
+	}
+	
+	@PostMapping("/modify.do")
+	public String modify(User user) {
+		int modify=0;
+		System.out.println(user);
+		modify=userMapper.modifyOne(user);
+		if(modify>0) {
+			return "redirect:/user/profile/"+user.getUser_id();
+		}else {
+			return "redirect:/user/modify.do";
+		}
+	}
+	
 	@GetMapping("/delete/{userId}")
 	public String delete(@PathVariable String userId) {
 		int delete=0;
@@ -88,6 +110,15 @@ public class UserController {
 			return "redirect:/user/adminRegister.do";
 		}
 	}
+	@GetMapping("/profile/{user_id}")
+	public String profile(@PathVariable String user_id , Model model) {
+		User user=userMapper.selectOne(user_id);
+     	model.addAttribute("user",user);
+		System.out.println(user);
+		return "/user/profile";
+	}
+
+	
 	@GetMapping("/login.do")
 	public void login(HttpServletRequest req) {
 		System.out.println(req.getHeader("Referer"));
@@ -123,6 +154,7 @@ public class UserController {
 	//회원가입 문제 해결..
 	@GetMapping("/signup.do")
 	public void signup() throws Exception{};
+	
 	@PostMapping("/signup.do")
 	public String signup(User user) throws Exception{
 		System.out.println(user);
@@ -133,7 +165,7 @@ public class UserController {
 		if(signup>0) {
 			return "redirect:/";
 		}else {
-			return "redirect:/signup.do";
+			return "redirect:/user/signup.do";
 		}
 	}
 	@GetMapping("/idCheck/{userId}")
