@@ -69,7 +69,7 @@ public class BookController {
 
 		model.addAttribute("recommendList",recommendList);
 		model.addAttribute("applicationList",applicationList);
-		System.out.println(recommendList);
+		System.out.println(recommendList); 
 		return "/book/recommend";
 	}
 	
