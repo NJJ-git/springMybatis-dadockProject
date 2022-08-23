@@ -62,13 +62,13 @@ public class BookController {
 	@CrossOrigin
 	@GetMapping("/recommend")
 	public String list(Model model ) {
-//		List<ReadBook> recommendList=readBookMapper.selectAll();
+		//List<ReadBook> recommendList=readBookMapper.selectAll();
 		List<ReadBook> recommendList=readBookMapper.selectByUserRecommendAll(); //db
 		List<ReadBook> applicationList=readBookMapper.selectByAppAll(); //naver or db
 
 		model.addAttribute("recommendList",recommendList);
 		model.addAttribute("applicationList",applicationList);
-		System.out.println(recommendList); 
+		//System.out.println(recommendList); 
 		return "/book/recommend";
 	}
 	
