@@ -11,9 +11,9 @@ import com.acorn.dadockProject.dto.Library;
 public interface LibraryMapper {
 	
 	List<Library> selectAll();
-	
+	List<Library> selectByIdAll(String user_id);
 	Library selectOne(int libraryNo);
-	Library selectUserIdAndIsbn(String isbn, String user_id);
+	Library selectOneByIsbn(String  isbn);
 	int insertBook(Book book);
 	int insertOne(Library library);
 	int updateOne(Library library);

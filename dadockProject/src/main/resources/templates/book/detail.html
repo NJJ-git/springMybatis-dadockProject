@@ -60,8 +60,6 @@
 			<!-- 로그인 한 경우 -->
 			<th:block th:if="${loginUser!=null}">
 			</th:block>
-			
-			
 		</div>
 		<br>
 		<div class="col-md-6">
@@ -75,10 +73,10 @@
 			    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
 			      <div class="accordion-body">
 			        <p class="text-truncate" th:text="|제목 : ${bookDetail.title}|"></p>
-                  	<p class="text-truncate" th:text="|저자 : ${bookDetail.author}|"></p>
-                  	<p th:text="|ISBN : ${bookDetail.isbn}|"></p>
-                  	<p th:text="|출판사 : ${bookDetail.publisher}|"></p>
-                  	<p th:text="|출간일 : ${bookDetail.pubdate}|"></p>
+             	<p class="text-truncate" th:text="|저자 : ${bookDetail.author}|"></p>
+             	<p th:text="|ISBN : ${bookDetail.isbn}|"></p>
+             	<p th:text="|출판사 : ${bookDetail.publisher}|"></p>
+             	<p th:text="|출간일 : ${bookDetail.pubdate}|"></p>
 			      </div>
 			    </div>
 			  </div>
@@ -102,13 +100,13 @@
 			    </h2>
 			    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
 			      <div class="accordion-body">
-			      	<th:block th:each="comment:${comments}">
-			      	<hr>
-			      	<p th:text="|작성자 : ${comment.user_id}|"></p>
-			      	<div>
-						<p th:text="${comment.content}"></p>			      	
-			      	</div>
-			      	<hr>
+			      	<th:block th:each="library:${bookInLibrary}">
+			      		<hr>
+			      		<p th:text="|작성자 : ${library.user_id}|"></p>
+			      		<div>
+									<p th:text="${library.comment}"></p>			      	
+			      		</div>
+			      		<hr>
 			      	</th:block>
 			      </div>
 			    </div>

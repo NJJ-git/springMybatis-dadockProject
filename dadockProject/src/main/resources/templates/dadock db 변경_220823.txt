@@ -21,17 +21,15 @@ alter table user add column keyword varchar(255);
 -- 2022-08-23 --
 1. read_book 테이블 star, discount 칼럼 삭제
 2. library 테이블 isbn, title, author, publisher 칼럼 삭제
-3. 변경된 library, comment 테이블 readbook에 맞춰 db 추가
-
+3. comment 테이블 삭제 후 library에 comment 칼럼 추가
 
 ////////// 테이블 목록 //////////
 
 +------------------+
 | Tables_in_dadock |
 +------------------+
-| comment          |
-| dibs             |
 | grade            |
+| library          |
 | market_board     |
 | market_board_img |
 | market_reply     |
@@ -39,6 +37,7 @@ alter table user add column keyword varchar(255);
 | read_book        |
 | user             |
 | user_group       |
+| wishList         |
 +------------------+
 
 ////////// 데이터 입력 //////////
@@ -222,28 +221,6 @@ insert into grade (level, start_point, end_point) values
 
 
 drop table comment;
-create table comment(
-comment_no int auto_increment,
-user_id varchar(255),
-isbn varchar(255),
-content varchar(255),
- primary key(comment_no),
- foreign key(user_id) references user(user_id) on delete cascade on update cascade,
- foreign key(isbn) references read_book(isbn) on delete cascade on update cascade
-);
-
-insert into comment (user_id, isbn, content) values
-('test', '9788901260716', '좋은 책입니다.......'),
-('test', '9788932474755', '테스트테스트테스트테스트'),
-('test', '9788946421851', '테스트테스트테스트테스트'),
-('test', '9788954699914', '테스트테스트테스트테스트'),
-('test', '9788972773641', '테스트테스트테스트테스트'),
-('test', '9791157062645', '테스트테스트테스트테스트'),
-('test', '9791161571379', '테스트테스트테스트테스트'),
-('test', '9791168340510', '테스트테스트테스트테스트'),
-('test', '9791168340541', '테스트테스트테스트테스트'),
-('test', '9791191043761', '테스트테스트테스트테스트');
-
 
 drop table market_board;
 create table market_board(
@@ -289,7 +266,8 @@ img_path varchar(255),
 
 drop table dibs;
 drop table wishlist;
-create table wishlist(
+drop table wishList;
+create table wishList(
 wishlist_no int auto_increment,
 market_board_no int,
 user_id varchar(255),
@@ -319,25 +297,27 @@ phone varchar(255),
 drop table library;
 create table library(
 library_no int auto_increment,
+user_id varchar(255),
 isbn varchar(255),
 end_date datetime,
 star int not null default 0,
+comment varchar(255),
  primary key(library_no)
 );
 
-insert into library (isbn, end_date, star) values
-('9788901260716','2022-08-23','4'),
-('9788932474755','2022-08-23','5'),
-('9788946421851','2022-08-23','1'),
-('9788954699914','2022-08-23','1'),
-('9788972773641','2022-08-23','2'),
-('9791157062645','2022-08-23','3'),
-('9791161571379','2022-08-23','5'),
-('9791168340510','2022-08-23','5'),
-('9791168340541','2022-08-23','2'),
-('9791191043761','2022-08-23','4');
+insert into library (user_id, isbn, end_date, star, comment) values
+('test','9788901260716','2022-08-23','4','testtesttesttesttesttesttesttesttest'),
+('test','9788932474755','2022-08-23','5','testtesttesttesttesttesttesttesttest'),
+('test','9788946421851','2022-08-23','1','testtesttesttesttesttesttesttesttest'),
+('test','9788954699914','2022-08-23','1','testtesttesttesttesttesttesttesttest'),
+('test','9788972773641','2022-08-23','2','testtesttesttesttesttesttesttesttest'),
+('test','9791157062645','2022-08-23','3','testtesttesttesttesttesttesttesttest'),
+('test','9791161571379','2022-08-23','5','testtesttesttesttesttesttesttesttest'),
+('test','9791168340510','2022-08-23','5','testtesttesttesttesttesttesttesttest'),
+('test','9791168340541','2022-08-23','2','testtesttesttesttesttesttesttesttest'),
+('test','9791191043761','2022-08-23','4','testtesttesttesttesttesttesttesttest');
 
-ALTER TABLE wishlist RENAME wishList;
+ALTER TABLE wishlist RENAME to wishList;
 
 ALTER TABLE wishList ADD COLUMN jjim boolean ;
 ALTER TABLE market_board ADD state int ;

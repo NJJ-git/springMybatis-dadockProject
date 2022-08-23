@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.acorn.dadockProject.dto.Book;
 import com.acorn.dadockProject.dto.Library;
+import com.acorn.dadockProject.dto.ReadBook;
+import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.LibraryMapper;
+import com.acorn.dadockProject.mapper.ReadBookMapper;
 import com.acorn.dadockProject.service.BookApiCallService;
 import com.acorn.dadockProject.service.LibraryService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -40,14 +43,14 @@ public class LibraryController {
 	@Autowired
 	private LibraryService libraryService;
 	
-	
+	@Autowired
+	private ReadBookMapper readBookMapper;
 	
 	@GetMapping("/list/{page}")
-	public String list(@PathVariable int page, Model model) {
-		
-		List<Library> libraryList = libraryMapper.selectAll();
-		System.out.println(libraryList);
-		model.addAttribute("libraryList", libraryList);
+	public String list(@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int page, Model model) {
+		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
+		model.addAttribute("readBookList", readBookList); // 질문해야 함.
 		return "/library/list";
 	}
 	
@@ -111,9 +114,10 @@ public class LibraryController {
 	public String insert(Library library,
 		HttpSession session) {
 		int insert=0;
-		String userId;
+		String user_id;
 		insert=libraryMapper.insertOne(library);
-		session.getAttribute("loginUser");
+		Object user_id_obj=session.getAttribute("loginUser");
+		user_id=user_id_obj.toString();
 		if(insert>0) {
 			return "redirect:/library/list/1";
 		}else {

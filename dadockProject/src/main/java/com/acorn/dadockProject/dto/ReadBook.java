@@ -19,7 +19,6 @@ import lombok.Data;
 | pubdate     | date         | YES  |     | NULL    |       |
 | description | text         | YES  |     | NULL    |       |
 | link        | varchar(255) | YES  |     | NULL    |       |
-| discount    | int          | YES  |     | NULL    |       |
 +-------------+--------------+------+-----+---------+-------+
  
  */
@@ -34,7 +33,6 @@ public class ReadBook {
 	private Date pubdate;
 	private String description;
 	private String link;
-	private int discount;
 	
 	private List<Library> libraries;
 }

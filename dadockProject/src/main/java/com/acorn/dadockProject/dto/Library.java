@@ -1,6 +1,7 @@
 package com.acorn.dadockProject.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +17,7 @@ import lombok.Data;
 | isbn       | varchar(255) | YES  |     | NULL    |                |
 | end_date   | datetime     | YES  |     | NULL    |                |
 | star       | int          | NO   |     | 0       |                |
+| comment    | varchar(255) | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
  
  */
@@ -26,6 +28,7 @@ public class Library {
 	private int library_no;
 	private String user_id;
 	private String isbn;
+	private String comment;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date end_date;
