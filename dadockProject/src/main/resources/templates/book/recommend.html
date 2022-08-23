@@ -11,6 +11,19 @@
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
 	name='viewport' />
 <meta name="viewport" content="width=device-width" />
+<style>
+/* 별점 CSS */
+	.star-rating {
+	  display:flex;
+	  flex-direction: row-reverse;
+	  font-size:1.5em;
+	  justify-content:space-around;
+	  text-align:center;
+	  width:5em;
+	  color: #f90;
+	}
+
+</style>
 <title>recommend Book</title>
 </head>
 
@@ -50,6 +63,7 @@
 								th:text="|ISBN : ${recommend.isbn}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+								<div class="star-rating">
 								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
@@ -58,6 +72,7 @@
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
 		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+								</div>
 							</div>
 							<hr>
 						</div>
@@ -112,14 +127,16 @@
 								th:text="|ISBN : ${application.isbn}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+								<div class="star-rating">
 								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span>span 줄바꿈 방지
-								<span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span> 
+		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+								</div> 
 							</div>
 							<hr>
 						</div>

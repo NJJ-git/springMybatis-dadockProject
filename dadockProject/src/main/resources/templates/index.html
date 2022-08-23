@@ -8,6 +8,19 @@
     <meta name="viewport" content="width=device-width" />
 	<link rel="stylesheet" href="/slider/dist/css/splide.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js" defer="defer"></script>
+	<style>
+/* 별점 CSS */
+	.star-rating {
+	  display:flex;
+	  flex-direction: row-reverse;
+	  font-size:1.5em;
+	  justify-content:space-around;
+	  text-align:center;
+	  width:5em;
+	  color: #f90;
+	}
+
+</style>
 	<title>Dadock::다독</title>
 </head>
 <body>
@@ -51,7 +64,8 @@
 								<!-- 별점 start -->
 					    		<div class="mb-3"style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
 					    			<!-- 별점 null 일때 -->
-		                        	<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
+		                        	<div class="star-rating">
+								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
 									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
@@ -59,8 +73,8 @@
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
 		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-					    		</th:block>
-									<hr>
+								</div> 
+								<hr>
 								</div>
 							</div>
 							</div>
@@ -96,16 +110,17 @@
 								<!-- 별점 start -->
 					    		<div class="mb-3"style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
 					    			<!-- 별점 null 일때 -->
-		                        	<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
+		                        	<div class="star-rating">
+								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span>span 줄바꿈 방지
-								<span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
 		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-					    		</th:block>
-									<hr>
+								</div> 
+								<hr>
 								</div>
 							</div>
 							</div>
