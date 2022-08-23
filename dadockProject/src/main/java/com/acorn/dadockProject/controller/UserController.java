@@ -21,12 +21,16 @@ import com.acorn.dadockProject.dto.IdCheck;
 import com.acorn.dadockProject.dto.Paging;
 import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.UserMapper;
+import com.acorn.dadockProject.service.UserServiceImp;
 
 @RequestMapping("/user")
 @Controller
 public class UserController {
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	   UserServiceImp userService;
 	
 	@GetMapping("/list/{page}")
 	public String list(@PathVariable int page, Model model) {
@@ -127,8 +131,11 @@ public class UserController {
 	public String login(
 			@RequestParam(value = "user_id")String userId,
 			@RequestParam(value = "pw")String pw,
-			HttpSession session
+			HttpSession session,
+			HttpServletRequest request
 			) {
+		String prevPage=request.getHeader("Referer");
+
 		User user=null;
 		try {
 			user=userMapper.selectPwOne(userId, pw);
@@ -143,7 +150,8 @@ public class UserController {
 			}
 			return "redirect:/";
 		}else {
-			return "redirect:/user/login.do";
+			session.setAttribute("loginMsg", "로그인 실패");
+			return "redirect:"+prevPage;
 		}
 	}
 	@GetMapping("/logout.do")
@@ -179,6 +187,30 @@ public class UserController {
 		}
 		return idCheck;
 	}
+	@GetMapping("/getSearchList/{page}")
+	   private String getSerchList(@RequestParam(value="type", required = false) String type,
+			   @PathVariable int page,
+	         @RequestParam(value="keyword", required = false) String keyword, Model model) throws Exception{
+	     
+		List<User> getSerchList= userService.getSearchList(type,keyword);
+	      System.out.println(getSerchList);
+	      
+	      //페이징
+	      int row=10;
+	      int startRow=(page-1)*row;
+	      int rowCount=userMapper.selectPageAllCount();
+	      
+	      Paging paging = new Paging(page, rowCount, "/user/getSearchList/", row);
+	      
+	      model.addAttribute("paging",paging);
+	      model.addAttribute("rowCount",rowCount);
+	      model.addAttribute("row",row);
+	      model.addAttribute("page",page);
+	      model.addAttribute("startRow",startRow);
+	      model.addAttribute("userList", getSerchList);
+	      
+	      return "/user/list"; 
+	   }
 }
 
 

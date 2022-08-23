@@ -8,6 +8,8 @@ async function checkId(){
 	let v=signupForm["user_id"].value;
 	if(v.length>3){
 		let res=await fetch(checkIdUrl+v);
+		console.log(res);
+
 		let idCheckJson=await res.json();
 		console.log(idCheckJson);
 		if(idCheckJson.idCheck){
@@ -52,6 +54,7 @@ signupForm.addEventListener("submit",async(e)=>{
 	e.preventDefault();
 	let inputId=await checkId();
 	let inputPw=checkPw();
+	console.log(inputId,inputPw);
 	if(inputId && inputPw){
 		signupForm.submit();		
 	}
