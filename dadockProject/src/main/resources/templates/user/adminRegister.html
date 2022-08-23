@@ -37,8 +37,6 @@
                             <h3 class="title"></h3>
                             <form action="/user/adminRegister.do" method="post" class="register-form">
 	                            	<br>
-	                            	<input type="search" class="form-control"  placeholder="도서검색">
-	                            	<br>
 	                                <label>아이디</label>
 	                                <input type="text" class="form-control" placeholder="id@example.com" name="user_id">
                                     <br>
@@ -72,12 +70,9 @@
                     </div>
                 </div>
             </div>
-            <div class="footer register-footer text-center">
-                <h6>&copy; 2022, made with <i class="fa fa-heart heart"></i> by DADOCK</h6>
-            </div>
+			<footer th:insert="footer"></footer>
         </div>
     </div>
-<footer th:insert="footer"></footer>
 </body>
 <!-- 카카오톡 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

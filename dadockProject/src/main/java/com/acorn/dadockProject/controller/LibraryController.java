@@ -2,7 +2,6 @@ package com.acorn.dadockProject.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -46,6 +45,7 @@ public class LibraryController {
 	@Autowired
 	private ReadBookMapper readBookMapper;
 	
+	
 	@GetMapping("/list/{page}")
 	public String list(@SessionAttribute(name="loginUser", required=false) User loginUser,
 			@PathVariable int page, Model model) {
@@ -86,11 +86,16 @@ public class LibraryController {
 		  	return "redirect:/library/detail/{libraryNo}"; 
 		  }
 		 
+		/*
+		 * if(delete>0) { return "redirect:/library/list/1"; }else { return
+		 * "redirect:/library/detail/{libraryNo}"; }
+		 */
 	}
 	
 	
 	@GetMapping("/insert/{isbn}")
-	public String insert(@PathVariable String isbn, Book book,
+	public String insert(
+			@PathVariable String isbn, Book book,
 			Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 
@@ -123,6 +128,6 @@ public class LibraryController {
 		}else {
 			return "redirect:/library/list/1";
 		}
-	}
+	}	
 	
 }

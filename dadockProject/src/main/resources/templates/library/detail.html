@@ -5,10 +5,37 @@
 <title>서재 등록 페이지</title>
 <script th:src="@{/public/js/library/detail.js}" defer="defer" ></script>
 </head>
+<style>
+/* 별점 CSS */
+	.star-rating {
+	  display:flex;
+	  flex-direction: row-reverse;
+	  font-size:1.5em;
+	  justify-content:space-around;
+	  text-align:center;
+	  width:5em;
+	}
+	.star-rating input {
+	  display:none;
+	}
+	.star-rating label {
+	  color:#ccc;
+	  cursor:pointer;
+	}
+	.star-rating :checked ~ label {
+	  color:#f90;
+	}
+	.star-rating label:hover,
+	.star-rating label:hover ~ label {
+	  color:#fc0;
+	}
+</style>
+
+
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
-	<form action="/user/update.do" method="post">
+	<form action="/library/update.do" method="post">
 		<h1 class="m-3">
 			<small th:text="${library.library_no}"></small>
 			<span th:text="${library.title}"></span>
@@ -19,7 +46,7 @@
 				isbn
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${book.isbn}"></strong>	
+				<strong th:text="${library.isbn}"></strong>	
 			</div>	
 		</div>
 		<div class="row mb-3 g-3 align-items-center">
@@ -27,7 +54,7 @@
 				저자
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${book.author}"></strong>	
+				<strong th:text="${library.author}"></strong>	
 			</div>	
 		</div>
 		<div class="row mb-3 g-3 align-items-center">
@@ -35,10 +62,25 @@
 				출판사
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${book.publisher}"></strong>	
+				<strong th:text="${library.publisher}"></strong>	
 			</div>	
 		</div>
-	
+		
+		<div class="col-3">
+			<p class="h6">별점 입력</p>
+		  	<div class="star-rating w-100" name="star" id="inputStar" th:value="${library.star}">
+				<input type="radio" id="5-stars" name="star" value="5" />
+				<label for="5-stars" class="star">&#9733;</label>
+				<input type="radio" id="4-stars" name="star" value="4" />
+				<label for="4-stars" class="star">&#9733;</label>
+				<input type="radio" id="3-stars" name="star" value="3" />
+				<label for="3-stars" class="star">&#9733;</label>
+				<input type="radio" id="2-stars" name="star" value="2" />
+				<label for="2-stars" class="star">&#9733;</label>
+				<input type="radio" id="1-star" name="star" value="1" />
+				<label for="1-star" class="star">&#9733;</label>
+			</div>
+		</div>
 	
 		
 		<div class="row mb-3 g-3 align-items-center">
@@ -51,20 +93,22 @@
 		  </div>
 		</div>
 		
-		<!-- 별점 -->
-		
-		<div class="form-floating">
-		  <textarea class="form-control" placeholder="Leave a comment here" 
-		  style="height: 100px; resize: none; " th:text="${library.comment}"></textarea>
-		</div>
-		
+		<form id="commentInsertForm" action="/library/detail/{libraryNo}" method="post" class="needs-validation">
+			<div class="mb-3 has-validation">
+		    	<label for="inputContent" class="form-label">코멘트</label>
+		    	<textarea name="comment" class="form-control" id="inputComment"></textarea>
+		    	<div class="invalid-feedback">
+		      		내용을 입력하세요.
+		    	</div>
+			</div>
+			<input type="text" name="isbn" th:value="${library.isbn}" hidden>
+		</form>
 
 				
 		<p>
 			<button type="submit" class="btn btn-outline-primary">수정</button>
-			<a th:href="@{/library/delete/{user_id}(no=${library.library_no},user_id=${user.user_id})}" 
+			<a th:href="@{/library/delete/{library_no}(no=${library.library_no}, library_no=${library.library_no})}" 
 				class="btn btn-danger">삭제</a>
-			<input type="hidden" name="user.user_id" th:value="${library.user.user_id}">
 			<input type="hidden" name="library_no" th:value="${library.library_no}">
 		</p>
 		

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>다독마켓 물건 등록 페이지</title>
+</head>
+<!-- <header th:insert="headerNav"></header> -->
+
+<header th:insert="headerNav"></header>
+<body>
+	<main class="container">
+		<h1 class="m-3">책 선택하기</h1>
+		<!--책 검색, 책 제목 가져오기  -->
+		<form method="get" role="searchbox" action="/book/searchList/1">
+          	<div class="col-sm-4 input-group mt-3">
+          		<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          			<i class="bi bi-menu-down"></i>
+          		</button>
+          		
+            	<input type="search" class="form-control" placeholder="도서 검색" name="text" >
+         		<button class="btn btn-outline-secondary" type="submit">
+         			<i class="bi bi-search"></i>
+         		</button>
+          	</div>
+          </form>
+          
+		
+		
+
+	</main>
+</body>
+</html>

@@ -8,49 +8,40 @@
 
 <header th:insert="headerNav"></header>
 <body>
-	<main class="container">
-		<h1 class="m-3">물건 등록</h1>
-		<form action="/market/goodsInsert.do" method="post" class="row g-3 needs-validation" validate
+	
+		
+		<main class="container">
+	
+	<!-- 책 정보 불러오기 -->
+	<th:block th:each="book:${bookDetails}">
+	
+		
+		<h1 class="m-3">마켓 등록 페이지</h1>
+
+		<form id="insertForm" action="/market/goodsInsertSearch.do" method="post" class="row g-3 needs-validation"
 		enctype="multipart/form-data">
-		<!-- <th:block th:each="book:${bookDetails}">
 		
 		<div class="container row">
 			<div class="col-4 mb-3 was-validated">
-				<img th:src="${book.image}" style=width:300px>
+				<img name="img_path" th:src="${book.image}" style=width:300px type="file">
 			</div> 
 			
 			
 			<div class="col-6 mb-3 was-validated">
-			  <input name="isbn" class="form-control" id="inputIsbn" th:value="${book.isbn}" hidden>
+			  <input name="isbn" class="form-control" id="inputIsbn" th:value="${book.isbn}" readonly hidden>
 			  <input name="title" class="form-control" id="inputTitle" th:value="${book.title}" readonly>
-          </div>
-          </div>
-          </th:block>
-			<div class="mb-3 was-validated" >
-		    
-		  </div> -->
+			</div>
+		</div>
+			
 		
-		  <div class="mb-3 was-validated" >
-		    <label for="inputTitle" class="form-label">제목</label>
-		    <input name="title" class="form-control" type="text">
-		  </div>
-		  <!-- <div class="mb-3" >
-		    <label for="inputTitle" class="form-label" >책 제목
-		    	<input name="book_title" class="form-control" type="text"> </label>
-		    <a href="#" class="btn btn-sm btn-primary">검색</a>
-		  </div> -->
-		  <div class="mb-3 was-validated">
+			 
+
+			< <div class="mb-3 was-validated">
 		  	<input name="state" type="radio" value="1"> 최상
 		  	<input name="state" type="radio" value="2"> 상
 		  	<input name="state" type="radio" value="3"> 중
 		  </div>
-		  <!-- 스프링은 이름이 같은 인풋요소를 배열로 받는다! -->
-		  <div class="mb-3" >
-		    <label for="inputTitle" class="form-label">이미지</label>
-		    <input name="imgFiles" class="form-control mb-1"  type="file">
-		    <input name="imgFiles" class="form-control mb-1"  type="file">
-		    <input name="imgFiles" class="form-control mb-1"  type="file">
-		  </div>
+		 
 			 <div class="mb-3 was-validated" >
 		    <label for="inputTitle" class="form-label">가격</label>
 		    <input name="price" class="form-control" id="inputImgFile" placeholder="가격을 입력하세요" required >
@@ -69,9 +60,14 @@
 			  <div class="col-12">
 			    <button class="btn btn-primary" type="submit">등록</button>
 			    
-			  </div>
-		</form>
+			  </div> 
+		  
+		
+	</form>
+		
+</th:block>
 
-	</main>
+</main>
+
 </body>
 </html>

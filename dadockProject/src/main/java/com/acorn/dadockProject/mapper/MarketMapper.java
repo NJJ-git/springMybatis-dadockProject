@@ -15,6 +15,7 @@ public interface MarketMapper {
 	int updateOne(MarketBoard marketBoard);
 	int deleteOne(int marketBoardNo);
 	int insertOne(int state);
+	MarketBoard selectSerachOne(int marketBoardNo);
 	
 	
 }

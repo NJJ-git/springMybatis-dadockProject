@@ -9,14 +9,15 @@ import com.acorn.dadockProject.Interceptor.LoginCheckInterceptor;
 
 @Configuration
 public class InterceptorConfig  implements WebMvcConfigurer{
-	@Autowired
-	LoginCheckInterceptor loginCheckInterceptor;
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(loginCheckInterceptor)
-				.addPathPatterns("/user/**")
-				.excludePathPatterns("/user/login.do")
-				.excludePathPatterns("/user/signup.do")
-				.addPathPatterns("/library/**");
-	}
+   @Autowired
+   LoginCheckInterceptor loginCheckInterceptor;
+   @Override
+   public void addInterceptors(InterceptorRegistry registry) {
+      registry.addInterceptor(loginCheckInterceptor)
+            .addPathPatterns("/user/**")
+            .excludePathPatterns("/user/idCheck/**")
+            .excludePathPatterns("/user/login.do")
+            .excludePathPatterns("/user/signup.do")
+            .addPathPatterns("/library/**");
+   }
 }

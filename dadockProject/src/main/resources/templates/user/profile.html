@@ -44,7 +44,7 @@
                         <a th:href="@{/user/modify/{id}(id=${user.user_id})}" class="btn btn-simple">내 정보 수정</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-simple">내 서재</a>
+                        <a href="/library/list/1" class="btn btn-simple">내 서재</a>
                     </li>
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
 					    <th:block th:if="${session.loginUser==null}">

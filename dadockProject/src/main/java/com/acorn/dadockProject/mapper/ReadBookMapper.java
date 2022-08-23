@@ -11,13 +11,12 @@ import com.acorn.dadockProject.dto.ReadBook;
 @Mapper
 public interface ReadBookMapper {
 	   public List<ReadBook> selectReadBookByStar();
+	   public List<ReadBook> selectByUserRecommendAll();
 	   public List<ReadBook> selectByAppRecommendAll();
 	   public List<ReadBook> selectByIdReadBookAndLibrary(String user_id);
 	   public ReadBook selectOne(@Param(value="readbook") int readbook);
 	   public int updateOne(@Param(value ="readBook") ReadBook readBook);
 	   public int insertOne(ReadBook readBook);
-	   public int deleteOne(String readBook);
-	   
 	   public Library selectStar(String isbn);
 	   
 	}

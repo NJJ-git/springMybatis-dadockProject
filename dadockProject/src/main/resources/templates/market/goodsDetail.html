@@ -60,13 +60,12 @@
 				<span>댓글 리스트
 					<small th:text="${marketReplys?.size}"></small>
 				</span>
-				<!-- <button  class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#replyCollapse">
-					토글
-				</button>  -->
+				
 			</h2>
-			<div class="card text-bg-warning mb-3" style="width: 18rem;">
+			<div class="card  mb-3" style="width: 18rem;">
 			  <ul class="list-group list-group-flush">
-			  	<form action="/reply/insert.do" method="post" enctype="multipart/form-data">
+			  	<li class="list-group-item text-bg-light border-success" >
+			  	<form action="/reply/insert.do" method="post">
 				  <div class="card-footer">
 					댓글등록
 				    <input name="title" type="text" class="form-control">
@@ -78,6 +77,40 @@
 						<input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
 					</p>
 					</form>
+					</li>
+					
+			<th:block  th:each="reply : ${marketBoard.marketReplys}">
+		 
+		  	<li class="list-group-item">
+		  	<form action="/reply/update.do" method="post" >
+		  		<p class="input-group input-group-sm mb-1">
+						<span class="input-group-text">No</span>
+						<input name="market_reply_no" th:value="${reply.market_reply_no}"
+							type="text" class="form-control" readonly>
+							
+						<span class="input-group-text">글쓴이</span>
+						<input name="user.user_id" th:value="${reply.user.user_id}"
+							type="text" class="form-control" readonly>
+					</p>
+					<div class="mb-1 d-flex justify-content-between">
+						<span>등록일 : <th:block th:text="${#dates.format(reply.post_time,'yyyy-MM-dd HH:mm:ss')}"></th:block></span>
+					</div>
+					
+					<p class="input-group input-group-sm mb-1">
+						<span class="input-group-text">내용?</span>
+						<textarea name="contents" class="form-control" th:text="${reply.contents}"></textarea>
+					</p>
+					<p class="mb-1">
+						<button type="reset" class="btn btn-sm btn-outline-warning">초기화</button>
+						<a th:href="@{/reply/delete/{no}(no=${reply.market_reply_no})}"
+
+							class="btn btn-outline-danger btn-sm">삭제</a>
+						<button type="submit" class="btn btn-sm btn-outline-primary">제출</button>
+						<input type="hidden" name="board_no" th:value="${board.board_no}">
+					</p>
+		  	</form>
+		  	</li>
+		  </th:block>
 			  </ul>
 		 </div>
 </div>
