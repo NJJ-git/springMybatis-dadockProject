@@ -89,37 +89,37 @@
 		<hr>
 		<div class="container-fluid">
 			<div class="row" style="justify-content: center;">
-				<th:block th:each="recommend : ${recommendList}">
+				<th:block th:each="recommend : ${applicationList}">
 					<div class="col-md-2"
 						style="width: 280px; margin: 1px; margin-bottom: 30px;">
 						<div type="button"
-							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-							<img th:src="${recommend.img}"
+							th:onclick="|location.href='@{/book/detail/__${application.isbn}__}'|">
+							<img th:src="${application.img}"
 								style="border-radius: 5px; height: 350px; width: 250px; padding: 2px;">
 						<div>
 							<hr>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|제목 : ${recommend.title}|"></div>
+								th:text="|제목 : ${application.title}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|저자 : ${recommend.author}|"></div>
+								th:text="|저자 : ${application.author}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|출판사 : ${recommend.publisher}|"></div>
+								th:text="|출판사 : ${application.publisher}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|ISBN : ${recommend.isbn}|"></div>
+								th:text="|ISBN : ${application.isbn}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
 								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span>span 줄바꿈 방지
+								<span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span> 
 							</div>
 							<hr>
 						</div>

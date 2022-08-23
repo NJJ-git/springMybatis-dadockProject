@@ -15,8 +15,6 @@ public interface ReadBookMapper {
 	   public ReadBook selectOne(@Param(value="readbook") int readbook);
 	   public int updateOne(@Param(value ="readBook") ReadBook readBook);
 	   public int insertOne(ReadBook readBook);
-	   public int deleteOne(String readBook);
-	   
 	   public Library selectStar(String isbn);
 	   
 	}

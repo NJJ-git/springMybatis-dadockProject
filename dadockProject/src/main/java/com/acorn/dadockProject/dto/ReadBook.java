@@ -32,6 +32,5 @@ public class ReadBook {
 	private String description;
 	private String link;
 	private int discount;
-	
 	private List<Library> libraries;
 }
