@@ -53,7 +53,9 @@ public class BookController {
 	}
 	
 	@GetMapping("/detail/{isbn}") //isbn 검색// 
-	public String detail(@PathVariable String isbn, Book book, Comment comment,
+	public String detail(
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable String isbn, Book book, Comment comment,
 			Model model) throws Exception {
 		
 		JSONArray naver_result_arr=new JSONArray();
@@ -63,15 +65,21 @@ public class BookController {
 		
 		// JSONArray 파싱
 		String jsonBookArray=naver_result.get("items").toString();
-		int star=0;
 		List<Book> bookDetails=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		Book bookDetail=bookDetails.get(0);
 		
 		// Comment List 가져옴
 		List<Comment> comments=commentMapper.selectByIsbnAll(isbn);
 		
-		model.addAttribute("comments",comments);
 		model.addAttribute("bookDetails", bookDetails);
+		model.addAttribute("comments",comments);
+
+		// 로그인 체크 및 별점 가져옴
+		Library library;
+		if (loginUser!=null) {
+			library=libraryMapper.selectUserIdAndIsbn(isbn, loginUser.getUser_id());
+			model.addAttribute("library",library);
+		}
 		return "/book/detail";
 	}
 	
@@ -94,11 +102,17 @@ public class BookController {
 	}
 	
 	@GetMapping("/searchList/{page}") //키워ㅜ드 검색 페이징 섞여있음
-	public String searchList(@PathVariable int page, @RequestParam String text, Model model) throws Exception {
+	public String searchList(@PathVariable int page, 
+			@RequestParam String text,
+			Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
-
+		int start = 0;
 		int display=30;
-		int start=((page-1)*display)+1;
+		if(start<1000) {
+			start=((page-1)*display)+1;
+		}else {
+			start=1000;
+		}
 		int row=display;
 		 
 		String query=URLEncoder.encode(text, "UTF-8");
@@ -113,10 +127,12 @@ public class BookController {
 		
 		List<Book> bookList=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		
+		// 페이징
 		Long total_long=(Long)naver_result.get("total");
 		int total=Math.toIntExact(total_long);
 		int rowCount=total;
-		Paging paging = new Paging(page, rowCount, "/book/searchList/", row); //질문
+		Paging paging = new Paging(page, rowCount, "/book/searchList/", row);
+		
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("rowCount", rowCount);
@@ -130,13 +146,15 @@ public class BookController {
 	}
 	
 	@GetMapping("/insert.do")
-	public void insert(@SessionAttribute(name="loginUser", required=false) User loginUser, Model model, String isbn) {
+	public void insert(
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
+			Model model, String isbn) {
 		int star=0;
 		if (loginUser!=null) {
 			Library library=libraryMapper.selectUserIdAndIsbn(isbn, loginUser.getUser_id());
 			star=library.getStar();
+			model.addAttribute("star", star);
 		}
-		model.addAttribute("star", star);
 	}
 	@PostMapping("/insert.do")
 	public String insert(ReadBook readBook ,Library library, Comment comment, String user_id,
@@ -162,7 +180,6 @@ public class BookController {
 		System.out.println(insertComment);
 		System.out.println(insertLibrary);
 		System.out.println(insertReadBook);
-		session.getAttribute("loginUser");
 		if(insertLibrary>0&&insertComment>0) {
 			return "redirect:/library/list/1";
 		}else {

@@ -26,7 +26,7 @@
 		SELECT * FROM library WHERE library_no=#{library_no}
 	</select>
 	
-	<select id="selectUserIdAndIsbn">
+	<select id="selectUserIdAndIsbn" resultType="Library">
 		SELECT * FROM library WHERE user_id=#{user_id} AND isbn=#{isbn}
 	</select>
 	

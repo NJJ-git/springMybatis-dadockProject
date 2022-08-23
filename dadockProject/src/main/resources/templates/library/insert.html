@@ -82,17 +82,17 @@
 				</div>
 			</div>
 		</div>
-			<input type="text" name="isbn" th:value="${book.isbn}" >
-			<input type="text" name="title" th:value="${book.title}" >
-			<input type="text" name="author" th:value="${book.author}" >
-			<input type="text" name="publisher" th:value="${book.publisher}" >
+			<input type="text" name="isbn" th:value="${book.isbn}" hidden/>
+			<input type="text" name="title" th:value="${book.title}" hidden/>
+			<input type="text" name="author" th:value="${book.author}" hidden/>
+			<input type="text" name="publisher" th:value="${book.publisher}" hidden/>
 		<!-- library db 입력 끝 -->
 		  
 		<!-- read_book db 입력 -->
-			<input type="text" name="img" th:value="${book.image}" >
-			<input type="date" name="pubdate" th:value="${#temporals.createDate(book.pubdate,'yyyyMMdd')}">
-			<input type="text" name="link" th:value="${book.link}" >
-			<textarea name="description" th:text="${book.description}" ></textarea>
+			<input type="text" name="img" th:value="${book.image}" hidden/>
+			<input type="date" name="pubdate" th:value="${#temporals.createDate(book.pubdate,'yyyyMMdd')}" hidden/>
+			<input type="text" name="link" th:value="${book.link}" hidden/>
+			<textarea name="description" th:text="${book.description}" hidden/></textarea>
 		<!-- comment db 입력 -->
 			<div class="mb-3 has-validation">
 		    	<label for="inputContent" class="form-label">코멘트</label>
