@@ -38,12 +38,9 @@
                            	 		 <br>
                                 	<label for="inputId">아이디</label>
                                		<input type="text" class="form-control" placeholder="id@example.com" name="user_id" aria-describedby="idHelp">
-                                   <div class="col-auto">
-					    			    <span id="idHelp" class="col-auto form-text">
+                                    <div class="col-auto">
+					    			    <span id="idHelp" class="form-text">
 									      4-20자 내로 작성하세요
-									    </span>
-									   	<span class="invalid-feedback">
-								     	 	중복된 아이디(4글자 이상 입력)
 									    </span>
 									</div>	
                                     <br>
@@ -82,7 +79,29 @@
 									    000-0000-000 패턴으로 작성하세요
 									  </span>
 								   </div>
-                                   
+								   
+								   <!--이용약관  -->
+			             	 	 <fieldset class="fieldarea f2">
+									<legend><span>이용</span>약관</legend>
+									<p class="agreeText">
+										<label for="agreement1">아래 사항에 동의 합니다.</label>
+										<input id="agreement1" type="checkbox" name="agreement1"/>
+										<textarea id="text1" readonly>
+											이용약관
+										</textarea>
+									</p>
+								</fieldset>
+								<fieldset class="fieldarea f3">
+									<legend><span>개인정보</span>취급방침</legend>
+									<p class="agreeText">
+										<label for="agreement2">아래 사항에 동의 합니다.</label>
+										<input id="agreement2" type="checkbox" name="agreement2"/>
+										<textarea id="text2" readonly>
+											개인정보 방침 및 안내
+										</textarea>
+									</p>
+								</fieldset>
+								   <!--이용약관  -->
                                     <br>
                                     <label class="btn btn-outline" className="input-file-button" for="input-file" >프로필 사진 등록</label>
                                     <input type="file" class="form-control" style="display:none" id="input-file" name="profile_img">
@@ -92,12 +111,9 @@
                     </div>
                 </div>
             </div>
-            <div class="footer register-footer text-center">
-                <h6>&copy; 2022, made with <i class="fa fa-heart heart"></i> by DADOCK</h6>
-            </div>
+			<footer th:insert="footer"></footer>
         </div>
       </div>  
-<footer th:insert="footer"></footer>
 </body>
 <!-- 카카오톡 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -113,7 +129,7 @@ window.onload = function(){
     });
 }
 
-
+  //이메일 유효성 검사
 function fn_submit() {
 	var text = document.getElementById('text').value;
 
@@ -126,11 +142,31 @@ function fn_submit() {
 	} else {
 		alert('올바른 핸드폰/이메일을 입력해주세요.');
 	}
-}
-
+} 
+  //이용약관
+ $("input:checkbox").click(checkedChange);
+function checkedChange() {
+    if($(this).prop("checked")){
+        $("label[for="+this.id+"]").text("동의되었습니다.");
+        $("label[for="+this.id+"]").css("color","blue");
+    }else{
+        $("label[for="+this.id+"]").text("동의 해주시기 바랍니다.");
+        $("label[for="+this.id+"]").css("color","red");
+    }
+} 
 </script>
 <!-- 카카오톡 -->
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- <br>
