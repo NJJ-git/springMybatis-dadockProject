@@ -56,7 +56,6 @@ public class BookController {
 		List<Book> bookDetails=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		Book bookDetail=bookDetails.get(0);
 		model.addAttribute("bookDetails", bookDetails);
-		System.out.println(bookDetail);
 		return "/book/detail";
 	}
 	
