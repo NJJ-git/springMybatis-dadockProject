@@ -8,7 +8,7 @@
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
-	<form action="/user/update.do" method="post">
+	<form action="/library/update.do" method="post">
 		<h1 class="m-3">
 			<small th:text="${library.library_no}"></small>
 			<span th:text="${library.title}"></span>
@@ -19,7 +19,7 @@
 				isbn
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${book.isbn}"></strong>	
+				<strong th:text="${library.isbn}"></strong>	
 			</div>	
 		</div>
 		<div class="row mb-3 g-3 align-items-center">
@@ -27,7 +27,7 @@
 				저자
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${book.author}"></strong>	
+				<strong th:text="${library.author}"></strong>	
 			</div>	
 		</div>
 		<div class="row mb-3 g-3 align-items-center">
@@ -35,7 +35,7 @@
 				출판사
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${book.publisher}"></strong>	
+				<strong th:text="${library.publisher}"></strong>	
 			</div>	
 		</div>
 	
@@ -52,19 +52,18 @@
 		</div>
 		
 		<!-- 별점 -->
-		
+		<!-- 코멘트 
 		<div class="form-floating">
 		  <textarea class="form-control" placeholder="Leave a comment here" 
 		  style="height: 100px; resize: none; " th:text="${library.comment}"></textarea>
 		</div>
-		
+		-->
 
 				
 		<p>
 			<button type="submit" class="btn btn-outline-primary">수정</button>
-			<a th:href="@{/library/delete/{user_id}(no=${library.library_no},user_id=${user.user_id})}" 
+			<a th:href="@{/library/delete/{library_no}(no=${library.library_no}, library_no=${library.library_no})}" 
 				class="btn btn-danger">삭제</a>
-			<input type="hidden" name="user.user_id" th:value="${library.user.user_id}">
 			<input type="hidden" name="library_no" th:value="${library.library_no}">
 		</p>
 		
