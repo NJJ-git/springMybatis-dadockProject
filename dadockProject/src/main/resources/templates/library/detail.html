@@ -5,6 +5,33 @@
 <title>서재 등록 페이지</title>
 <script th:src="@{/public/js/library/detail.js}" defer="defer" ></script>
 </head>
+<style>
+/* 별점 CSS */
+	.star-rating {
+	  display:flex;
+	  flex-direction: row-reverse;
+	  font-size:1.5em;
+	  justify-content:space-around;
+	  text-align:center;
+	  width:5em;
+	}
+	.star-rating input {
+	  display:none;
+	}
+	.star-rating label {
+	  color:#ccc;
+	  cursor:pointer;
+	}
+	.star-rating :checked ~ label {
+	  color:#f90;
+	}
+	.star-rating label:hover,
+	.star-rating label:hover ~ label {
+	  color:#fc0;
+	}
+</style>
+
+
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
@@ -38,7 +65,22 @@
 				<strong th:text="${library.publisher}"></strong>	
 			</div>	
 		</div>
-	
+		
+		<div class="col-3">
+			<p class="h6">별점 입력</p>
+		  	<div class="star-rating w-100" name="star" id="inputStar" th:value="${library.star}">
+				<input type="radio" id="5-stars" name="star" value="5" />
+				<label for="5-stars" class="star">&#9733;</label>
+				<input type="radio" id="4-stars" name="star" value="4" />
+				<label for="4-stars" class="star">&#9733;</label>
+				<input type="radio" id="3-stars" name="star" value="3" />
+				<label for="3-stars" class="star">&#9733;</label>
+				<input type="radio" id="2-stars" name="star" value="2" />
+				<label for="2-stars" class="star">&#9733;</label>
+				<input type="radio" id="1-star" name="star" value="1" />
+				<label for="1-star" class="star">&#9733;</label>
+			</div>
+		</div>
 	
 		
 		<div class="row mb-3 g-3 align-items-center">
@@ -51,13 +93,16 @@
 		  </div>
 		</div>
 		
-		<!-- 별점 -->
-		<!-- 코멘트 
-		<div class="form-floating">
-		  <textarea class="form-control" placeholder="Leave a comment here" 
-		  style="height: 100px; resize: none; " th:text="${library.comment}"></textarea>
-		</div>
-		-->
+		<form id="commentInsertForm" action="/library/detail/{libraryNo}" method="post" class="needs-validation">
+			<div class="mb-3 has-validation">
+		    	<label for="inputContent" class="form-label">코멘트</label>
+		    	<textarea name="comment" class="form-control" id="inputComment"></textarea>
+		    	<div class="invalid-feedback">
+		      		내용을 입력하세요.
+		    	</div>
+			</div>
+			<input type="text" name="isbn" th:value="${library.isbn}" hidden>
+		</form>
 
 				
 		<p>

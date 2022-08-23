@@ -30,7 +30,7 @@
 						<td th:text="${library.title}"></td>
 						<td th:text="${library.author}"></td>
 						<td th:text="${library.publisher}"></td>
-						<td th:text="${library.end_date}"></td>
+						<td th:text="${#dates.format(library.end_date,'yyyy-MM-dd')}"></td>
 						<td th:text="${library.star}"></td>
 					</tr>
 				</th:block>
