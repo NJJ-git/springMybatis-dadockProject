@@ -54,6 +54,7 @@ color:#fc0;
 <!-- Carousel 시작  -->
 <div class="m-5">
 <hr>
+<<<<<<< HEAD
 	<div class="card text-left">
 		<div class="card-body ">
 			<h4 class="card-title">유저 추천</h4>
@@ -143,7 +144,39 @@ color:#fc0;
 			</div>
 		</div>
 	</div>
->>>>>>> cc8084c84753372959d60ab1b75e4cb11f6ed57a
+=======
+<p class="mt-4 h3">유저 추천</p>
+	<div id="card-slider" class="splide container-fluid">
+	  	<div class="splide__track row">
+			<ul class="splide__list">
+				<th:block th:each="recommend : ${recommendList}">
+					<li class="splide__slide col-md-4">
+						<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+							<img th:src="${recommend.img}"  class="w-95 border" style="height: 350px; padding: 2px;">
+							<hr>
+							<div class="mb-3 text-truncate w-90" th:text="|제목 : ${recommend.title}|"></div>
+							<div class="mb-3 text-truncate w-90" th:text="|저자 : ${recommend.author}|"></div>
+							<!-- 별점 start -->
+			    		<div class="mb-3 text-truncate w-90">
+				    			<!-- 별점 null 일때 -->
+               	<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+											<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
+										</th:block>
+                 		<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 		<span class="star false" th:if="${library.star==0}">★★★★★</span>
+				    			</th:block>
+								</div>
+							<hr>
+						</div>
+					</li>
+				</th:block>
+			</ul>
+		</div>
+	</div>
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 </div>
 <!-- carousel 끝 -->
 

@@ -45,7 +45,6 @@ public class LibraryController {
 	@Autowired
 	private ReadBookMapper readBookMapper;
 	
-	
 	@GetMapping("/list/{page}")
 	public String list(@SessionAttribute(name="loginUser", required=false) User loginUser,
 			@PathVariable int page, Model model) {
@@ -86,10 +85,6 @@ public class LibraryController {
 		  	return "redirect:/library/detail/{libraryNo}"; 
 		  }
 		 
-		/*
-		 * if(delete>0) { return "redirect:/library/list/1"; }else { return
-		 * "redirect:/library/detail/{libraryNo}"; }
-		 */
 	}
 	
 	
@@ -128,6 +123,6 @@ public class LibraryController {
 		}else {
 			return "redirect:/library/list/1";
 		}
-	}	
+	}
 	
 }

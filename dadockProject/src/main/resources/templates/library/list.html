@@ -24,12 +24,24 @@
 				</tr>
 			</thead>
 			<tbody>
+<<<<<<< HEAD
+				<th:block th:each="library : ${libraryList}">
+					<tr th:onclick="location.href='/library/detail/[[${library.library_no}]]'">
+						<td th:text="${library.library_no}"></td>
+						<td th:text="${library.title}"></td>
+						<td th:text="${library.author}"></td>
+						<td th:text="${library.publisher}"></td>
+						<td th:text="${#dates.format(library.end_date,'yyyy-MM-dd')}"></td>
+						<td th:text="${library.star}"></td>
+					</tr>
+=======
 				<th:block th:each="readBook : ${readBookList}">
 						<tr>
 							<td th:text="${readBook.title}"></td>
 							<td th:text="${readBook.author}"></td>
 							<td th:text="${readBook.publisher}"></td>
 						</tr>
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 				</th:block>
 			</tbody>
 		</table>

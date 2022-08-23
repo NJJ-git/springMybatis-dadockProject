@@ -63,7 +63,10 @@
 								th:text="|ISBN : ${recommend.isbn}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+<<<<<<< HEAD
 								<div class="star-rating">
+=======
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
@@ -72,7 +75,10 @@
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
 		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+<<<<<<< HEAD
 								</div>
+=======
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 							</div>
 							<hr>
 						</div>
@@ -108,10 +114,13 @@
 					<div class="col-md-2"
 						style="width: 280px; margin: 1px; margin-bottom: 30px;">
 						<div type="button"
-							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-							<img th:src="${recommend.img}"
+<<<<<<< HEAD
 							th:onclick="|location.href='@{/book/detail/__${application.isbn}__}'|">
 							<img th:src="${application.img}"
+=======
+							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+							<img th:src="${recommend.img}"
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 								style="border-radius: 5px; height: 350px; width: 250px; padding: 2px;">
 						<div>
 							<hr>
@@ -129,7 +138,10 @@
 								th:text="|ISBN : ${application.isbn}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+<<<<<<< HEAD
 								<div class="star-rating">
+=======
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
 					    		<th:block th:each="library:${recommend.libraries}">
 					    			<th:block th:if="${library.star!=0&&library.star!=5}">
@@ -138,7 +150,10 @@
 									</th:block>
 		                           	<span th:if="${library.star==5}">★★★★★</span>
 		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
+<<<<<<< HEAD
 								</div> 
+=======
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 							</div>
 							<hr>
 						</div>
