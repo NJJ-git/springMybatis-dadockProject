@@ -66,6 +66,8 @@ public class MarketController {
 		return "/market/goodsList";
 	}
 	
+	
+	
 	@GetMapping("/goodsInsertSearch1") //책 검색
 	public void goodsInsertSearch1() {
 		
@@ -279,7 +281,16 @@ public class MarketController {
 	public void marketUserDetail () {
 	}
 	
-	
+	@PostMapping("/wishList.do")
+	public String wishList (MarketBoard marketBoard) {
+		int insert=0;
+		insert=marketMapper.insertOne(marketBoard);
+		if(insert>0) {
+			return "redirect:/market/wishList/1";
+		}else {
+			return "redirect:/market/goodsList/1";
+		}
+	}
 	@GetMapping("/wishList/{page}")
 	public String marketWishList (@PathVariable int page,Model model) {
 		List<MarketBoard> wishList=marketMapper.selectAll();

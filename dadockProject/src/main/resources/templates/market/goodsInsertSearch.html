@@ -18,11 +18,12 @@
 		
 		<h1 class="m-3">마켓 등록 페이지</h1>
 
-		<form id="insertForm" action="/market/goodsInsertSearch.do" method="post" class="row g-3 needs-validation">
+		<form id="insertForm" action="/market/goodsInsertSearch.do" method="post" class="row g-3 needs-validation"
+		enctype="multipart/form-data">
 		
 		<div class="container row">
 			<div class="col-4 mb-3 was-validated">
-				<img th:src="${book.image}" style=width:300px>
+				<img name="img_path" th:src="${book.image}" style=width:300px type="file">
 			</div> 
 			
 			

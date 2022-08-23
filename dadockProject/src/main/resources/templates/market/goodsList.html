@@ -25,7 +25,9 @@
 	    
 	 <div class="card mb-3" style="max-width: 540px;" th:each="marketBoard: ${goodsList}"  
 					th:onclick="location.href='/market/goodsDetail/[[${marketBoard.market_board_no}]]'"> <!--글 클릭하면 detail  -->
-			
+		<!-- 	<div>
+	    		<img th:src="${marketBoard.img}"
+			</div> -->
 	  <div class="row g-0">
 	     <div class="col-md-4"  th:each="boardImg:${marketBoard.marketBoardImgs}">
   				<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="img-fluid rounded-start" alt="...">
@@ -46,12 +48,16 @@
 	        <p class="card-text" th:text="${#dates.format(marketBoard.post_time,'yyyy-MM-dd: hh:mm:ss')}"><small class="text-muted">등록일</small></p>
 	      </div>
 		    <div class="d-flex flex-row-reverse">
+		    
 			    <form action="/market/wishListInsert.do" method="post">
 					<div class="col-12">
 				    	<button id="insertForm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
-				    	th:href="@{/market/wishList}" class="btn btn-outline-warning">
+				    	th:href="|/market/wishList/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
 				    	<i class="bi bi-heart"></i></button>
 					</div>
+					<!-- <div class="mt-2" type="button">
+							<a class="text-decoration-none" th:href="|/market/goodsInsertSearch/${book.isbn}|">마켓등록 <i class="bi bi-box2-heart-fill"></i></a>	
+					</div> -->
 				</form>
 		    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
 		    	class="btn btn-warning">자세히</a><!-- detail버튼 뭐 쓰지? -->

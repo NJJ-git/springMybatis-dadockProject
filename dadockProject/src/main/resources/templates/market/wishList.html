@@ -6,10 +6,10 @@
 </head>
 <body>
 <header th:insert="headerNav"></header>
-	<form action="/market/wishList.do" method="post">
 	<h1>장바구니?찜?</h1>
+	<form action="/market/wishList.do" method="post">
 	
-	<div class="card mb-3" style="max-width: 540px;" th:each="marketBoard: ${goodsList}"  
+	<div class="card mb-3" style="max-width: 540px;" th:each="marketBoard: ${whishList}"  
 					th:onclick="location.href='/market/goodsDetail/[[${marketBoard.market_board_no}]]'"> <!--글 클릭하면 detail  -->
 			
 	  <div class="row g-0">
@@ -42,7 +42,7 @@
       <a class="page-link" href="#">&laquo;</a>
     </li>
     <li class="page-item active">
-      <a class="page-link" href="#">1</a>
+      <a class="page-link" href="#">21</a>
     </li>
     <li class="page-item">
       <a class="page-link" href="#">2</a>
