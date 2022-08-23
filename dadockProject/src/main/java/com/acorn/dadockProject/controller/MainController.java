@@ -17,11 +17,10 @@ public class MainController {
 	
 	@GetMapping("")
 	public String main(Model model) {
-		List<ReadBook> recommendList=readBookMapper.selectByUserRecommendAll(); //db
-		List<ReadBook> applicationList=readBookMapper.selectByAppAll(); //naver or db
+		List<ReadBook> recommendList=readBookMapper.selectReadBookByStar(); //db
+		List<ReadBook> applicationList=readBookMapper.selectByAppRecommendAll(); //naver or db
 		model.addAttribute("recommendList",recommendList);
 		model.addAttribute("applicationList",applicationList);
-		System.out.println(recommendList);
 		return "/index";
 	}
 }

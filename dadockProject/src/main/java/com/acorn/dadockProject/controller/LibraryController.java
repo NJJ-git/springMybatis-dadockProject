@@ -2,9 +2,7 @@ package com.acorn.dadockProject.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,7 +17,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.acorn.dadockProject.dto.Book;
 import com.acorn.dadockProject.dto.Library;
+import com.acorn.dadockProject.dto.ReadBook;
+import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.LibraryMapper;
+import com.acorn.dadockProject.mapper.ReadBookMapper;
 import com.acorn.dadockProject.service.BookApiCallService;
 import com.acorn.dadockProject.service.LibraryService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/library")
-public class LiberaryController {
+public class LibraryController {
 	
 	@Autowired
 	BookApiCallService bookApiCallService;
@@ -41,14 +42,14 @@ public class LiberaryController {
 	@Autowired
 	private LibraryService libraryService;
 	
-	
+	@Autowired
+	private ReadBookMapper readBookMapper;
 	
 	@GetMapping("/list/{page}")
-	public String list(@PathVariable int page, Model model) {
-		
-		List<Library> libraryList = libraryMapper.selectAll();
-		System.out.println(libraryList);
-		model.addAttribute("libraryList", libraryList);
+	public String list(@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int page, Model model) {
+		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
+		model.addAttribute("readBookList", readBookList); // 질문해야 함.
 		return "/library/list";
 	}
 	
@@ -72,15 +73,18 @@ public class LiberaryController {
 	}
 	
 	@GetMapping("/delete/{libraryNo}")
-	public void delete(@PathVariable int libraryNo) {
+	public String delete(@PathVariable int libraryNo) {
 		int delete = 0;
 		try {
 			delete = libraryService.removeLibrary(libraryNo);
 		} catch (Exception e) {e.printStackTrace();}
-		/*
-		 * if(delete>0) { return "redirect:/library/list/1"; }else { return
-		 * "redirect:/library/detail/{libraryNo}"; }
-		 */
+		
+		  if(delete>0) {
+		  	return "redirect:/library/list/1"; 
+		  }else { 
+		  	return "redirect:/library/detail/{libraryNo}"; 
+		  }
+		 
 	}
 	
 	
@@ -110,14 +114,15 @@ public class LiberaryController {
 	public String insert(Library library,
 		HttpSession session) {
 		int insert=0;
-		String userId;
+		String user_id;
 		insert=libraryMapper.insertOne(library);
-		session.getAttribute("loginUser");
+		Object user_id_obj=session.getAttribute("loginUser");
+		user_id=user_id_obj.toString();
 		if(insert>0) {
 			return "redirect:/library/list/1";
 		}else {
 			return "redirect:/library/list/1";
 		}
-	}	
+	}
 	
 }

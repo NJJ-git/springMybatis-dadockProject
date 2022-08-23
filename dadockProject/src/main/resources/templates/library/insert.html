@@ -37,7 +37,11 @@
 	<th:block th:each="book:${bookDetails}">
 		
 		<!-- library db 입력 -->
+<<<<<<< HEAD
 		<form id="libraryInsertForm" action="/library/insert.do" method="post" class="needs-validation">
+=======
+		<form id="insertForm" name="insertForm" action="/book/insert.do" method="post" class="needs-validation">
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 		<div class="container row">
 			<div class="col-4 mb-3">
 				<div class="w-100">
@@ -60,6 +64,7 @@
 					<p class="h6">별점 입력</p>
 				  	<div class="star-rating w-100" name="star" id="inputStar">
 						<input type="radio" id="5-stars" name="star" value="5" />
+<<<<<<< HEAD
 						<label for="5-stars" class="star">&#9733;</label>
 						<input type="radio" id="4-stars" name="star" value="4" />
 						<label for="4-stars" class="star">&#9733;</label>
@@ -69,6 +74,17 @@
 						<label for="2-stars" class="star">&#9733;</label>
 						<input type="radio" id="1-star" name="star" value="1" />
 						<label for="1-star" class="star">&#9733;</label>
+=======
+						<label for="5-stars" class="star">★</label>
+						<input type="radio" id="4-stars" name="star" value="4" />
+						<label for="4-stars" class="star">★</label>
+						<input type="radio" id="3-stars" name="star" value="3" />
+						<label for="3-stars" class="star">★</label>
+						<input type="radio" id="2-stars" name="star" value="2" />
+						<label for="2-stars" class="star">★</label>
+						<input type="radio" id="1-star" name="star" value="1" />
+						<label for="1-star" class="star">★</label>
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 					</div>
 				</div>
 				<div class="col-8">
@@ -82,6 +98,7 @@
 				</div>
 			</div>
 		</div>
+<<<<<<< HEAD
 			<input type="text" name="isbn" th:value="${book.isbn}" hidden>
 			<input type="text" name="title" th:value="${book.title}" hidden>
 			<input type="text" name="author" th:value="${book.author}" hidden>
@@ -116,10 +133,52 @@
 		<div class="col-12">
 		    <button form="libraryInsertForm" class="btn btn-primary" type="submit">서재 등록</button>
 		</div>
+=======
+			<input type="text" name="isbn" th:value="${book.isbn}" hidden/>
+			<input type="text" name="title" th:value="${book.title}" hidden/>
+			<input type="text" name="author" th:value="${book.author}" hidden/>
+			<input type="text" name="publisher" th:value="${book.publisher}" hidden/>
+		<!-- library db 입력 끝 -->
+		  
+		<!-- read_book db 입력 -->
+			<input type="text" name="img" th:value="${book.image}" hidden/>
+			<input type="date" name="pubdate" th:value="${#temporals.createDate(book.pubdate,'yyyyMMdd')}" hidden/>
+			<input type="text" name="link" th:value="${book.link}" hidden/>
+			<textarea name="description" th:text="${book.description}" hidden/></textarea>
+		<!-- comment db 입력 -->
+			<div class="mb-3 has-validation">
+		    	<label for="inputContent" class="form-label">코멘트</label>
+		    	<textarea name="content" class="form-control" id="inputContent" form="insertForm" required></textarea>
+		    	<div class="invalid-feedback">
+		      		내용을 입력하세요. 
+		    	</div>
+			</div>
+		
+		<div class="col-12">
+		    <input type="button" class="btn btn-primary" onclick="doubleSubmitCheck(this.form)" value="서재등록"/>
+		</div>
+		</form>
+>>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 </th:block>
 </main>
 <footer th:insert="/footer"></footer>
 </body>
+<script type="text/javascript">
+	// 중복 sbumit 방지 스크립트
+    var doubleSubmitFlag = false;// 중복 sbumit 방지 플래그
+	  
+    function doubleSubmitCheck(form){ 
+	
+        if(doubleSubmitFlag){ // true일 경우 추가 sbumit 불가
+			alert('데이터 저장중...');
+            return false;
+        }else{
+            doubleSubmitFlag = true;
+			form.action="/book/insert.do";
+			form.submit();
+        }
+    }
+</script>
 </html>
 
 

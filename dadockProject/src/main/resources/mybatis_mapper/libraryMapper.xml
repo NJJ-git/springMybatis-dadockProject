@@ -8,18 +8,27 @@
 		<id column="library_no" property="library_no"/>
 		<result column="isbn" property="isbn"/>
 		<result column="user_id" property="user_id"/>
-		<result column="title" property="title"/>
-		<result column="author" property="author"/>
-		<result column="publisher" property="publisher"/>
 		<result column="end_date" property="end_date"/>
 		<result column="star" property="star"/>
+		<result column="comment" property="comment"/>
 	</resultMap>
 
 	<select id="selectAll" resultType="Library" resultMap="libraryMap">
 		SELECT
-			library_no, title, author, publisher, end_date, star
+			library_no, end_date, star, comment
 			FROM library 
 			ORDER BY library_no
+	</select>
+	
+	<select id="selectByIdAll" resultType="Library" resultMap="libraryMap" parameterType="String">
+		SELECT *
+			FROM library
+			WHERE user_id=#{user_id}
+			ORDER BY library_no
+	</select>
+	
+	<select id="selectOneByIsbn" resultType="Library">
+		select * from library where isbn=#{isbn}
 	</select>
 	
 	<select id="selectOne" resultMap="libraryMap" parameterType="int">
@@ -29,14 +38,9 @@
 	<insert id="insertOne" parameterType="Library"
 	useGeneratedKeys="true" keyProperty="library_no">
 		INSERT INTO Library
-			(user_id, title, author, publisher, end_date, star) 
+			(user_id, end_date, star, comment) 
 			VALUES 
-			(#{user_id}, #{title}, #{author}, #{publisher}, #{end_date}, #{star})
-	</insert>
-	
-	<insert id="insertBook">
-		INSERT INTO read_book (isbn, title, author, image, publisher, pubdate, description, link)
-		VALUES (#{isbn}, #{title}, #{author}, #{image}, #{publisher}, #{pubdate}, #{description}, #{link})
+			(#{user_id}, #{end_date}, #{star}, #{comment})
 	</insert>
 	
 	<update id="updateOne" parameterType="Library">

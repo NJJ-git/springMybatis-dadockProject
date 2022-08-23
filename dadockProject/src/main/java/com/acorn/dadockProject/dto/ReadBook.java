@@ -3,6 +3,8 @@ package com.acorn.dadockProject.dto;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 /*
@@ -17,20 +19,20 @@ import lombok.Data;
 | pubdate     | date         | YES  |     | NULL    |       |
 | description | text         | YES  |     | NULL    |       |
 | link        | varchar(255) | YES  |     | NULL    |       |
-| discount    | int          | YES  |     | NULL    |       |
 +-------------+--------------+------+-----+---------+-------+
  
  */
 @Data
 public class ReadBook {
-	private Long isbn;
+	private String isbn;
 	private String title;
 	private String author;
 	private String img;
 	private String publisher;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date pubdate;
 	private String description;
 	private String link;
-	private int discount;
+	
 	private List<Library> libraries;
 }
