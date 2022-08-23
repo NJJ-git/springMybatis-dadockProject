@@ -32,6 +32,7 @@
 					limit 0,20 -->
 	<select id="selectByUserRecommendAll" resultMap="ReadBookMap">
 		select *, lisbn, ifnull(lstar,0) lstar from read_book r left join (select isbn lisbn, truncate(avg(star),1) lstar from library group by isbn) l on r.isbn=l.lisbn order by lstar desc limit 20
+
 	</select>
 	
 	<select id="selectByAppAll" resultType="ReadBook">
