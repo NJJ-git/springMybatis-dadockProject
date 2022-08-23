@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+		    <div class="ms-2 me-auto">
+		    	<!-- <div>
+		    		글쓴이?! : <span th:text="${marketReply.user.user_id}"></span>
+		    	</div> -->
+		    	<div>
+		    		등록일 : <span th:text="${#dates.format(reply.post_time,'yyyy-MM-dd HH:mm:ss')}"></span>
+		    	</div>
+		      <div class="fw-bold">
+		      	<span  th:text="${marketReply.market_reply_no}"></span>
+		      </div>
+		     
+		      </div>
+		    	<div  th:text="${marketReply.contents}"></div>
+		    
+		   
+</html>

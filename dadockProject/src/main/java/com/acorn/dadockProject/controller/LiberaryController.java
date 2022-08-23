@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/library")
-public class LibraryController {
+public class LiberaryController {
 	
 	@Autowired
 	BookApiCallService bookApiCallService;

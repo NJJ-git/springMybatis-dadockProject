@@ -21,10 +21,11 @@
 	<!-- Board : Reply= 1:N-->
 		<!--  ofType => 제네릭-->
 		<!-- 이름(column) 똑같으면 안된다.~!-->
-		<collection property="marketReplys" javaType="java.util.ArrayList" ofType="MarketReply" >
+		<collection property="marketReplys" javaType="java.util.ArrayList" ofType="MarketReply" foreignColumn="market_board_no">
 			<id column="market_reply_no" property="market_reply_no"/>
 			<result column="rcontents" property="contents"/>
 			<result column="rpost_time" property="post_time"/>
+			<result column="rmarket_board_no" property="market_board_no"/>
 			<association property="user" javaType="User">
 				<id column="ruser_id" property="user_id"/>
 			</association>
@@ -34,8 +35,31 @@
 		select *,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
 		 from market_board 
 	</select>
-	<select id="selectOne" parameterType="int" resultMap="marketBoardMap">
-		select * ,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
+	<select id="selectOne" parameterType="int" resultMap="marketBoardMap"> <!-- 쿼리  리플.. -->
+		select * ,
+		market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
+		 from market_board  
+		 
+		 where market_board_no=#{market_board_no}
+	</select>
+	<!-- <select id="selectOne" parameterType="int" resultMap="marketBoardMap"> 
+		
+		select 
+		mb.*,
+		mbi.*,
+		mr.*
+		
+		from market_board mb 
+		left join market_board_img mbi
+		using(market_board_no)
+		
+		left join market_reply mr
+		using (market_board_no) 
+		
+		where mb.market_board_no=#{market_board_no}
+	</select> -->
+	<select id="selectSerachOne" parameterType="int" resultMap="marketBoardMap">
+		select * 
 		 from market_board  where market_board_no=#{market_board_no}
 	</select>
 	<insert id="insertOne" parameterType="marketBoard" useGeneratedKeys="true" keyProperty="market_board_no"> <!--정확히 뭐가 필요한지 몰겠네  -->
