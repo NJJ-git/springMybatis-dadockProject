@@ -2,26 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>marketWistList</title>
+<title>찜 등록 페이지</title>
 </head>
 <body>
 <header th:insert="headerNav"></header>
-	<h1>장바구니?찜?</h1>
-	<form action="/market/wishList.do" method="post">
-	
-	<div class="card mb-3" style="max-width: 540px;" th:each="marketBoard: ${whishList}"  
-					th:onclick="location.href='/market/goodsDetail/[[${marketBoard.market_board_no}]]'"> <!--글 클릭하면 detail  -->
-			
-	  <div class="row g-0">
+  <main id="container">
+	        <div id="box" class="m-3 d-flex justify-content-between">
+	          
+	            <h1 ><i class="bi bi-book"></i>다독마켓</h1>
+	            
+	            
+	            <form class="d-flex">
+	        <input class="form-control me-sm-2" type="text" placeholder="상품검색">
+	        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+	      </form>
+	        </div>
+	    <a href="/market/goodsInsertSearch1" class="btn btn-sm btn-primary">물건등록</a>
+	    <p>
+			페이지 :
+			<span class="badge text-bg-success" th:text="${page}"></span>
+			총 게시글 수:<span class="badge text-bg-primary" th:text="${rowCount}"></span>
+		</p>
+	    
+	 <div class="card mb-3" style="max-width: 540px;" th:each="wishList: ${wishLists}" >
+	  	<p class="card-title" th:text="${wishList.marketBoard.title}"></p> 
+	  
+	        <p class="card-text" th:text="${wishList.marketBoard.price}"></p>
+	        <a th:href="@{/market/goodsDetail/{no}/(no=${wishList.marketBoard.market_board_no})}" 
+		    	class="btn btn-warning">자세히</a>
+					<!--글 클릭하면 detail  -->
+		<!-- 	<div>
+	    		<img th:src="${marketBoard.img}"
+			</div> -->
+	  <!-- <div class="row g-0">
 	     <div class="col-md-4"  th:each="boardImg:${marketBoard.marketBoardImgs}">
   				<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="img-fluid rounded-start" alt="...">
-	    </div> 
+	    </div>  
+	    <div>
+	    	d이미지! 
+	    </div>
 	    <div class="col-md-8">
 	      <div class="card-body" >
+	      글쓴이:
+	       <p class="card-title" th:text="${marketBoard.user?.user_id}"></p> 
+	      
 	      제목:
-	        <p class="card-title" th:text="${marketBoard.title}"></p> 
-	        <!-- 책제목:
-	        <p class="card-text" th:text="${marketBoard.book_title}"></p> -->
+	        <p class="card-title" th:text="${wishList.marketBoard.title}"></p> 
+	   
 	        가격:
 	        <p class="card-text" th:text="${marketBoard.price}"></p>
 	        내용:
@@ -29,38 +56,30 @@
 	        <p class="card-text" th:text="${#dates.format(marketBoard.post_time,'yyyy-MM-dd: hh:mm:ss')}"><small class="text-muted">등록일</small></p>
 	      </div>
 		    <div class="d-flex flex-row-reverse">
-			    
-		    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
-		    	class="btn btn-warning">자세히</a><!-- detail버튼 뭐 쓰지? -->
+		  
+		    //////////// 위시리스트 //////////////////
+			    <form action="/market/wishListInsert.do" method="post" id="wishList">
+					<div class="col-12">
+				    	  <a id="Jjim"  type="submit"
+				    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
+				    	>
+				    	<i class="bi bi-heart"></i></a> 
+				
+				    	
+					</div>
+					
+				</form>
 		    </div>
 	    </div>
-	  </div>
+	  </div> -->
+		    	<!-- <a th:href="@{/market/goodsDetail/{no}/(no=${.wishList.marketBoard.market_board_no})}" 
+		    	class="btn btn-warning">자세히</a> -->
 	</div> 
-	<div>
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#">&laquo;</a>
-    </li>
-    <li class="page-item active">
-      <a class="page-link" href="#">21</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">2</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">3</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">4</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">5</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">&raquo;</a>
-    </li>
-  </ul>
-</div>
-	</form>
+	
+	
+	<!-- <div class="d-flex justify-content-center" th:insert="/paging"></div>
+	 -->
+	    </main>
+
 </body>
 </html>

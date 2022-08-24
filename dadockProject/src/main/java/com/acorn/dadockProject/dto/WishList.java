@@ -19,7 +19,8 @@ import lombok.Data;
 @Data
 public class WishList {
 	public int wishlist_no;
-	public int market_board_no;
+	//public int market_board_no;
+	private MarketBoard marketBoard;
 	public String user_id;
 	public boolean jjim;
 }

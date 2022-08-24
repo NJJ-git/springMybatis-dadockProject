@@ -13,13 +13,23 @@
 	<result column="state" property="state"/>
 	<result column="book_title" property="book_title"/>
 	<result column="address" property="address"/>
+	
+	<association property="user" javaType="User" foreignColumn="user_id">
+			<id column="user_user_id" property="user_id"/>
+			<result column="user_name" property="name"/>
+			<result column="user_email" property="email"/>
+			<result column="user_phone" property="phone"/>
+			<result column="user_address" property="address"/>
+			<result column="user_address_detail" property="address_detail"/>
+			<result column="user_profile_img" property="profile_img"/>
+	</association>
 	<!-- 이미지 -->
 	<collection property="marketBoardImgs" javaType="java.util.ArrayList" ofType="MarketBoardImg" foreignColumn="market_board_no">
 		<id column="market_board_img_no" property="market_board_img_no" />
 		<result column="img_market_board_no" property="market_board_no"/>
 		<result column="img_img_path" property="img_path"/>
 	</collection>
-		<!-- 이름(column) 똑같으면 안된다.~!-->
+		<!-- 마켓 리플 //이름(column) 똑같으면 안된다.~!-->
 		<collection property="marketReplys" javaType="java.util.ArrayList" ofType="MarketReply" foreignColumn="market_board_no">
 			<id column="market_reply_no" property="market_reply_no"/>
 			<result column="rcontents" property="contents"/>
@@ -29,19 +39,25 @@
 				<id column="ruser_id" property="user_id"/>
 			</association>
 		</collection>	
-		<!-- 유저 조인 결제할때-->
+		<!-- 유저 조인 -->
+		
 </resultMap>
 	<select id="selectAll" resultType="MarketBoard" resultMap="marketBoardMap">
 		select *,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
-		 from market_board 
+		 ,u.user_id user_user_id
+		 from market_board b LEFT JOIN user u on b.user_id=u.user_id 
 	</select>
 	
 	<select id="selectOne" parameterType="int" resultMap="marketBoardMap"> <!-- 쿼리  리플.. -->
 			select * ,
-		market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
-		 from market_board  
-		 
-		 where market_board_no=#{market_board_no}
+		b.market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
+		,r.market_reply_no market_reply_no
+		,r.contents rcontents
+		,r.post_time rpost_time
+		,r.user_id ruser_id
+		from market_board b LEFT JOIN market_reply r on b.market_board_no = r.market_board_no
+		
+		 where b.market_board_no=#{market_board_no} 
 	</select>
 	
 	<select id="selectSerachOne" parameterType="int" resultMap="marketBoardMap">
@@ -50,7 +66,7 @@
 	</select>
 	<insert id="insertOne" parameterType="marketBoard" useGeneratedKeys="true" keyProperty="market_board_no"> <!--정확히 뭐가 필요한지 몰겠네  -->
 		insert into market_board (user_id,title,book_title,price,content,state) 
-		values (#{user_id},#{title},#{book_title},#{price},#{content},#{state})
+		values (#{user.user_id},#{title},#{book_title},#{price},#{content},#{state})
 	</insert>
 	<update id="updateOne" parameterType="MarketBoard">
 		update market_board set

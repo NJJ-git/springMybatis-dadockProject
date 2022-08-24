@@ -40,6 +40,8 @@
 </div>
 		<div class="col-12">
 		    <button id="insertForm" class="btn btn-primary" type="submit">서재 등록</button>
+		    <p class="card-title" th:text="${marketBoard.user?.user_id}"></p> 
+		    <input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
 		</div>
 	</form>
 </body>

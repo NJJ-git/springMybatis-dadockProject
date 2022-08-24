@@ -40,10 +40,12 @@
 	    </div>
 	    <div class="col-md-8">
 	      <div class="card-body" >
+	      글쓴이:
+	       <p class="card-title" th:text="${marketBoard.user?.user_id}"></p> 
+	      
 	      제목:
 	        <p class="card-title" th:text="${marketBoard.title}"></p> 
-	        <!-- 책제목:
-	        <p class="card-text" th:text="${marketBoard.book_title}"></p> -->
+	   
 	        가격:
 	        <p class="card-text" th:text="${marketBoard.price}"></p>
 	        내용:
@@ -55,20 +57,17 @@
 		    <!--//////////// 위시리스트 ////////////////// -->
 			    <form action="/market/wishListInsert.do" method="post" id="wishList">
 					<div class="col-12">
-				    	  <button id="Jjim" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
-				    	th:href="|/market/wishListInsert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
+				    	  <a id="Jjim"  type="submit"
+				    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
 				    	>
-				    	<i class="bi bi-heart"></i></button> 
-				    <!-- 	<input type="button" onclick="document.getElementById('wishList').submit();" hidden>
-				    	<a th:href="|/market/wishList/${marketBoard.market_board_no}|"
-				    	onclick="document.getElementById('wishList').submit();"
-				    	class="btn btn-outline-warning"><i class="bi bi-heart"></i></a> -->
+				    	<i class="bi bi-heart"></i></a> 
+				
 				    	
 					</div>
 					
 				</form>
 		    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
-		    	class="btn btn-warning">자세히</a><!-- detail버튼 뭐 쓰지? -->
+		    	class="btn btn-warning">자세히</a>
 		    </div>
 	    </div>
 	  </div>
@@ -78,13 +77,6 @@
 	<!-- <div class="d-flex justify-content-center" th:insert="/paging"></div>
 	 -->
 	    </main>
-	<!--   <script >
-	  window.onload = function() {
-		    document.getElementById('Jjim').onclick = function() {
-		        document.getElementById('wishList').submit();
-		        return false;
-		    };
-		};
-	  </script>   -->	
+	
 </body>
 </html>

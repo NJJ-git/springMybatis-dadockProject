@@ -2,24 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.acorn.dadockProject.mapper.WishList">
+<mapper namespace="com.acorn.dadockProject.mapper.WishListMapper">
+	<resultMap type="WishList" id="wishListMap">
+		<id column="wishlist_no" property="wishlist_no"/>
+		<result column="user_id" property="user_id"/>
+		<result column="jjim" property="jjim"/>
+		<association property="marketBoard" javaType="marketBoard" foreignColumn="market_board_no">
+			<id column="bmarket_board_no" property="market_board_no"/>
+			<result column="buser_id" property="user_id"/>
+			<result column="btitle" property="title"/>
+			<result column="bprice" property="price"/>
+			<result column="bpost_time" property="post_time"/>
+			<result column="bcontent" property="content"/>
+			<result column="bisbn" property="isbn"/>
+			<result column="bstate" property="state"/>
+		</association>
+	</resultMap>
+	<!-- 찜 리스트 가져오기.. -->
+	<select id="selectWishList" parameterType="String" resultMap="wishListMap">
+		select w.*
+		,w.user_id 
+		,b.market_board_no bmarket_board_no
+		,b.title btitle
+		,b.price bprice
+		,b.post_time bpost_time
+		,b.content bcontent
+		,b.isbn bisbn
+		,b.state bstate
+		from wishList w left join market_board b on w.market_board_no=b.market_board_no
+		where w.user_id=#{userId}                        
+	</select>
+	
 	<!-- 찜에 추가 -->
-	<insert id="addWishlist"> 
-		insert into wishList(user_id,market_board_no,jjim) 
-		values  (#{user_id},#{market_board_no},#{jjim})
+	<insert id="addWishList" parameterType="WishList"> 
+		insert into wishList (user_id,market_board_no,jjim) 
+		values  (#{user_id},#{marketBoard.market_board_no},#{jjim})
 	</insert>
+	
 	<!-- 찜에서 삭제 -->
 	<delete id="deleteWhishList">
 		delete from wishList where wishlist_no=#{wishlist_no} 
 	</delete>
-	<!-- 찜 리스트 가져오기.. -->
-	<select id="selectWishList" resultType="WishList">
-		select w.wishlist_no,w.user_id,mb.book_title,mb.price
-		from wishList w left join market_board mb on w.market_board_no=mb.market_board_no
-		where user_id=#{user_id}
-	</select>
+	<!-- 찜 체크?  -->
 	<select id="checkWishList" resultType="WishList">
-		select *  from wishList
+		select *,market_board_no 'marketBoard.market_board_no'  from wishList
 		where user_id=#{user_id} and market_board_no=#{market_board_no}
 	</select>
 	<!-- 업데이트도 있어야하나 -->
