@@ -9,12 +9,25 @@
 	<link rel="stylesheet" href="/slider/dist/css/splide.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js" defer="defer"></script>
 	<title>Dadock::다독</title>
+<style>
+/* 별점 css */
+.star{
+font-size:1.2em;
+}
+.star.false{
+color:#ccc;
+}
+.star.true{
+color:#fc0;
+}
+
+</style>
 </head>
 <body>
 <header th:insert="headerNav"></header>
 <!-- 검색바 -->
 <div class="container">
-	<div class="row">
+	<div class="mt-4 row">
     	<form method="get" role="searchbox" action="book/searchList/1">
         	<div class="col-sm-4 input-group mt-3">
             	<input type="search" class="form-control" placeholder="도서 검색" name="text">
@@ -27,38 +40,35 @@
 </div>
 <!-- Carousel 시작  -->
 <div class="m-5">
-<hr>
-	<div class="card text-left">
-		<div class="card-body ">
-			<p class="h4 card-title">유저 추천</p>
-			<!-- <h4 class="card-text">다독 추천</h4> -->
-		</div>
-	</div>
-	<div class="container-fluid">
+<p class="m-4 h3">유저추천</p>
+	<div class="container-fluid"
+	style="margin-top: -30px">
 		<div id="card-slider" class="splide">
 		  	<div class="splide__track row">
 				<ul class="splide__list">
 					<th:block th:each="recommend : ${recommendList}">
 						<li class="splide__slide">
-							<div class="m-4 col" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-								<img th:src="${recommend.img}"  class="w-100 mb-1 border" style="max-height:45vh;">
-							</div>
-							<div class="align-self-end">
-								<div class="mb-3 text-truncate" th:text="|제목 : ${recommend.title}|"></div>
-								<div class="mb-3 text-truncate" th:text="|저자 : ${recommend.author}|"></div>
-								<!-- 별점 start -->
-					    		<div class="mb-3">
+							<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+								<img th:src="${recommend.img}"  class="w-95" 
+								style="border-radius: 5px; height: 350px; padding: 2px;">
+								<hr>
+								<div class="mb-3 text-truncate w-90"
+								th:text="|제목 : ${recommend.title}|"></div>
+								<div class="mb-3 text-truncate w-90"
+								 th:text="|저자 : ${recommend.author}|"></div>
+								
+					    		<div class="mb-3 text-truncate w-90">
 					    			<!-- 별점 null 일때 -->
-		                        	<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
-					    		<th:block th:each="library:${recommend.libraries}">
-					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
-									</th:block>
-		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-					    		</th:block>
+               			<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+											<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
+										</th:block>
+                 		<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 		<span class="star false" th:if="${library.star==0}">★★★★★</span>
 								</div>
+							<hr>
 							</div>
 						</li>
 					</th:block>
@@ -66,7 +76,43 @@
 			</div>
 		</div>
 	</div>
-<hr>
+</div>
+<div class="m-5">
+<p class="m-4 h3">다독추천</p>
+	<div class="container-fluid"
+	style="margin-top: -30px">
+		<div id="card-slider2" class="splide">
+		  	<div class="splide__track row">
+				<ul class="splide__list">
+					<th:block th:each="recommend : ${dadockList}">
+						<li class="splide__slide col-md-4">
+							<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+								<img th:src="${recommend.img}"  class="w-95" 
+								style="border-radius: 5px; height: 350px; padding: 2px;">
+								<hr>
+								<div class="mb-3 text-truncate w-90"
+								th:text="|제목 : ${recommend.title}|"></div>
+								<div class="mb-3 text-truncate w-90"
+								 th:text="|저자 : ${recommend.author}|"></div>
+								<!-- 별점 start -->
+					    		<div class="mb-3 text-truncate w-90">
+               			<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+											<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
+										</th:block>
+                 		<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 		<span class="star false" th:if="${library.star==0}">★★★★★</span>
+								</div>
+								<hr>
+							</div>
+						</li>
+					</th:block>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- carousel 끝 -->
 
@@ -81,6 +127,16 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				},
 			},
 	  } ).mount();
+	  
+	  new Splide( '#card-slider2', {
+			perPage    : 5,
+			breakpoints: {
+				640: {
+					perPage: 1,
+				},
+			},
+	  } ).mount();
+	  
 } );
 </script>
 

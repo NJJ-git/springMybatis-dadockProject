@@ -2,9 +2,7 @@ package com.acorn.dadockProject.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,7 +17,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.acorn.dadockProject.dto.Book;
 import com.acorn.dadockProject.dto.Library;
+import com.acorn.dadockProject.dto.Paging;
+import com.acorn.dadockProject.dto.ReadBook;
+import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.LibraryMapper;
+import com.acorn.dadockProject.mapper.ReadBookMapper;
 import com.acorn.dadockProject.service.BookApiCallService;
 import com.acorn.dadockProject.service.LibraryService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -41,22 +43,39 @@ public class LibraryController {
 	@Autowired
 	private LibraryService libraryService;
 	
-	
+	@Autowired
+	private ReadBookMapper readBookMapper;
 	
 	@GetMapping("/list/{page}")
-	public String list(@PathVariable int page, Model model) {
+	public String list(
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int page, 
+			Model model) {
+		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
+		model.addAttribute("readBookList", readBookList);
 		
-		List<Library> libraryList = libraryMapper.selectAll();
+		int row=7;
+		int startRow=(page-1)*row;
+		List<Library> libraryList=libraryMapper.selectPageAll(startRow,row);
+		int rowCount=libraryMapper.selectPageAllCount();
+		
+		Paging paging=new Paging(page, rowCount, "/library/list/",row);
+		model.addAttribute("paging",paging);
+		model.addAttribute("libraryList",libraryList);
+		
+		model.addAttribute("row",row);
+		model.addAttribute("rowCount",rowCount);
+		model.addAttribute("page",page);
 		System.out.println(libraryList);
-		model.addAttribute("libraryList", libraryList);
+		
 		return "/library/list";
 	}
 	
-	@GetMapping("/detail/{libraryNo}")
-	public String detail(@PathVariable int libraryNo, Model model) {
-		Library library = libraryMapper.selectOne(libraryNo);
-		model.addAttribute(library);
-		System.out.println(library);
+	@GetMapping("/detail/{library_no}")
+	public String detail(@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int library_no, Model model) {
+		List<ReadBook> readBook = readBookMapper.selectOneByIdReadBookAndLibrary(loginUser.getUser_id(), library_no);
+		model.addAttribute("readBook", readBook);
 		return "/library/detail";
 	}
 	
@@ -72,15 +91,18 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/delete/{libraryNo}")
-	public void delete(@PathVariable int libraryNo) {
+	public String delete(@PathVariable int libraryNo) {
 		int delete = 0;
 		try {
 			delete = libraryService.removeLibrary(libraryNo);
 		} catch (Exception e) {e.printStackTrace();}
-		/*
-		 * if(delete>0) { return "redirect:/library/list/1"; }else { return
-		 * "redirect:/library/detail/{libraryNo}"; }
-		 */
+		
+		  if(delete>0) {
+		  	return "redirect:/library/list/1"; 
+		  }else { 
+		  	return "redirect:/library/detail/{libraryNo}"; 
+		  }
+		 
 	}
 	
 	
@@ -110,14 +132,15 @@ public class LibraryController {
 	public String insert(Library library,
 		HttpSession session) {
 		int insert=0;
-		String userId;
+		String user_id;
 		insert=libraryMapper.insertOne(library);
-		session.getAttribute("loginUser");
+		Object user_id_obj=session.getAttribute("loginUser");
+		user_id=user_id_obj.toString();
 		if(insert>0) {
 			return "redirect:/library/list/1";
 		}else {
 			return "redirect:/library/list/1";
 		}
-	}	
+	}
 	
 }

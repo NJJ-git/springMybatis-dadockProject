@@ -3,6 +3,8 @@ package com.acorn.dadockProject.dto;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 /*
@@ -28,10 +30,10 @@ public class ReadBook {
 	private String author;
 	private String img;
 	private String publisher;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date pubdate;
 	private String description;
 	private String link;
-	private int discount;
 	
 	private List<Library> libraries;
 }
