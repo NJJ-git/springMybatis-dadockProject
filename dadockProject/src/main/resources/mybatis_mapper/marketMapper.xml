@@ -8,18 +8,17 @@
 	<result column="title" property="title"/>
 	<result column="post_time" property="post_time"/>
 	<result column="content" property="content"/>
-	<result column="book_title" property="book_title"/>
 	<result column="isbn" property="isbn"/>
-	<result column="address" property="address"/>
 	<result column="price" property="price"/>
 	<result column="state" property="state"/>
+	<result column="book_title" property="book_title"/>
+	<result column="address" property="address"/>
+	<!-- 이미지 -->
 	<collection property="marketBoardImgs" javaType="java.util.ArrayList" ofType="MarketBoardImg" foreignColumn="market_board_no">
 		<id column="market_board_img_no" property="market_board_img_no" />
 		<result column="img_market_board_no" property="market_board_no"/>
 		<result column="img_img_path" property="img_path"/>
 	</collection>
-	<!-- Board : Reply= 1:N-->
-		<!--  ofType => 제네릭-->
 		<!-- 이름(column) 똑같으면 안된다.~!-->
 		<collection property="marketReplys" javaType="java.util.ArrayList" ofType="MarketReply" foreignColumn="market_board_no">
 			<id column="market_reply_no" property="market_reply_no"/>
@@ -30,34 +29,21 @@
 				<id column="ruser_id" property="user_id"/>
 			</association>
 		</collection>	
+		<!-- 유저 조인 결제할때-->
 </resultMap>
 	<select id="selectAll" resultType="MarketBoard" resultMap="marketBoardMap">
 		select *,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
 		 from market_board 
 	</select>
+	
 	<select id="selectOne" parameterType="int" resultMap="marketBoardMap"> <!-- 쿼리  리플.. -->
-		select * ,
+			select * ,
 		market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
 		 from market_board  
 		 
 		 where market_board_no=#{market_board_no}
 	</select>
-	<!-- <select id="selectOne" parameterType="int" resultMap="marketBoardMap"> 
-		
-		select 
-		mb.*,
-		mbi.*,
-		mr.*
-		
-		from market_board mb 
-		left join market_board_img mbi
-		using(market_board_no)
-		
-		left join market_reply mr
-		using (market_board_no) 
-		
-		where mb.market_board_no=#{market_board_no}
-	</select> -->
+	
 	<select id="selectSerachOne" parameterType="int" resultMap="marketBoardMap">
 		select * 
 		 from market_board  where market_board_no=#{market_board_no}

@@ -6,6 +6,38 @@
 </head>
 <body>
 	<form action="/market/wishListInsert.do" method="post">
+		
+		<div class="d-flex justify-content-center">
+     <div class="card" style="width: 800px;">
+     <div>
+  		<div th:each="boardImg:${marketBoard.marketBoardImgs}">
+  			<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="card-img-top" alt="...">
+  		</div>
+	  	</div>
+	  	<div class="card-body">
+	  	제목:
+	    <h2 class="card-title mb-3" th:text="${marketBoard.title}"></h2>
+	    등록시간:
+	    <h5 class="card-title mb-3" th:text="${marketBoard.post_time}"></h5>
+	   <!--  책 제목:
+	    <h2 class="card-title mb-3" th:text="${marketBoard.book_title}"></h2> -->
+	    <p class="card-text mb-3" >상태: 
+	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==1)?'active':''}">최상</button> 
+	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==2)?'active':''}">상</button> 
+	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==3)?'active':''}">중</button> 
+	    	</p> 
+	    	
+	    	가격:
+	    	<p class="card-text" th:text="${marketBoard.price}" ></p>
+	    	설명:
+	    <p class="card-text" th:text="${marketBoard.content}"></p>
+	    <span class="d-flex flex-row-reverse">
+		  
+		    <a th:href="@{/market/marketPay/{no}(no=${marketBoard.market_board_no})}" class="btn btn-primary">결제</a>
+	    </span>
+	  </div>
+     </div>
+</div>
 		<div class="col-12">
 		    <button id="insertForm" class="btn btn-primary" type="submit">서재 등록</button>
 		</div>

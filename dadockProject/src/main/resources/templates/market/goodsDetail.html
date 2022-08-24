@@ -17,7 +17,7 @@
        <h1 th:text="'state.'+${marketBoard.state}"></h1>
      </div>
      <div class="d-flex justify-content-center">
-     <div class="card" style="width: 500px;">
+     <div class="card" style="width: 800px;">
      <div>
   		<div th:each="boardImg:${marketBoard.marketBoardImgs}">
   			<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="card-img-top" alt="...">
@@ -35,6 +35,100 @@
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==2)?'active':''}">상</button> 
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==3)?'active':''}">중</button> 
 	    	</p> 
+	    	<p>
+			  <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+			    다독마켓 상태 가이드 <!-- 알라딘 중고 품질 판정가이드 가져옴 -->
+			  </button>
+			</p>
+			  <div class="collapse" id="collapseExample">
+				  <table class="table">
+						 <thead>
+					    <tr >
+					      <th scope="col">품질등급</th>
+					      <th scope="col">헌 상태</th>
+					      <th scope="col">표지</th>
+					      <th scope="col">책등/책배</th>
+					      <th scope="col">내부/제본상태</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr class=""
+					    	th:classappend="${(marketBoard.state==1)?'table-active':''}">
+					      <th scope="row" 
+					      >최상</th>
+					      <td>새것에 가까움</td>
+					      <td>
+					      	• 변색 없음<br>
+							• 찢어진 흔적 없음<br>
+							• 닳은 흔적 없음<br>
+							• 낙서 없음<br>
+							• 얼룩 없음<br>
+							• 도서 겉표지 있음
+					      
+					      </td>
+					      <td>
+					     	 • 변색 없음<br>
+							• 닳은 흔적 없음<br>
+							• 낙서 없음<br>
+							• 얼룩 없음<br>
+					      </td>
+					      <td>@mdo</td>
+					    </tr>
+					    <tr class=""
+					    	th:classappend="${(marketBoard.state==2)?'table-active':''}">
+					      <th scope="row">상</th>
+					      <td>약간의 사용감은 있으나 깨끗한 책</td>
+					      <td>
+					      	• 희미한 변색이나 작은 얼룩이 있음<br>
+							• 찢어진 흔적 없음<br>
+							• 약간의 모서리 해짐<br>
+							• 낙서 없음<br>
+							• 도서 겉표지 있음
+					      </td>
+					      <td>
+					      	• 희미한 변색이나 작은 얼룩이 있음<br>
+							• 약간의 닳은 흔적 있음<br>
+							• 낙서 없음
+					      </td>
+					      <td>
+					      	• 변색 없음<br>
+							• 낙서 없음<br>
+							• 변형 없음<br>
+							• 아주 약간의 접힌 흔적 있음<br>
+							• 얼룩 없음<br>
+							• 제본 탈착 없음
+						</td>
+					    </tr>
+					    <tr class=""
+					    	th:classappend="${(marketBoard.state==3)?'table-active':''}">
+					      <th scope="row" >중</th>
+					      <td >사용감이 많으며 헌 느낌이 나는 책</td>
+					      <td>
+					      	• 전체적인 변색<br>
+							• 모서리 해짐 있음<br>
+							• 2cm 이하의 찢어짐<br>
+							• 오염 있음<br>
+							• 낙서 있음<br>
+							• 도서 겉표지 없음
+					      </td>
+					      <td>
+					      	• 전체적인 변색<br>
+							• 모서리 해짐 있음<br>
+							• 오염 있음<br>
+							• 낙서 있음 (이름 포함)
+					      </td>
+					      <td>
+					      	• 변색 없음<br>
+							• 2cm 이하 찢어짐 있음<br>
+							• 5쪽 이하의 필기 및 풀이 또는 밑줄 있음<br>
+							• 얼룩 및 오염 있음<br>
+							• 제본 탈착 없음<br>
+							• 본문 읽기에 지장 없는 부록 없음
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
 	    	가격:
 	    	<p class="card-text" th:text="${marketBoard.price}" ></p>
 	    	설명:
@@ -55,10 +149,12 @@
 	  </div>
      </div>
 </div>
+<!-- ///////////////////// 댓글 ///////////////////////////// -->
 		 <div>
+		
 		 <h2 class="d-flex justify-content-between">
 				<span>댓글 리스트
-					<small th:text="${marketReplys?.size}"></small>
+					:<small th:text="${marketReplys?.size}"></small>
 				</span>
 				
 			</h2>
@@ -80,7 +176,7 @@
 					</li>
 					
 			<th:block  th:each="reply : ${marketBoard.marketReplys}">
-		 
+		 <p>내가 쓴 댓글 리스트</p>
 		  	<li class="list-group-item">
 		  	<form action="/reply/update.do" method="post" >
 		  		<p class="input-group input-group-sm mb-1">

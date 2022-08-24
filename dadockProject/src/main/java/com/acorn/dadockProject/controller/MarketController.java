@@ -74,8 +74,8 @@ public class MarketController {
 	}
 	
 	
-	@GetMapping("/goodsInsertSearch/{isbn}") // insert
-	public String goodsInsertSearch(@PathVariable String isbn, Book book,
+	@GetMapping("/goodsInsertSearch2/{isbn}") // insert
+	public String goodsInsertSearch2(@PathVariable String isbn, Book book,
 			Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 
@@ -92,11 +92,11 @@ public class MarketController {
 		model.addAttribute("bookDetails", bookDetails);
 		System.out.println(bookDetail);
 		
-		return "/market/goodsInsertSearch";
+		return "/market/goodsInsertSearch2";
 	}
 	
-    @PostMapping("/goodsInsertSearch.do")
-    public String goodsInsertSearch(MarketBoard marketBoard) {
+    @PostMapping("/goodsInsertSearch2.do")
+    public String goodsInsertSearch2(MarketBoard marketBoard) {
     		int insert=0;
     		insert=marketMapper.insertOne(marketBoard);
     		if(insert>0) {
@@ -291,14 +291,29 @@ public class MarketController {
 			return "redirect:/market/goodsList/1";
 		}
 	}
-	@GetMapping("/wishList/{page}")
-	public String marketWishList (@PathVariable int page,Model model) {
+	@GetMapping("/wishList/{marketBoardNo}")
+	public String marketWishList (@PathVariable int marketBoardNo,Model model) {
 		List<MarketBoard> wishList=marketMapper.selectAll();
 		System.out.println("wishList:"+wishList);
 		model.addAttribute("wishList",wishList);
-		return "/market/goodsList";
+		return "/market/wishList";
 	}
-	
+	@PostMapping("/wishListInsert.do")
+	public String insert(MarketBoard marketBoard
+		) {
+		int insert=0;
+		String userId;
+		try {
+			insert=marketService.uploadBoard(marketBoard);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(insert>0) {
+			return "redirect:/market/wishList/1";
+		}else {
+			return "redirect:/market/wishList/1";
+		}
+	}
 	@GetMapping("/insert/{isbn}")
 	public String insert(@PathVariable String isbn, Book book,
 			Model model) throws Exception {
@@ -320,21 +335,6 @@ public class MarketController {
 		return "/market/insert";
 	}
 	
-	@PostMapping("/wishListInsert.do")
-	public String insert(MarketBoard marketBoard
-		) {
-		int insert=0;
-		String userId;
-		try {
-			insert=marketService.uploadBoard(marketBoard);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if(insert>0) {
-			return "redirect:/market/wishList/1";
-		}else {
-			return "redirect:/market/wishList/1";
-		}
-	}
+	
 	
 }

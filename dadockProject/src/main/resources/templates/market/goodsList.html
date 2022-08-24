@@ -51,16 +51,21 @@
 	        <p class="card-text" th:text="${#dates.format(marketBoard.post_time,'yyyy-MM-dd: hh:mm:ss')}"><small class="text-muted">등록일</small></p>
 	      </div>
 		    <div class="d-flex flex-row-reverse">
-		    
-			    <form action="/market/wishListInsert.do" method="post">
+		  
+		    <!--//////////// 위시리스트 ////////////////// -->
+			    <form action="/market/wishListInsert.do" method="post" id="wishList">
 					<div class="col-12">
-				    	<button id="insertForm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
-				    	th:href="|/market/wishList/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
-				    	<i class="bi bi-heart"></i></button>
+				    	  <button id="Jjim" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
+				    	th:href="|/market/wishListInsert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
+				    	>
+				    	<i class="bi bi-heart"></i></button> 
+				    <!-- 	<input type="button" onclick="document.getElementById('wishList').submit();" hidden>
+				    	<a th:href="|/market/wishList/${marketBoard.market_board_no}|"
+				    	onclick="document.getElementById('wishList').submit();"
+				    	class="btn btn-outline-warning"><i class="bi bi-heart"></i></a> -->
+				    	
 					</div>
-					<!-- <div class="mt-2" type="button">
-							<a class="text-decoration-none" th:href="|/market/goodsInsertSearch/${book.isbn}|">마켓등록 <i class="bi bi-box2-heart-fill"></i></a>	
-					</div> -->
+					
 				</form>
 		    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
 		    	class="btn btn-warning">자세히</a><!-- detail버튼 뭐 쓰지? -->
@@ -73,6 +78,13 @@
 	<!-- <div class="d-flex justify-content-center" th:insert="/paging"></div>
 	 -->
 	    </main>
-	    	
+	<!--   <script >
+	  window.onload = function() {
+		    document.getElementById('Jjim').onclick = function() {
+		        document.getElementById('wishList').submit();
+		        return false;
+		    };
+		};
+	  </script>   -->	
 </body>
 </html>
