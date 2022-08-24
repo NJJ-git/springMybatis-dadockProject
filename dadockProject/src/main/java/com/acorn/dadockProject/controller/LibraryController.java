@@ -49,15 +49,15 @@ public class LibraryController {
 	public String list(@SessionAttribute(name="loginUser", required=false) User loginUser,
 			@PathVariable int page, Model model) {
 		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
-		model.addAttribute("readBookList", readBookList); // 질문해야 함.
+		model.addAttribute("readBookList", readBookList);
 		return "/library/list";
 	}
 	
-	@GetMapping("/detail/{libraryNo}")
-	public String detail(@PathVariable int libraryNo, Model model) {
-		Library library = libraryMapper.selectOne(libraryNo);
-		model.addAttribute(library);
-		System.out.println(library);
+	@GetMapping("/detail/{library_no}")
+	public String detail(@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int library_no, Model model) {
+		List<ReadBook> readBook = readBookMapper.selectOneByIdReadBookAndLibrary(loginUser.getUser_id(), library_no);
+		model.addAttribute("readBook", readBook);
 		return "/library/detail";
 	}
 	
