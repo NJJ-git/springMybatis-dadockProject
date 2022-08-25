@@ -38,9 +38,9 @@
 	<insert id="insertOne" parameterType="Library"
 	useGeneratedKeys="true" keyProperty="library_no">
 		INSERT INTO Library
-			(user_id, end_date, star, comment) 
+			(isbn, user_id, end_date, star, comment) 
 			VALUES 
-			(#{user_id}, #{end_date}, #{star}, #{comment})
+			(#{isbn}, #{user_id}, #{end_date}, #{star}, #{comment})
 	</insert>
 	
 	<update id="updateOne" parameterType="Library">

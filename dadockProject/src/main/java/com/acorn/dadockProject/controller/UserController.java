@@ -1,5 +1,8 @@
 package com.acorn.dadockProject.controller;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.acorn.dadockProject.dto.IdCheck;
 import com.acorn.dadockProject.dto.Paging;
@@ -23,9 +29,14 @@ import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.UserMapper;
 import com.acorn.dadockProject.service.UserServiceImp;
 
+import lombok.val;
+
 @RequestMapping("/user")
 @Controller
 public class UserController {
+	@Value("${spring.servlet.multipart.location}")
+	private String savePath;
+	
 	@Autowired
 	private UserMapper userMapper;
 	
@@ -76,10 +87,20 @@ public class UserController {
 	}
 	
 	@PostMapping("/modify.do")
-	public String modify(User user) {
+	public String modify(User user, 
+			@RequestParam(name = "profile_img", required = false) MultipartFile imgFile,
+			HttpSession session) throws IllegalStateException, IOException {
 		int modify=0;
+		String[] type=imgFile.getContentType().split("/");
+		if(type[0].equals("image")) {
+			String newFileName="user_"+System.nanoTime()+"."+type[1];
+			Path path=Paths.get(savePath+"/"+newFileName);
+			imgFile.transferTo(path);
+			user.setProfile_img(newFileName);
+			//여기서 파일 저장하고 파라미터로 받은 user 입력하는거고
+		}
 		System.out.println(user);
-		modify=userMapper.modifyOne(user);
+		modify=userService.modifyUserRemoveImg(user);
 		if(modify>0) {
 			return "redirect:/user/profile/"+user.getUser_id();
 		}else {
@@ -134,12 +155,15 @@ public class UserController {
 			HttpSession session,
 			HttpServletRequest request
 			) {
-		String prevPage=request.getHeader("Referer");
-
+		String prevPage="";
 		User user=null;
 		try {
+			prevPage=request.getHeader("Referer");
 			user=userMapper.selectPwOne(userId, pw);
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/";
+		}
 		System.out.println(user);
 		if(user!=null) {
 			session.setAttribute("loginUser", user);

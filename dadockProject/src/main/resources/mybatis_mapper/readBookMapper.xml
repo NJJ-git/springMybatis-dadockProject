@@ -13,55 +13,16 @@
 		<result column="link" property="link"/>
 		<collection property="libraries" javaType="java.util.ArrayList" ofType="Library">
 			<id column="library_no" property="library_no"/>
+			<result column="library_isbn" property="isbn"/>
 			<result column="user_id" property="user_id"/>
 			<result column="end_date" property="end_date"/>
 			<result column="star" property="star"/>
 			<result column="comment" property="comment"/>
 		</collection>
 	</resultMap>
-<!-- SELECT *,
-		isbn no,
-		(SELECT AVG(grade) FROM RECOMMEND WHERE isbn=no) grade_avg 
-		FROM read_book WHERE EXISTS(SELECT * FROM RECOMMEND WHERE isbn=no)
-		order by grade_avg desc
-		limit 0,20 -->
-	<select id="selectByUserRecommendAll" resultMap="ReadBookMap">
-		select *, 
-		lisbn, ifnull(lstar,0) lstar 
-		from read_book 
-		r left join (select isbn lisbn, truncate(avg(star),1) lstar 
-					from library group by isbn) l 
-		on r.isbn=l.lisbn 
-		order by lstar desc 
-		limit 0,20
-
-	</select>
 	
-	<select id="selectByAppAll" resultMap="ReadBookMap">
-		select *, 
-		lisbn, ifnull(lstar,0) lstar 
-		from read_book 
-		r left join (select isbn lisbn, truncate(avg(star),1) lstar, count(*) app_count
-					from library group by isbn) l 
-		on r.isbn=l.lisbn 
-		order by app_count desc 
-		limit 0,20
-	</select>
-	<!-- select *, 
-		lisbn, ifnull(lstar,0) 
-		lstar from read_book 
-		r left join (select isbn lisbn, truncate(avg(star),1) 
-		lstar from library group by isbn) 
-		where r.isbn in 
-		(select isbn from (select isbn, avg(star) 
-		c from library group by isbn 
-		order by c desc limit 0,21))
-		l on r.isbn=l.lisbn order by lstar desc-->
-	<select id="selectAll" resultType="ReadBook">
-		SELECT *FROM read_book 
-	</select>
-
-	<select id="selectReadBookByStar" resultMap="ReadBookMap">
+	<!-- 메인, 책추천 -->
+	<select id="selectReadBookByStar" resultMap="ReadBookMap"> 
 		select r.isbn as isbn, r.title as title, r.author as author, r.img as img, avg_star as star 
 		from read_book as r join 
 		(select isbn, truncate(avg(star),1)avg_star from library group by isbn) as l
@@ -69,27 +30,30 @@
 		order by avg_star desc limit 20
 	</select>
 	
+	<!-- 메인, 책추천 -->
 	<select id="selectByAppRecommendAll" resultMap="ReadBookMap">
 		select *, end_date as 'library.end_date', star as 'library.star', comment as 'library.comment'
 		from read_book left join library using (isbn) order by star desc limit 20
 	</select>
-<!-- 		select *, 
-		lisbn, ifnull(lstar,0) 
-		lstar from read_book 
-		r left join (select isbn lisbn, truncate(avg(star),1) 
-		lstar from library group by isbn) 
-		where r.isbn in 
-		(select isbn from (select isbn, avg(star) 
-		c from library group by isbn 
-		order by c desc limit 0,19)) -->
 	
+	<!-- 라이브러리 -->
 	<select id="selectByIdReadBookAndLibrary" resultMap="ReadBookMap" parameterType="String">
-		select r.title, r.author, r.publisher, l.* from read_book as r join
-		(select * from library where user_id=#{user_id}) as l
-		where l.isbn=r.isbn
+		select r.title, r.author, r.publisher, 
+		l.*, l.isbn library_isbn
+		from read_book as r join library as l
+		on l.isbn=r.isbn AND user_id=#{user_id}
 		order by l.library_no
 	</select>
 	
+	<!-- 라이브러리 -->
+	<select id="selectOneByIdReadBookAndLibrary" resultMap="ReadBookMap">
+		select r.title, r.author, r.publisher, 
+		l.*, l.isbn library_isbn
+		from read_book as r join library as l
+		on l.isbn=r.isbn AND l.user_id=#{user_id} AND l.library_no=#{library_no}
+	</select>
+	
+	<!-- 별점 -->
 	<select id="selectStar" resultType="Library" parameterType="String">
 		SELECT l.isbn, 
 		ifnull(max(avg_star),0) 
@@ -101,22 +65,9 @@
 	
 	<insert id="insertOne" parameterType="ReadBook">
 		INSERT IGNORE INTO read_book
-			(isbn,title,author,img,publisher,pubdate,description,link) VALUES 
-			(#{isbn},#{title},#{author},#{img},#{publisher},#{pubdate},#{description},#{link}) 
+		(isbn,title,author,img,publisher,pubdate,description,link) VALUES 
+		(#{isbn},#{title},#{author},#{img},#{publisher},#{pubdate},#{description},#{link}) 
 	</insert>
-	
-	<update id="updateOne" parameterType="ReadBook">
-		UPDATE ReadBook SET
-			isbn=#{isbn},
-			title=#{title},
-			author=#{author},
-			img=#{img},
-			descriptinon=#{descriptinon},
-			link=#{link},`
-			discount=#{discount},
-			star=#{star}
-			WHERE ReadBook=#{ReadBook}
-	</update>
 	
 </mapper>
 	

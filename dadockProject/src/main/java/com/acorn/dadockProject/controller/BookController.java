@@ -72,10 +72,9 @@ public class BookController {
 	@GetMapping("/recommend")
 	public String list(Model model ) {
 		List<ReadBook> recommendList=readBookMapper.selectReadBookByStar(); //db
-		List<ReadBook> applicationList=readBookMapper.selectByAppRecommendAll(); //naver or db
-
+		List<ReadBook> dadockList=readBookMapper.selectByAppRecommendAll(); //naver or db
 		model.addAttribute("recommendList",recommendList);
-		model.addAttribute("applicationList",applicationList);
+		model.addAttribute("dadockList",dadockList);
 		System.out.println(recommendList);
 		return "/book/recommend";
 	}
@@ -88,6 +87,8 @@ public class BookController {
 	@GetMapping("/searchList/{page}") //키워ㅜ드 검색 페이징 섞여있음
 	public String searchList(@PathVariable int page, 
 			@RequestParam String text,
+			Library library,
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
 			Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 		int start = 0;
@@ -111,13 +112,21 @@ public class BookController {
 		
 		List<Book> bookList=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		
+		// 로그인 정보로 라이브러리 유무확인
+		List<Library> libraries=null;
+		if (loginUser!=null) {
+			libraries=libraryMapper.selectByIdAll(loginUser.getUser_id());
+		}
+		// 라이브러리 전체 목록
+		List<Library> libraryAll=libraryMapper.selectAll();
 		// 페이징
 		Long total_long=(Long)naver_result.get("total");
 		int total=Math.toIntExact(total_long);
 		int rowCount=total;
 		Paging paging = new Paging(page, rowCount, "/book/searchList/", row);
 		
-		
+		model.addAttribute("libraryAll",libraryAll);
+		model.addAttribute("libraries",libraries);
 		model.addAttribute("paging", paging);
 		model.addAttribute("rowCount", rowCount);
 		model.addAttribute("page",page);

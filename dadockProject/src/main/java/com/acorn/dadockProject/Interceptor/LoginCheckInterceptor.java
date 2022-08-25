@@ -15,14 +15,16 @@ public class LoginCheckInterceptor implements HandlerInterceptor{
 			throws Exception {
 		System.out.println("LoginCheck.preHandle : 해당 url을 요청하기 전");
 		String prevPage=request.getHeader("Referer");
+		if(prevPage==null) {
+			prevPage = "/";
+		}
 		HttpSession session=request.getSession();
-		Object loginUser_obj=session.getAttribute("loginUser");
-		if(loginUser_obj!=null) {
+		if(session.getAttribute("loginUser")!=null) {
 			return true;			
 		}else {
-			session.setAttribute("msg", "로그인 후 이용바랍니다");
+			session.setAttribute("loginMsg", "로그인 후 이용 바랍니다.");
 			session.setAttribute("redirectPage", prevPage);
-			response.sendRedirect("/user/login.do");
+			response.sendRedirect(prevPage);
 			return false;
 		}
 	}

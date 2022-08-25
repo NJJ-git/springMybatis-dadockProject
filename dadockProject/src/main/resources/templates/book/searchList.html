@@ -1,139 +1,176 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta charset=UTF-8>
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-	<title>Dadock::다독</title>
-</head>
-<body>
-<header th:insert="headerNav"></header>
-	<div class="container">
-      <div class="row">
-        <div class="col">
-          <form method="get" role="searchbox" action="../searchList/1">
-          	<div class="col-sm-4 input-group mt-3">
-            	<input type="search" class="form-control" placeholder="도서 검색" th:value="${text}" name="text" required>
-         		<button class="btn btn-outline-secondary" type="submit">
-         			<i class="bi bi-search"></i>
-         		</button>
-          	</div>
-          </form>
+    <head>
+        <link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta charset="UTF-8">
+        <meta
+            content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+            name='viewport'/>
+        <meta name="viewport" content="width=device-width"/>
+        <title>Dadock::다독</title>
+    </head>
+    <body>
+        <header th:insert="headerNav"></header>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form method="get" role="searchbox" action="../searchList/1">
+                        <div class="col-sm-4 input-group mt-3">
+                            <input
+                                type="search"
+                                class="form-control"
+                                placeholder="도서 검색"
+                                th:value="${text}"
+                                name="text"
+                                required="required">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <p th:text="|검색 결과 수 : ${total}|" style="text-align: right;"></p>
+            <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
+            <div class="row" style="justify-content: space-between;">
+                <!-- 검색결과 존재하지 않을 때 -->
+                <th:block th:if="${total==0}">
+                    <div class="col-12" style="text-align: center;">
+                        <p class="h2 text-truncate">검색 결과가 없습니다.</p>
+                    </div>
+                </th:block>
+                <!-- 검색결과 존재할 때 -->
+                <th:block th:each="book : ${bookList}">
+                    <div class="col-md-6 border-top border-bottom h-vh30">
+                        <div class="row p-4 justify-content-center">
+                            <div
+                                class="col-4 text-center"
+                                th:onclick="|location.href='@{/book/detail/__${book.isbn}__}'|"
+                                type="button">
+	
+                                <th:block th:if="${bookStat.count<7}">
+                                    <img class="border" th:src="${book.image}" style="width: 80%;">
+                                </th:block>
+                                <!-- Lazy Loading -->
+                                <th:block th:if="${bookStat.count>=7}">
+                                    <img class="lazy border" th:data-src="${book.image}" style="width: 80%;">
+                                </th:block>
+
+                                <!-- 로그인 했을 때 (libraries!=null)-->
+                                <th:block th:if="${libraries!=null}">
+		                                <th:block th:each="library:${libraries}">
+		                                	<div th:if="${#strings.equals(book.isbn, library.isbn)}">
+		                              				<a class="text-decoration-none" th:href="|/library/list/1|">담은 책
+		                                    			<i class="bi bi-box2-heart-fill"></i>
+		                                      </a>
+		                                	</div>
+		                                </th:block>
+                                    <div class="mt-2" type="button">
+                                        <a class="text-decoration-none"
+                                           	th:href="|/market/goodsInsertSearch/${book.isbn}|">마켓등록
+                                           <i class="bi bi-box2-heart-fill"></i>
+                                        </a>
+                                    </div>
+                                </th:block>
+
+                                <!-- 로그인 하지 않았을 때 (libraries==null) -->
+                                <th:block th:if="${libraries==null}">
+                                    <div class="mt-2" type="button">
+                                        <a class="text-decoration-none" th:href="|/library/insert/${book.isbn}|">담기
+                                            <i class="bi bi-box2-heart-fill"></i>
+                                        </a>
+                                    </div>
+                                </th:block>
+                                <!-- 별점 start -->
+                                <div>
+                                    <th:block th:each="readBook:${readBookList}">
+                                        <th:block th:each="library:${readBook.libraries}">
+                                            <th:block th:if="${#strings.equals(library.isbn, book.isbn)}">
+                                                <th:block th:if="${library.star!=0&&library.star!=5}">
+                                                    <span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span>
+                                                    <!--span 줄바꿈 방지 -->
+                                                    <span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+                                                </th:block>
+                                                <span th:if="${library.star==5}">★★★★★</span>
+                                                <span th:if="${library.star==0}">☆☆☆☆☆</span>
+                                            </th:block>
+                                        </th:block>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <p class="text-truncate" th:text="|제목 : ${book.title}|"></p>
+                                    <p class="text-truncate" th:text="|저자 : ${book.author}|"></p>
+                                    <p th:text="|출판사 : ${book.publisher}|"></p>
+                                    <p th:text="|ISBN : ${book.isbn}|"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+            </div>
         </div>
-      </div>
-    <hr>
-	<p th:text="|검색 결과 수 : ${total}|" style="text-align: right;"></p>
-    <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
-    	<div class="row" style="justify-content: space-between;">
-      	<!-- 검색결과 존재하지 않을 때 -->
-      	<th:block th:if="${total==0}">
-      	<div class="col-12" style="text-align: center;">
-      		<p class="h2 text-truncate">검색 결과가 없습니다.</p>
-      	</div>
-      	</th:block>
-      	<!-- 검색결과 존재할 때 -->
-	    <th:block th:each="book : ${bookList}">
-      	<div class="col-md-6 border-top border-bottom h-vh30" >
-      		<div class="row p-4 justify-content-center">
-	      		<div class="col-4 text-center" th:onclick="|location.href='@{/book/detail/__${book.isbn}__}'|" type="button">
-     		<th:block th:if="${bookStat.count<7}">
-	    		<img class="border" th:src="${book.image}" style="width: 80%;">
-      		</th:block>
-      		<!-- Lazy Loading -->
-      		<th:block th:if="${bookStat.count>=7}">
-	    		<img class="lazy border" th:data-src="${book.image}" style="width: 80%;">
-      		</th:block>
-		      		<div class="mt-2" type="button">
-							<a class="text-decoration-none" th:href="|/library/insert/${book.isbn}|">담기 <i class="bi bi-box2-heart-fill"></i></a>	
-					</div>
-      				<div class="mt-2" type="button">
-							<a class="text-decoration-none" th:href="|/market/goodsInsertSearch/${book.isbn}|">마켓등록 <i class="bi bi-box2-heart-fill"></i></a>	
-					</div>
-	      				<!-- 별점 start -->
-	      			<div>
-	      			<th:block th:each="readBook:${readBookList}">
-						<th:block th:each="library:${readBook.libraries}">
-	      					<th:block th:if="${#strings.equals(library.isbn, book.isbn)}">
-								<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!--span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
-								</th:block>
-				            	<span th:if="${library.star==5}">★★★★★</span>
-				            	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-				        	</th:block>
-						</th:block>
-	      			</th:block>
-	      			</div>
-	      		</div>
-		      		
-	      		<div class="col-6">
-					<p class="text-truncate" th:text="|제목 : ${book.title}|"></p>
-					<p class="text-truncate" th:text="|저자 : ${book.author}|"></p>
-					<p th:text="|출판사 : ${book.publisher}|"></p>
-					<p th:text="|ISBN : ${book.isbn}|"></p>
-	      		</div>
-      		</div>
-      	</div>
-	    </th:block>
-      </div>
-     </div>
-     <p></p>
-     <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
-      <hr>
-<footer th:insert="footer"></footer>
-<script>
-/* 이미지 lazy 로딩을 위한 script */
-document.addEventListener("DOMContentLoaded", function() {
-	  var lazyloadImages;    
+        <p></p>
+        <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
+        <hr>
+        <footer th:insert="footer"></footer>
+        <script>
+            /* 이미지 lazy 로딩을 위한 script */
+            document.addEventListener("DOMContentLoaded", function () {
+                var lazyloadImages;
 
-	  if ("IntersectionObserver" in window) {
-	    lazyloadImages = document.querySelectorAll(".lazy");
-	    var imageObserver = new IntersectionObserver(function(entries, observer) {
-	      entries.forEach(function(entry) {
-	        if (entry.isIntersecting) {
-	          var image = entry.target;
-	          image.src = image.dataset.src;
-	          image.classList.remove("lazy");
-	          imageObserver.unobserve(image);
-	        }
-	      });
-	    });
+                if ("IntersectionObserver" in window) {
+                    lazyloadImages = document.querySelectorAll(".lazy");
+                    var imageObserver = new IntersectionObserver(function (entries, observer) {
+                        entries.forEach(function (entry) {
+                            if (entry.isIntersecting) {
+                                var image = entry.target;
+                                image.src = image.dataset.src;
+                                image
+                                    .classList
+                                    .remove("lazy");
+                                imageObserver.unobserve(image);
+                            }
+                        });
+                    });
 
-	    lazyloadImages.forEach(function(image) {
-	      imageObserver.observe(image);
-	    });
-	  } else {  
-	    var lazyloadThrottleTimeout;
-	    lazyloadImages = document.querySelectorAll(".lazy");
-	    
-	    function lazyload () {
-	      if(lazyloadThrottleTimeout) {
-	        clearTimeout(lazyloadThrottleTimeout);
-	      }    
+                    lazyloadImages.forEach(function (image) {
+                        imageObserver.observe(image);
+                    });
+                } else {
+                    var lazyloadThrottleTimeout;
+                    lazyloadImages = document.querySelectorAll(".lazy");
 
-	      lazyloadThrottleTimeout = setTimeout(function() {
-	        var scrollTop = window.pageYOffset;
-	        lazyloadImages.forEach(function(img) {
-	            if(img.offsetTop < (window.innerHeight + scrollTop)) {
-	              img.src = img.dataset.src;
-	              img.classList.remove('lazy');
-	            }
-	        });
-	        if(lazyloadImages.length == 0) { 
-	          document.removeEventListener("scroll", lazyload);
-	          window.removeEventListener("resize", lazyload);
-	          window.removeEventListener("orientationChange", lazyload);
-	        }
-	      }, 20);
-	    }
+                    function lazyload() {
+                        if (lazyloadThrottleTimeout) {
+                            clearTimeout(lazyloadThrottleTimeout);
+                        }
 
-	    document.addEventListener("scroll", lazyload);
-	    window.addEventListener("resize", lazyload);
-	    window.addEventListener("orientationChange", lazyload);
-	  }
-	})
-</script>
-</body>
+                        lazyloadThrottleTimeout = setTimeout(function () {
+                            var scrollTop = window.pageYOffset;
+                            lazyloadImages.forEach(function (img) {
+                                if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                                    img.src = img.dataset.src;
+                                    img
+                                        .classList
+                                        .remove('lazy');
+                                }
+                            });
+                            if (lazyloadImages.length == 0) {
+                                document.removeEventListener("scroll", lazyload);
+                                window.removeEventListener("resize", lazyload);
+                                window.removeEventListener("orientationChange", lazyload);
+                            }
+                        }, 20);
+                    }
+
+                    document.addEventListener("scroll", lazyload);
+                    window.addEventListener("resize", lazyload);
+                    window.addEventListener("orientationChange", lazyload);
+                }
+            })
+        </script>
+    </body>
 </html>
