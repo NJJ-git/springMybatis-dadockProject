@@ -53,7 +53,6 @@ public class LibraryController {
 			Model model) {
 		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
 		model.addAttribute("readBookList", readBookList);
-		
 		int row=7;
 		int startRow=(page-1)*row;
 		List<Library> libraryList=libraryMapper.selectPageAll(startRow,row);

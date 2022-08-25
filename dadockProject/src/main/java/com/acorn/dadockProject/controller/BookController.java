@@ -87,6 +87,8 @@ public class BookController {
 	@GetMapping("/searchList/{page}") //키워ㅜ드 검색 페이징 섞여있음
 	public String searchList(@PathVariable int page, 
 			@RequestParam String text,
+			Library library,
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
 			Model model) throws Exception {
 		JSONArray naver_result_arr=new JSONArray();
 		int start = 0;
@@ -110,13 +112,15 @@ public class BookController {
 		
 		List<Book> bookList=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		
+		// 라이브러리 전체 목록
+		List<Library> libraryAll=libraryMapper.selectAll();
 		// 페이징
 		Long total_long=(Long)naver_result.get("total");
 		int total=Math.toIntExact(total_long);
 		int rowCount=total;
 		Paging paging = new Paging(page, rowCount, "/book/searchList/", row);
 		
-		
+		model.addAttribute("libraryAll",libraryAll);
 		model.addAttribute("paging", paging);
 		model.addAttribute("rowCount", rowCount);
 		model.addAttribute("page",page);

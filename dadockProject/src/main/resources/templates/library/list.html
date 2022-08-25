@@ -28,7 +28,7 @@
 							<td th:text="${readBook.title}"></td>
 							<td th:text="${readBook.author}"></td>
 							<td th:text="${readBook.publisher}"></td>
-							<td th:text="${#dates.format(readBook.libraries.get(0).end_date, 'yyyy-MM-dd')}"></td>
+							<td th:text="${#dates.format(readBook.libraries.get(0).end_date, 'yyyy-HH-dd')}"></td>
 							<td th:text="${readBook.libraries.get(0).star}"></td>
 						</tr>
 				</th:block>

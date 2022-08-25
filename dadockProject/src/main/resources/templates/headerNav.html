@@ -41,9 +41,16 @@
         <li class="nav-item">
          	<a class="nav-link" href="/book/recommend">책추천</a>
         </li>
+        <th:block th:if="${session.loginUser==null}">
+        <li class="nav-item">
+         	<a class="nav-link" style="cursor: pointer;" data-bs-toggle="modal"data-bs-target="#loginModal">내서재</a>
+        </li>
+        </th:block>
+        <th:block th:unless="${session.loginUser==null}">
         <li class="nav-item">
          	<a class="nav-link" href="/library/list/1">내서재</a>
         </li>
+        </th:block>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             다독마켓
@@ -113,12 +120,7 @@
     </div>
   </div>
 </div>
-<script th:inline="javascript"  th:if="${session.msg!=null}">
-	var msgModal = new bootstrap.Modal('#msgModal');
-	msgModal.show();
- 	/* [[${#session.removeAttribute("msg")}]] */
-</script>
-<!--로그인 모달 -->
+<!--로그인 모달 --> 
 		<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -153,6 +155,11 @@
 		    </div>
 		  </div>
 		</div>
+<script th:inline="javascript"  th:if="${session.msg!=null}">
+	var msgModal = new bootstrap.Modal('#msgModal');
+	msgModal.show();
+ 	/* [[${#session.removeAttribute("msg")}]] */
+</script>
 <script th:inline="javascript"  th:if="${session.loginMsg!=null}">
 	var loginModal = new bootstrap.Modal('#loginModal');
 	loginModal.show();

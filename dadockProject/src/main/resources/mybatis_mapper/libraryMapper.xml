@@ -12,29 +12,21 @@
 		<result column="star" property="star"/>
 	</resultMap>
 	
-	
-
 	<select id="selectAll" resultType="Library" resultMap="libraryMap">
 		SELECT
-			library_no, isbn, end_date, star
-			FROM Library 
+			*
+			FROM library 
 			ORDER BY library_no
 	</select>
 	
 	<select id="selectOne" resultMap="libraryMap" parameterType="int">
 		SELECT 
-			l.*,
-			b.title, b.author, b.publisher,
-			c.content
-			
-			FROM Library l INNER JOIN Book b
-			USING (isbn)
-			
-			LEFT JOIN Comment c
-			ON b.isbn = c.isbn
-			
-			WHERE l.library_no=#{libraryNo}
-			ORDER BY library_no
+			*
+			FROM library where library_no=#{library_no}
+	</select>
+	
+	<select id="selectOneByIsbn" resultType="Library" parameterType="String">
+		select * from library where isbn=#{isbn}
 	</select>
 	
 	<select id="selectPageAll" resultType="Library">
@@ -53,11 +45,6 @@
 			(isbn, user_id, end_date, star, comment) 
 			VALUES 
 			(#{isbn}, #{user_id}, #{end_date}, #{star}, #{comment})
-	</insert>
-	
-	<insert id="insertBook">
-		INSERT INTO read_book (isbn, title, author, image, publisher, pubdate, description, link)
-		VALUES (#{isbn}, #{title}, #{author}, #{image}, #{publisher}, #{pubdate}, #{description}, #{link})
 	</insert>
 	
 	<update id="updateOne" parameterType="Library">

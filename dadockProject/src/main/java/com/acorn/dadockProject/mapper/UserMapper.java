@@ -4,6 +4,7 @@ package com.acorn.dadockProject.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.acorn.dadockProject.dto.User;
 @Mapper
@@ -16,5 +17,6 @@ public interface UserMapper {
 	int updateOne(User user);
 	int registerOne(User user);
 	int modifyOne(User user);
+	int modifyOne(User user, MultipartFile imgFile);
 	List<User> selectSearchList(String type,String keyword);
 }

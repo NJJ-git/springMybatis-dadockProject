@@ -16,6 +16,7 @@ public interface LibraryMapper {
 	int selectPageAllCount();
 	
 	Library selectOne(int libraryNo);
+	Library selectOneByIsbn(String isbn);
 	int insertBook(Book book);
 	int insertOne(Library library);
 	int updateOne(Library library);

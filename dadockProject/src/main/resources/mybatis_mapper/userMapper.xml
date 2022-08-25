@@ -30,11 +30,12 @@
 			address_detail=#{address_detail},
 			level=${level},
 			point=${point}
-			WHERE user_id=#{user_id}
+			WHERE user_id=#{userId}
 	</update>
 	
 	<update id="modifyOne" parameterType="User">
 		UPDATE USER SET
+			profile_img=#{profile_img},
 			pw=#{pw},
 			name=#{name},
 			email=#{email},

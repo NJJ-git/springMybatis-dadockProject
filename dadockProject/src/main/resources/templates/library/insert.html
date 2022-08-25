@@ -35,7 +35,6 @@
 	<!-- 책 정보 불러오기(페이지 전체 반복) -->
 	<h1 class="m-3">서재 등록 페이지</h1>
 	<th:block th:each="book:${bookDetails}">
-		
 		<!-- library db 입력 -->
 		<form id="insertForm" name="insertForm" action="/book/insert.do" method="post" class="needs-validation">
 		<div class="container row">
@@ -85,24 +84,23 @@
 		<!-- library db 입력 끝 -->
 		  
 		<!-- read_book db 입력 -->
-			<input type="text" name="isbn" th:value="${book.isbn}" hidden>
-			<input type="text" name="title" th:value="${book.title}" hidden>
-			<input type="text" name="author" th:value="${book.author}" hidden>
-			<input type="text" name="img" th:value="${book.image}" hidden>
-			<input type="text" name="publisher" th:value="${book.publisher}" hidden>
-			<input type="date" name="pubdate" th:value="${book.pubdate}" hidden>
-			<input type="text" name="link" th:value="${book.link}" hidden>
-			<textarea name="description" th:value="${book.description}" hidden></textarea>
+			<input type="text" name="isbn" th:value="${book.isbn}" >
+			<input type="text" name="title" th:value="${book.title}" >
+			<input type="text" name="author" th:value="${book.author}" >
+			<input type="text" name="img" th:value="${book.image}" >
+			<input type="text" name="publisher" th:value="${book.publisher}" >
+			<input type="date" name="pubdate" th:value="${#temporals.createDate(book.pubdate, 'yyyyMMdd')}" >
+			<input type="text" name="link" th:value="${book.link}" >
+			<textarea name="description" th:text="${book.description}" ></textarea>
 		
 		<!-- comment db 입력 -->
 			<div class="mb-3 has-validation">
 		    	<label for="inputContent" class="form-label">코멘트</label>
-		    	<textarea name="content" class="form-control" id="inputContent" required></textarea>
+		    	<textarea name="comment" class="form-control" id="inputContent" required></textarea>
 		    	<div class="invalid-feedback">
 		      		내용을 입력하세요.
 		    	</div>
 			</div>
-			<input type="text" name="isbn" th:value="${book.isbn}" hidden>
 		
 		<div class="col-12">
 		    <button form="insertForm" class="btn btn-primary" type="submit">서재 등록</button>
