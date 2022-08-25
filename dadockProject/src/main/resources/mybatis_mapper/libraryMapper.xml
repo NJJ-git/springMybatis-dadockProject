@@ -10,6 +10,12 @@
 		<result column="isbn" property="isbn"/>
 		<result column="end_date" property="end_date"/>
 		<result column="star" property="star"/>
+		<association property="readBook" javaType="ReadBook">
+			<id column="book_isbn" property="isbn"/>
+			<result column="book_title" property="title"/>
+			<result column="book_author" property="author"/>
+			<result column="book_publisher" property="publisher"/>
+		</association>
 	</resultMap>
 	
 	
@@ -24,27 +30,29 @@
 	<select id="selectOne" resultMap="libraryMap" parameterType="int">
 		SELECT 
 			l.*,
-			b.title, b.author, b.publisher,
-			c.content
+			b.isbn book_isbn, b.title book_title, b.author book_author, b.publisher book_publisher
 			
-			FROM Library l INNER JOIN Book b
+			FROM Library l INNER JOIN read_book b
 			USING (isbn)
 			
-			LEFT JOIN Comment c
-			ON b.isbn = c.isbn
-			
 			WHERE l.library_no=#{libraryNo}
-			ORDER BY library_no
 	</select>
 	
-	<select id="selectPageAll" resultType="Library">
-		SELECT *
-			FROM Library 
-				ORDER BY library_no 
-				LIMIT #{startRow},#{pageSize}
+	<select id="selectPageAll"  resultMap="libraryMap">
+			SELECT 
+			l.*,
+			b.isbn book_isbn, b.title book_title, b.author book_author, b.publisher book_publisher
+			
+			FROM Library l INNER JOIN read_book b
+			USING (isbn)
+			
+			ORDER BY library_no 
+			LIMIT #{startRow},#{pageSize}
 	</select>
 	<select id="selectPageAllCount" resultType="int">
-		SELECT COUNT(*) FROM Library
+		SELECT COUNT(*)
+			FROM Library l INNER JOIN read_book b
+			USING (isbn)
 	</select>
 	
 	<insert id="insertOne" parameterType="Library"

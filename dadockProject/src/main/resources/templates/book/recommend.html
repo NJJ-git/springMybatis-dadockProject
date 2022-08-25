@@ -43,10 +43,11 @@ color:#fc0;
 				<th:block th:each="recommend : ${recommendList}">
 					<div class="col-md-2"
 						style="width: 300px; margin: 1px; margin-bottom: 30px;">
-						<div type="button"
+						<div class="text-center" type="button"
 							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
 							<img th:src="${recommend.img}"
 								style="border-radius: 5px; height: 350px; width: 250px; padding: 2px;">
+						</div>
 							<hr>
 						<div>
 							<div class="align-self-end">
@@ -69,11 +70,12 @@ color:#fc0;
                			<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
 				    			<th:block th:each="library:${recommend.libraries}">
 				    				<th:block th:if="${library.star!=0&&library.star!=5}">
-											<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+										<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
 							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
-										</th:block>
+									</th:block>
                  		<span class="star true" th:if="${library.star==5}">★★★★★</span>
                  		<span class="star false" th:if="${library.star==0}">★★★★★</span>
+								</th:block>
 								</div>
 							<hr>
 							</div>
@@ -97,7 +99,7 @@ color:#fc0;
 			</div>
 		</div>
 	</div>
-	<div class="m-5">
+	<div id="dd" class="m-5">
 		<hr>
 		<div class="card text-center">
 			<div class="card-body ">
@@ -107,31 +109,39 @@ color:#fc0;
 		<hr>
 		<div class="container-fluid">
 			<div class="row" style="justify-content: center;">
-				<th:block th:each="application : ${applicationList}">
+				<th:block th:each="recommend : ${dadockList}">
 					<div class="col-md-2"
 						style="width: 300px; margin: 1px; margin-bottom: 30px;">
-						<div type="button"
-							th:onclick="|location.href='@{/book/detail/__${application.isbn}__}'|">
-							<img th:src="${application.img}"
+						<div class="text-center" type="button"
+							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+							<img th:src="${recommend.img}"
 								style="border-radius: 5px; height: 350px; width: 250px; padding: 2px;">
 							<hr>
 						<div>
 							<div class="align-self-end">
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|제목 : ${application.title}|"></div>
+								th:text="|제목 : ${recommend.title}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|저자 : ${application.author}|"></div>
+								th:text="|저자 : ${recommend.author}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|출판사 : ${application.publisher}|"></div>
+								th:text="|출판사 : ${recommend.publisher}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|ISBN : ${application.isbn}|"></div>
-							<!-- 별점 start -->
+								th:text="|ISBN : ${recommend.isbn}|"></div>
+					    		<!-- 별점 start -->
 					    		<div class="mb-3 text-truncate w-90">
-               			
+               				<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+										<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
+								</th:block>
+                 			<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 			<span class="star false" th:if="${library.star==0}">★★★★★</span>
+								</th:block>
 								</div>
 							</div>
 							<hr>
@@ -154,7 +164,6 @@ color:#fc0;
 			</div>
 		</div>
 	</div>
-	<hr>
 </body>
 
 

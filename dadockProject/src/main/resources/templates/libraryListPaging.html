@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    
+    <li class="page-item" th:classappend="${(paging.isFirst)?'':'disabled'}">
+      <a class="page-link" th:href="@{{url}{page}(url=${paging.url},page=${paging.firstPage},text=${text})}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    
+    <li class="page-item" th:classappend="${(paging.isPrevious)?'':'disabled'}">
+      <a class="page-link" th:href="@{{url}{page}(url=${paging.url},page=${paging.previousPage},text=${text})}">
+      	Prev
+      </a>
+    </li>
+    
+    <th:block th:if="${paging.end!=0}">
+    	<th:block th:each="num:${#numbers.sequence(paging.start, paging.end)}">
+    		<li class="page-item" th:classappend="${(paging.page==num)?'active':''}">
+    			<a class="page-link" th:href="@{{url}{page}(url=${paging.url}, page=${num}, text=${text})}" th:text="${num}"></a>
+	    	</li>
+    	</th:block>
+    </th:block>
+    
+    <th:block th:if="${paging.end==0}">
+    	
+    </th:block>
+    
+    <li class="page-item" th:classappend="${(paging.isNext)?'':'disabled'}">
+      <a class="page-link" th:href="@{{url}{page}(url=${paging.url},page=${paging.nextPage},text=${text})}">
+      	Next
+      </a>
+    </li>
+    
+    <li class="page-item" th:classappend="${(paging.isLast)?'':'disabled'}">
+      <a class="page-link" th:href="@{{url}{page}(url=${paging.url},page=${paging.lastPage},text=${text})}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+     </li>
+  </ul>
+</nav>
+</body>
+</html>

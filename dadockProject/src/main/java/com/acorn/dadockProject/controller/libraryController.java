@@ -51,10 +51,10 @@ public class LibraryController {
 			@SessionAttribute(name="loginUser", required=false) User loginUser,
 			@PathVariable int page, 
 			Model model) {
-		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
-		model.addAttribute("readBookList", readBookList);
+		//List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
+		//model.addAttribute("readBookList", readBookList);
 		
-		int row=7;
+		int row=15;
 		int startRow=(page-1)*row;
 		List<Library> libraryList=libraryMapper.selectPageAll(startRow,row);
 		int rowCount=libraryMapper.selectPageAllCount();
@@ -62,7 +62,7 @@ public class LibraryController {
 		Paging paging=new Paging(page, rowCount, "/library/list/",row);
 		model.addAttribute("paging",paging);
 		model.addAttribute("libraryList",libraryList);
-		
+
 		model.addAttribute("row",row);
 		model.addAttribute("rowCount",rowCount);
 		model.addAttribute("page",page);
