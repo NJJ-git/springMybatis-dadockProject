@@ -72,10 +72,9 @@ public class BookController {
 	@GetMapping("/recommend")
 	public String list(Model model ) {
 		List<ReadBook> recommendList=readBookMapper.selectReadBookByStar(); //db
-		List<ReadBook> applicationList=readBookMapper.selectByAppRecommendAll(); //naver or db
-
+		List<ReadBook> dadockList=readBookMapper.selectByAppRecommendAll(); //naver or db
 		model.addAttribute("recommendList",recommendList);
-		model.addAttribute("applicationList",applicationList);
+		model.addAttribute("dadockList",dadockList);
 		System.out.println(recommendList);
 		return "/book/recommend";
 	}

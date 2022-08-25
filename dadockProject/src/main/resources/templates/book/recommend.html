@@ -12,16 +12,16 @@
 	name='viewport' />
 <meta name="viewport" content="width=device-width" />
 <style>
-/* 별점 CSS */
-	.star-rating {
-	  display:flex;
-	  flex-direction: row-reverse;
-	  font-size:1.5em;
-	  justify-content:space-around;
-	  text-align:center;
-	  width:5em;
-	  color: #f90;
-	}
+/* 별점 css */
+.star{
+font-size:1.4em;
+}
+.star.false{
+color:#ccc;
+}
+.star.true{
+color:#fc0;
+}
 
 </style>
 <title>recommend Book</title>
@@ -29,12 +29,12 @@
 
 <body>
 	<header th:insert="headerNav"></header>
-	<hr>
 	<div class="m-5">
+	<hr>
 		<div class="card text-center">
 			<div class="card-body ">
 				<h2 class="card-title">추천도서</h2>
-				<h4 class="card-text">다독추천</h4>
+				<h4 class="card-text">유저추천</h4>
 			</div>
 		</div>
 		<hr>
@@ -42,13 +42,15 @@
 			<div class="row" style="justify-content: center;">
 				<th:block th:each="recommend : ${recommendList}">
 					<div class="col-md-2"
-						style="width: 280px; margin: 1px; margin-bottom: 30px;">
-						<div type="button"
+						style="width: 300px; margin: 1px; margin-bottom: 30px;">
+						<div class="text-center" type="button"
 							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
 							<img th:src="${recommend.img}"
 								style="border-radius: 5px; height: 350px; width: 250px; padding: 2px;">
-						<div>
+						</div>
 							<hr>
+						<div>
+							<div class="align-self-end">
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
 								th:text="|제목 : ${recommend.title}|"></div>
@@ -63,24 +65,21 @@
 								th:text="|ISBN : ${recommend.isbn}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-<<<<<<< HEAD
-								<div class="star-rating">
-=======
->>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
-								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
-					    		<th:block th:each="library:${recommend.libraries}">
-					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
+								<!-- 별점 start -->
+					    		<div class="mb-3 text-truncate w-90">
+               			<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+										<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
 									</th:block>
-		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-<<<<<<< HEAD
+                 		<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 		<span class="star false" th:if="${library.star==0}">★★★★★</span>
+								</th:block>
 								</div>
-=======
->>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
-							</div>
 							<hr>
+							</div>
+						</div>
 						</div>
 						</div>
 						<!-- <div>
@@ -100,60 +99,50 @@
 			</div>
 		</div>
 	</div>
-	<div class="m-5">
+	<div id="dd" class="m-5">
 		<hr>
 		<div class="card text-center">
 			<div class="card-body ">
-				<h2 class="card-title">유저추천</h2>
+				<h2 class="card-title">다독추천</h2>
 			</div>
 		</div>
 		<hr>
 		<div class="container-fluid">
 			<div class="row" style="justify-content: center;">
-				<th:block th:each="recommend : ${applicationList}">
+				<th:block th:each="recommend : ${dadockList}">
 					<div class="col-md-2"
-						style="width: 280px; margin: 1px; margin-bottom: 30px;">
-						<div type="button"
-<<<<<<< HEAD
-							th:onclick="|location.href='@{/book/detail/__${application.isbn}__}'|">
-							<img th:src="${application.img}"
-=======
+						style="width: 300px; margin: 1px; margin-bottom: 30px;">
+						<div class="text-center" type="button"
 							th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
 							<img th:src="${recommend.img}"
->>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 								style="border-radius: 5px; height: 350px; width: 250px; padding: 2px;">
-						<div>
 							<hr>
+						<div>
+							<div class="align-self-end">
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|제목 : ${application.title}|"></div>
+								th:text="|제목 : ${recommend.title}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|저자 : ${application.author}|"></div>
+								th:text="|저자 : ${recommend.author}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|출판사 : ${application.publisher}|"></div>
+								th:text="|출판사 : ${recommend.publisher}|"></div>
 							<div class="mb-3"
 								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								th:text="|ISBN : ${application.isbn}|"></div>
-							<div class="mb-3"
-								style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-<<<<<<< HEAD
-								<div class="star-rating">
-=======
->>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
-								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
-					    		<th:block th:each="library:${recommend.libraries}">
-					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
-									</th:block>
-		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-<<<<<<< HEAD
-								</div> 
-=======
->>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
+								th:text="|ISBN : ${recommend.isbn}|"></div>
+					    		<!-- 별점 start -->
+					    		<div class="mb-3 text-truncate w-90">
+               				<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+										<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
+								</th:block>
+                 			<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 			<span class="star false" th:if="${library.star==0}">★★★★★</span>
+								</th:block>
+								</div>
 							</div>
 							<hr>
 						</div>
@@ -175,8 +164,6 @@
 			</div>
 		</div>
 	</div>
-
-	<hr>
 </body>
 
 

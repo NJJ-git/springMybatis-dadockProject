@@ -8,21 +8,7 @@
     <meta name="viewport" content="width=device-width" />
 	<link rel="stylesheet" href="/slider/dist/css/splide.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js" defer="defer"></script>
-	<style>
-/* 별점 CSS */
-	.star-rating {
-	  display:flex;
-	  flex-direction: row-reverse;
-	  font-size:1.5em;
-	  justify-content:space-around;
-	  text-align:center;
-	  width:5em;
-	  color: #f90;
-	}
-
-</style>
 	<title>Dadock::다독</title>
-</head>
 <style>
 /* 별점 css */
 .star{
@@ -34,8 +20,19 @@ color:#ccc;
 .star.true{
 color:#fc0;
 }
-
+.img:hover{
+transform: scale(1.2);
+transition: 1s;
+}
+/* .img:hover{
+border-radius: 5px; 
+height: 350px; 
+padding: 2px;
+transform: scale(1.5);
+transition: 1s;
+} */
 </style>
+</head>
 <body>
 <header th:insert="headerNav"></header>
 <!-- 검색바 -->
@@ -53,44 +50,40 @@ color:#fc0;
 </div>
 <!-- Carousel 시작  -->
 <div class="m-5">
-<hr>
-<<<<<<< HEAD
-	<div class="card text-left">
-		<div class="card-body ">
-			<h4 class="card-title">유저 추천</h4>
-		</div>
-	</div>
-	<div class="container-fluid">
+<a href="/book/recommend"
+class="text-dark text-decoration-none">
+<p class="m-4 h3">유저추천</p>
+</a>
+	<div class="container-fluid"
+	style="margin-top: -30px">
 		<div id="card-slider" class="splide">
 		  	<div class="splide__track row">
 				<ul class="splide__list">
 					<th:block th:each="recommend : ${recommendList}">
 						<li class="splide__slide">
-							<div class="m-4 col" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-								<img th:src="${recommend.img}"  class="w-100" 
-								style="border-radius: 5px; height: 350px; padding: 2px;">
+							<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+								<img th:src="${recommend.img}"  class= img "w-95"
+								style= "border-radius: 5px; height: 350px; padding: 2px;">
+								
 								<hr>
-							<div class="align-self-end">
-								<div class="mb-3" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" 
+								<div class="mb-3 text-truncate w-90"
 								th:text="|제목 : ${recommend.title}|"></div>
-								<div class="mb-3" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
+								<div class="mb-3 text-truncate w-90"
 								 th:text="|저자 : ${recommend.author}|"></div>
-								<!-- 별점 start -->
-					    		<div class="mb-3"style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+								
+					    		<div class="mb-3 text-truncate w-90">
 					    			<!-- 별점 null 일때 -->
-		                        	<div class="star-rating">
-								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
-					    		<th:block th:each="library:${recommend.libraries}">
-					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
-									</th:block>
-		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-								</div> 
-								<hr>
+               			<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+				    			<th:block th:each="library:${recommend.libraries}">
+				    				<th:block th:if="${library.star!=0&&library.star!=5}">
+											<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
+							 		 --><span class="star false" th:each="num : ${#numbers.sequence(0, 4-library.star)}">★</span>
+										</th:block>
+                 		<span class="star true" th:if="${library.star==5}">★★★★★</span>
+                 		<span class="star false" th:if="${library.star==0}">★★★★★</span>
+								</th:block>
 								</div>
-							</div>
+							<hr>
 							</div>
 						</li>
 					</th:block>
@@ -100,66 +93,28 @@ color:#fc0;
 	</div>
 </div>
 <div class="m-5">
-<hr>
-	<div class="card text-left">
-		<div class="card-body ">
-			<h4 class="card-title">다독 추천</h4>
-		</div>
-	</div>
-	<div class="container-fluid">
+<a href="/book/recommend#dd"
+class="text-dark text-decoration-none">
+<p class="m-4 h3">다독추천</p>
+</a>
+	<div class="container-fluid"
+	style="margin-top: -30px">
 		<div id="card-slider2" class="splide">
 		  	<div class="splide__track row">
 				<ul class="splide__list">
-					<th:block th:each="recommend : ${applicationList}">
-						<li class="splide__slide">
-							<div class="m-4 col" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-								<img th:src="${application.img}"  class="w-100" 
-								style="border-radius: 5px; height: 350px; padding: 2px;">
+					<th:block th:each="recommend : ${dadockList}">
+						<li class="splide__slide col-md-4">
+							<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
+								<img th:src="${recommend.img}"  class= img "w-95" 
+								style= "border-radius: 5px; height: 350px; padding: 2px;">
 								<hr>
-							<div class="align-self-end">
-								<div class="mb-3" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" 
-								th:text="|제목 : ${application.title}|"></div>
-								<div class="mb-3" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"
-								 th:text="|저자 : ${application.author}|"></div>
+								<div class="mb-3 text-truncate w-90"
+								th:text="|제목 : ${recommend.title}|"></div>
+								<div class="mb-3 text-truncate w-90"
+								 th:text="|저자 : ${recommend.author}|"></div>
 								<!-- 별점 start -->
-					    		<div class="mb-3"style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-					    			<!-- 별점 null 일때 -->
-		                        	<div class="star-rating">
-								<span th:if="${recommend.libraries.size==0}">☆☆☆☆☆</span>
-					    		<th:block th:each="library:${recommend.libraries}">
-					    			<th:block th:if="${library.star!=0&&library.star!=5}">
-									<span th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
-								 --><span th:each="num : ${#numbers.sequence(0, 4-library.star)}">☆</span>
-									</th:block>
-		                           	<span th:if="${library.star==5}">★★★★★</span>
-		                           	<span th:if="${library.star==0}">☆☆☆☆☆</span>
-								</div> 
-								<hr>
-								</div>
-							</div>
-							</div>
-						</li>
-					</th:block>
-				</ul>
-			</div>
-		</div>
-	</div>
-=======
-<p class="mt-4 h3">유저 추천</p>
-	<div id="card-slider" class="splide container-fluid">
-	  	<div class="splide__track row">
-			<ul class="splide__list">
-				<th:block th:each="recommend : ${recommendList}">
-					<li class="splide__slide col-md-4">
-						<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-							<img th:src="${recommend.img}"  class="w-95 border" style="height: 350px; padding: 2px;">
-							<hr>
-							<div class="mb-3 text-truncate w-90" th:text="|제목 : ${recommend.title}|"></div>
-							<div class="mb-3 text-truncate w-90" th:text="|저자 : ${recommend.author}|"></div>
-							<!-- 별점 start -->
-			    		<div class="mb-3 text-truncate w-90">
-				    			<!-- 별점 null 일때 -->
-               	<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
+					    		<div class="mb-3 text-truncate w-90">
+               			<span class="star false" th:if="${recommend.libraries.size==0}">★★★★★</span>
 				    			<th:block th:each="library:${recommend.libraries}">
 				    				<th:block th:if="${library.star!=0&&library.star!=5}">
 											<span class="star true" th:each="num : ${#numbers.sequence(0, library.star-1)}">★</span><!-- span 줄바꿈 방지
@@ -167,16 +122,16 @@ color:#fc0;
 										</th:block>
                  		<span class="star true" th:if="${library.star==5}">★★★★★</span>
                  		<span class="star false" th:if="${library.star==0}">★★★★★</span>
-				    			</th:block>
+								</th:block>
 								</div>
-							<hr>
-						</div>
-					</li>
-				</th:block>
-			</ul>
+								<hr>
+							</div>
+						</li>
+					</th:block>
+				</ul>
+			</div>
 		</div>
 	</div>
->>>>>>> df3aed6ed23bf8d8c6dd462cf07394e3f3d47fb7
 </div>
 <!-- carousel 끝 -->
 
