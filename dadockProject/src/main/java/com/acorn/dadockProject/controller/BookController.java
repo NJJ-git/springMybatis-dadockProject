@@ -58,10 +58,23 @@ public class BookController {
 		List<Book> bookDetails=objectMapper.readValue(jsonBookArray, new TypeReference<List<Book>>(){});
 		Book bookDetail=bookDetails.get(0);
 		
-		// library 가져오기 
-		Library bookInLibrary=libraryMapper.selectOneByIsbn(isbn);
+		// library>comment 가져오기
+		List<Library> libraries=libraryMapper.selectAllByIsbn(isbn);
 		
-		model.addAttribute("bookInLibrary",bookInLibrary);
+		//평균 별점 가져오기
+		Library star=readBookMapper.selectStar(isbn);
+		
+		//책 읽음 여부
+		String user_id="";
+		if (loginUser!=null) {
+			user_id=loginUser.getUser_id();
+		}
+		int userRead=readBookMapper.selectOneByUserAndIsbnInLibrary(user_id, isbn);
+		
+		model.addAttribute("userRead",userRead);
+		model.addAttribute("user_id",user_id);
+		model.addAttribute("star",star);
+		model.addAttribute("libraries",libraries);
 		model.addAttribute("bookDetails", bookDetails);
 		model.addAttribute("bookDetail",bookDetail);
 		

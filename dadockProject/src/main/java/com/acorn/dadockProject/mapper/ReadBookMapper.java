@@ -14,6 +14,8 @@ public interface ReadBookMapper {
 	   public List<ReadBook> selectByAppRecommendAll();
 	   public List<ReadBook> selectByIdReadBookAndLibrary(String user_id);
 	   public List<ReadBook> selectOneByIdReadBookAndLibrary(String user_id, int library_no);
+	   
+	   public int selectOneByUserAndIsbnInLibrary(String user_id, String isbn);
 	   public int insertOne(ReadBook readBook);
 	   public Library selectStar(String isbn);
 	   

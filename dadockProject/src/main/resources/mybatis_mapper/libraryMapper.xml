@@ -25,9 +25,10 @@
 			FROM library where library_no=#{library_no}
 	</select>
 	
-	<select id="selectOneByIsbn" resultType="Library" parameterType="String">
+	<select id="selectAllByIsbn" resultMap="libraryMap" parameterType="String">
 		select * from library where isbn=#{isbn}
 	</select>
+	
 	
 	<select id="selectPageAll" resultType="Library">
 		SELECT *
