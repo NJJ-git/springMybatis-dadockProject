@@ -18,7 +18,6 @@ import lombok.Data;
 | star       | int          | NO   |     | 0       |                |
 | comment    | varchar(255) | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
- 
  */
 
 
@@ -27,10 +26,11 @@ public class Library {
 	private int library_no;
 	private String user_id;
 	private String isbn;
-	private String comment;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date end_date;
 	private int star;
-	
+	private Book book;
+	private String comment;
+
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.acorn.dadockProject.dto.Book;
 import com.acorn.dadockProject.dto.Library;
+import com.acorn.dadockProject.dto.Paging;
 import com.acorn.dadockProject.dto.ReadBook;
 import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.LibraryMapper;
@@ -46,18 +47,35 @@ public class LibraryController {
 	private ReadBookMapper readBookMapper;
 	
 	@GetMapping("/list/{page}")
-	public String list(@SessionAttribute(name="loginUser", required=false) User loginUser,
-			@PathVariable int page, Model model) {
+	public String list(
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int page, 
+			Model model) {
 		List<ReadBook> readBookList = readBookMapper.selectByIdReadBookAndLibrary(loginUser.getUser_id());
-		model.addAttribute("readBookList", readBookList); // 질문해야 함.
+		model.addAttribute("readBookList", readBookList);
+		
+		int row=7;
+		int startRow=(page-1)*row;
+		List<Library> libraryList=libraryMapper.selectPageAll(startRow,row);
+		int rowCount=libraryMapper.selectPageAllCount();
+		
+		Paging paging=new Paging(page, rowCount, "/library/list/",row);
+		model.addAttribute("paging",paging);
+		model.addAttribute("libraryList",libraryList);
+		
+		model.addAttribute("row",row);
+		model.addAttribute("rowCount",rowCount);
+		model.addAttribute("page",page);
+		System.out.println(libraryList);
+		
 		return "/library/list";
 	}
 	
-	@GetMapping("/detail/{libraryNo}")
-	public String detail(@PathVariable int libraryNo, Model model) {
-		Library library = libraryMapper.selectOne(libraryNo);
-		model.addAttribute(library);
-		System.out.println(library);
+	@GetMapping("/detail/{library_no}")
+	public String detail(@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int library_no, Model model) {
+		List<ReadBook> readBook = readBookMapper.selectOneByIdReadBookAndLibrary(loginUser.getUser_id(), library_no);
+		model.addAttribute("readBook", readBook);
 		return "/library/detail";
 	}
 	

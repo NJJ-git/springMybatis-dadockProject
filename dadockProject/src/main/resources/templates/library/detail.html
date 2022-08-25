@@ -35,10 +35,14 @@
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
+	<div>
+	[[${readBook}]]
+	</div>
+	<th:block th:each="readBook : ${readBook}">
 	<form action="/library/update.do" method="post">
 		<h1 class="m-3">
-			<small th:text="${library.library_no}"></small>
-			<span th:text="${library.title}"></span>
+			<small th:text="${readBook.libraries.get(0).library_no}"></small>
+			<span th:text="${readBook.title}"></span>
 		</h1>
 		
 		<div class="row mb-3 g-3 align-items-center">
@@ -46,7 +50,7 @@
 				isbn
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${library.isbn}"></strong>	
+				<strong th:text="${readBook.isbn}"></strong>	
 			</div>	
 		</div>
 		<div class="row mb-3 g-3 align-items-center">
@@ -54,7 +58,7 @@
 				저자
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${library.author}"></strong>	
+				<strong th:text="${readBook.author}"></strong>	
 			</div>	
 		</div>
 		<div class="row mb-3 g-3 align-items-center">
@@ -62,13 +66,13 @@
 				출판사
 			</div>	
 			<div class="col-auto">
-				<strong th:text="${library.publisher}"></strong>	
+				<strong th:text="${readBook.publisher}"></strong>	
 			</div>	
 		</div>
 		
 		<div class="col-3">
 			<p class="h6">별점 입력</p>
-		  	<div class="star-rating w-100" name="star" id="inputStar" th:value="${library.star}">
+		  	<div class="star-rating w-100" name="star" id="inputStar" th:value="${readBook.libraries.get(0).star}">
 				<input type="radio" id="5-stars" name="star" value="5" />
 				<label for="5-stars" class="star">&#9733;</label>
 				<input type="radio" id="4-stars" name="star" value="4" />
@@ -89,11 +93,10 @@
 		  </div>
 		  <div class="col-auto">
 		    <input type="date" name="end_date" id="inputEndDate" class="form-control" 
-		    th:value="${#dates.format(library.end_date,'yyyy-MM-dd')}">
+		    th:value="${#dates.format(readBook.libraries.get(0).end_date,'yyyy-MM-dd')}">
 		  </div>
 		</div>
 		
-		<form id="commentInsertForm" action="/library/detail/{libraryNo}" method="post" class="needs-validation">
 			<div class="mb-3 has-validation">
 		    	<label for="inputContent" class="form-label">코멘트</label>
 		    	<textarea name="comment" class="form-control" id="inputComment"></textarea>
@@ -101,18 +104,18 @@
 		      		내용을 입력하세요.
 		    	</div>
 			</div>
-			<input type="text" name="isbn" th:value="${library.isbn}" hidden>
-		</form>
+			<input type="text" name="isbn" th:value="${readBook.isbn}" hidden>
 
 				
 		<p>
 			<button type="submit" class="btn btn-outline-primary">수정</button>
-			<a th:href="@{/library/delete/{library_no}(no=${library.library_no}, library_no=${library.library_no})}" 
+			<a th:href="@{/library/delete/{library_no}(library_no=${readBook.libraries.get(0).library_no})}" 
 				class="btn btn-danger">삭제</a>
-			<input type="hidden" name="library_no" th:value="${library.library_no}">
+			<input type="hidden" name="library_no" th:value="${readBook.libraries.get(0).library_no}">
 		</p>
 		
 </form>
+	</th:block>
 </main>
 </body>
 </html>

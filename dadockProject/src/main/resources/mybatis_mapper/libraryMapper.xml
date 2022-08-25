@@ -6,52 +6,70 @@
 
 	<resultMap type="Library" id="libraryMap">
 		<id column="library_no" property="library_no"/>
-		<result column="isbn" property="isbn"/>
 		<result column="user_id" property="user_id"/>
+		<result column="isbn" property="isbn"/>
 		<result column="end_date" property="end_date"/>
 		<result column="star" property="star"/>
-		<result column="comment" property="comment"/>
 	</resultMap>
+	
+	
 
 	<select id="selectAll" resultType="Library" resultMap="libraryMap">
 		SELECT
-			library_no, end_date, star, comment
-			FROM library 
+			library_no, isbn, end_date, star
+			FROM Library 
 			ORDER BY library_no
-	</select>
-	
-	<select id="selectByIdAll" resultType="Library" resultMap="libraryMap" parameterType="String">
-		SELECT *
-			FROM library
-			WHERE user_id=#{user_id}
-			ORDER BY library_no
-	</select>
-	
-	<select id="selectOneByIsbn" resultType="Library">
-		select * from library where isbn=#{isbn}
 	</select>
 	
 	<select id="selectOne" resultMap="libraryMap" parameterType="int">
-		SELECT * FROM library WHERE library_no=#{library_no}
+		SELECT 
+			l.*,
+			b.title, b.author, b.publisher,
+			c.content
+			
+			FROM Library l INNER JOIN Book b
+			USING (isbn)
+			
+			LEFT JOIN Comment c
+			ON b.isbn = c.isbn
+			
+			WHERE l.library_no=#{libraryNo}
+			ORDER BY library_no
+	</select>
+	
+	<select id="selectPageAll" resultType="Library">
+		SELECT *
+			FROM Library 
+				ORDER BY library_no 
+				LIMIT #{startRow},#{pageSize}
+	</select>
+	<select id="selectPageAllCount" resultType="int">
+		SELECT COUNT(*) FROM Library
 	</select>
 	
 	<insert id="insertOne" parameterType="Library"
 	useGeneratedKeys="true" keyProperty="library_no">
 		INSERT INTO Library
-			(user_id, end_date, star, comment) 
+			(isbn, user_id, end_date, star, comment) 
 			VALUES 
-			(#{user_id}, #{end_date}, #{star}, #{comment})
+			(#{isbn}, #{user_id}, #{end_date}, #{star}, #{comment})
+	</insert>
+	
+	<insert id="insertBook">
+		INSERT INTO read_book (isbn, title, author, image, publisher, pubdate, description, link)
+		VALUES (#{isbn}, #{title}, #{author}, #{image}, #{publisher}, #{pubdate}, #{description}, #{link})
 	</insert>
 	
 	<update id="updateOne" parameterType="Library">
 		UPDATE Library SET
 			end_date=#{end_date},
-			star=#{star}
+			star=#{star},
+			comment=#{comment}
 			WHERE library_no=#{library_no}
 	</update>
 	
 	<delete id="deleteOne" parameterType="int">
-		DELETE FROM library WHERE library_no=#{library_no}
+		DELETE FROM Library WHERE library_no=#{library_no}
 	</delete>
 
 </mapper>
