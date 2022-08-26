@@ -37,14 +37,14 @@ public  class MarketBoard {
 	private int state;
 
 	private String user_id; // user테이블에서 가져와야하나? 아닌가? 몰라
-	//private String address;
+	private String address;
 	
 	private User user; //n:1 조인 fk는 user_id
 	//private MarketBoardImg marketBoardImg;
 	private List<MarketBoardImg> marketBoardImgs;
 	
 	private List<MarketReply> marketReplys;
-	
+	private WishList lgoinUserWishList;
 	private int MreplysSize;
 	////조인..//
 	

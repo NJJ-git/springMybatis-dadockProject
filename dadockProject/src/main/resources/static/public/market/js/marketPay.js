@@ -1,12 +1,9 @@
-$(document).ready(function(){
-	$("#marketPay").click(function(){
-		marketPay(); // 버튼 클릭하면 호출
-	});
-})
-	    
+
 // 버튼 클릭시 실행
 $("#marketPay").click(function () {   
 	var no = document.getElementById('marketBoardNo').value;
+	var hi = document.getElementById('title');
+	console.log(hi.innerText);
 	var IMP = window.IMP; // 생략가능        
 	IMP.init('imp08476032');         
 	// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용        
@@ -16,10 +13,10 @@ $("#marketPay").click(function () {
 		//html5_inicis':이니시스(웹표준결제)             
       pay_method: 'card',               
       merchant_uid: 'merchant_' + new Date().getTime(),               
-      name: '주문명:결제테스트',  //결제창에서 보여질 이름      
+      name: String(hi.innerText),  //결제창에서 보여질 이름   이걸 어떻게 받아오는지   
       amount: 100,             //가격  최소 결제가격 100원  이건 냅두기      
       buyer_email: 'iamport@siot.do',         
-      buyer_name: '구매자이름',           
+      buyer_name: 'user1',           
       buyer_tel: '010-1234-5678',        
       buyer_addr: '서울특별시 강남구 삼성동',           
       buyer_postcode: '123-456',          

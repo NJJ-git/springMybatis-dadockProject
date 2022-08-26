@@ -48,5 +48,10 @@
 		select *,market_board_no 'marketBoard.market_board_no'  from wishList
 		where user_id=#{user_id} and market_board_no=#{market_board_no}
 	</select>
+	<select id="checkJjim" resultType="WishList">
+		select *  from wishList
+		where user_id=#{user_id} and market_board_no=#{market_board_no}
+	</select>
 	<!-- 업데이트도 있어야하나 -->
+	
 </mapper>

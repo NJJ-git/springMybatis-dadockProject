@@ -7,31 +7,36 @@
 <body>
 <!-- <header th:insert="headerNav"></header> -->
 <header th:insert="headerNav"></header>
-<div class="card-group">	
-	<div id="box" class="m-3">
+<p th:text="${}"></p>
+<div id="container">
+	<div id="box" class="m-3" >
        <div class="d-flex flex-row-reverse">
     	   <a th:href="@{/market/goodsDelete/{no}(no=${marketBoard.market_board_no})}" class="btn btn-danger">삭제</a>
 	       <a th:href="@{/market/goodsUpdate/{no}(no=${marketBoard.market_board_no})}" class="btn btn-success">수정</a>
        </div>
        <h1 th:text="'No.'+${marketBoard.market_board_no}"> <i class="bi bi-book"></i></h1>
-       <h1 th:text="'state.'+${marketBoard.state}"></h1>
      </div>
-     <div class="d-flex justify-content-center">
+<div class="card-group d-flex justify-content-center">	
+     <div >
      <div class="card" style="width: 800px;">
      <div>
   		<div th:each="boardImg:${marketBoard.marketBoardImgs}">
   			<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="card-img-top" alt="...">
   		</div>
+  		
+			<div class="col-md-4">
+		   		 <img th:src="@{{url}(url=${marketBoard.img_path})}"  th:alt="${marketBoard.title}" 
+		    		style=width:300px class="img-fluid rounded-start">
+		    </div>
 	  	</div>
 	  	<div class="card-body">
-	  	글쓴이:
-	        <strong th:text="${session.loginUser?.user_id}"></strong>
 	  	제목:
-	    <h2 class="card-title mb-3" th:text="${marketBoard.title}"></h2>
+	    <h2 class="card-title mb-3" th:text="${marketBoard.title}" id="title"></h2>
+	  	글쓴이:
+	       <h5 class="card-title mb-3" th:text="${marketBoard.user_id}"></h5>
 	    등록시간:
 	    <h5 class="card-title mb-3" th:text="${marketBoard.post_time}"></h5>
-	   <!--  책 제목:
-	    <h2 class="card-title mb-3" th:text="${marketBoard.book_title}"></h2> -->
+	  
 	    <p class="card-text mb-3" >상태: 
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==1)?'active':''}">최상</button> 
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==2)?'active':''}">상</button> 
@@ -136,13 +141,6 @@
 	    	설명:
 	    <p class="card-text" th:text="${marketBoard.content}"></p>
 	    <span class="d-flex flex-row-reverse">
-		    <!-- <a th:href="@{/market/wishlist/{no}no=${marketBoard.market_board_no})}" 
-		    class="btn btn-primary">
-		    <a th:href="@{/market/wishlist/{id}/{no}(id=${marketBoard.user?.user_id},no=${marketBoard.market_board_no})}" 
-		    <i class="bi bi-bookmark-heart-fill">
-		    	<span ></span>
-		    </i>
-		    </a> -->
 		    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
 		    	th:href="@{/market/wishList}" class="btn btn-outline-warning">
 		    	<i class="bi bi-heart"></i></a>
@@ -151,23 +149,25 @@
 	  </div>
      </div>
 </div>
+</div>
+
 <!-- ///////////////////// 댓글 ///////////////////////////// -->
-		 <div>
 		
-		 <h2 class="d-flex justify-content-between">
-				<span>댓글 리스트
-					:<small th:text="${marketReplys?.size}"></small>
+		
+			<div class="d-flex justify-content-center">
+				<span >댓글
+					:<span class="badge text-bg-primary" th:text="${marketBoard.marketReplys?.size}"></span>
 				</span>
-				
-			</h2>
-			<div class="card  mb-3" style="width: 18rem;">
-			  <ul class="list-group list-group-flush">
-			  	<li class="list-group-item text-bg-light border-success" >
-			  	<form action="/reply/insert.do" method="post">
+			</div>
+			
+			<!--댓글 등록 폼  -->
+		 <div class="d-flex justify-content-center">
+			<div class="card  mb-3" style="width: 40rem;">
+			  	<form action="/reply/insert.do" method="post"> 
 				  <div class="card-footer">
 				    <p class="input-group input-group-sm mb-1">
 						<span class="input-group-text">댓글작성자</span>
-						<input name="user.user_id" th:value="${session.loginUser?.user_id}"
+						 <input name="user_id" th:value="${session.loginUser?.user_id}"
 							type="text" class="form-control">
 					</p>
 					<p class="input-group input-group-sm mb-1">
@@ -182,21 +182,53 @@
 						<button type="submit" class="btn btn-sm btn-outline-primary">제출</button>
 						<input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
 					</p>
-					</form>
-					</li>
+				</form>
 					
-			<th:block  th:each="reply : ${marketBoard.marketReplys}">
-		 <p>내가 쓴 댓글 리스트</p>
-		  	<li class="list-group-item">
-		  	<form action="/reply/update.do" method="post" >
-		  		<p class="input-group input-group-sm mb-1">
+					
+		<!-- <!--로그인 안되어있거나 로그인 한 사람이 다를때  -->
+
+	  	<div>
+	  	
+		 <h4>댓글 리스트</h4>
+
+ 	 <th:block  th:each="reply : ${marketBoard.marketReplys}">
+	
+				
+		  	 <li class="list-group-item d-flex ">
+		    	<div class="ms-2 me-auto">
+			    	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+				    	<button  class="btn btn-sm btn-outline-dark " type="button" 
+				    	data-bs-toggle="collapse" data-bs-target="#replyModify">
+							수정
+						</button> 
+			    	</div>
+			    	 <div>
+			    		글쓴이 : <span th:text="${reply.user?.user_id}"></span>
+			    	</div> 
+			    	<div>
+			    		등록일 : <span th:text="${#dates.format(reply.post_time,'yyyy-MM-dd HH:mm:ss')}"></span>
+			    	</div>
+			     	 <div class="fw-bold">
+			      	<span  th:text="${reply.market_reply_no}"></span>
+			      	</div>
+			      
+			    	<div  th:text="${reply.contents}"></div>
+		   		</div>
+		   		</li>
+	
+  
+	  	
+	  	<ul class="list-group collapse hide" id="replyModify">
+		  	<li   class="list-group-item">
+		  		<form action="/reply/update.do" method="post" >
+		  			<p class="input-group input-group-sm mb-1">
 						<span class="input-group-text">No</span>
 						<input name="market_reply_no" th:value="${reply.market_reply_no}"
 							type="text" class="form-control" readonly>
 							
-						<span class="input-group-text">글쓴이</span>
-						<input name="user.user_id" th:value="${session.loginUser?.user_id}"
-							type="text" class="form-control" readonly>
+						 <span class="input-group-text">글쓴이</span>
+						<input name="user.user_id" th:value="${reply.user?.user_id}"
+							type="text" class="form-control" readonly> 
 					</p>
 					<div class="mb-1 d-flex justify-content-between">
 						<span>등록일 : <th:block th:text="${#dates.format(reply.post_time,'yyyy-MM-dd HH:mm:ss')}"></th:block></span>
@@ -214,12 +246,19 @@
 						<button type="submit" class="btn btn-sm btn-outline-primary">제출</button>
 						<input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
 					</p>
-		  	</form>
+		  		</form>
 		  	</li>
-		  </th:block>
-			  </ul>
-		 </div>
+		  	</ul>
+	
+		
+	  </th:block>   
 </div>
-</div>		
+
+
+		 </div>
+		 
+		 </div> /
+
+	</div>	
 </body>
 </html>

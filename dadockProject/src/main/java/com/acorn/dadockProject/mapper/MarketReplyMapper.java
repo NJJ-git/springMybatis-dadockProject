@@ -6,8 +6,9 @@ import com.acorn.dadockProject.dto.MarketReply;
 @Mapper
 //com.acorn.dadockProject.mapper.MarketReplyMapper
 public interface MarketReplyMapper {
-	MarketReply selectOne(int marketBoardNo);
+	MarketReply selectOne(int marketReplyNo);
 	int insertOne(MarketReply marketReply);
 	int updateOne(MarketReply marketReply);
-	int deleteOne(int marketBoardNo);
+	int deleteOne(int marketReplyNo);
+	
 }

@@ -2,33 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.dadockProject.mapper.MarketMapper">
- <resultMap type="marketBoard" id="marketBoardMap">
-	<id column="market_board_no" property="market_board_no"/>
-	<result column="user_id" property="user_id"/>
-	<result column="title" property="title"/>
-	<result column="post_time" property="post_time"/>
-	<result column="content" property="content"/>
-	<result column="isbn" property="isbn"/>
-	<result column="price" property="price"/>
-	<result column="state" property="state"/>
-	<result column="book_title" property="book_title"/>
-	<result column="address" property="address"/>
+	 <resultMap type="marketBoard" id="marketBoardMap">
+		<id column="market_board_no" property="market_board_no"/>
+		<result column="user_id" property="user_id"/>
+		<result column="title" property="title"/>
+		<result column="post_time" property="post_time"/>
+		<result column="content" property="content"/>
+		<result column="isbn" property="isbn"/>
+		<result column="price" property="price"/>
+		<result column="state" property="state"/>
+		<result column="book_title" property="book_title"/>
+		<result column="address" property="address"/>
+		<result column="img_path" property="img_path"/>
+		
+		<association property="lgoinUserWishList" javaType="WishList">
+			<id column="wishlist_no" property="wishlist_no"/>
+			<result column="wish_user_id" property="user_id"/>
+			<association property="marketBoard">
+				<id column="wishlist_market_board_no" property="market_board_no"/>
+			</association>	
+		</association>
 	
-	<association property="user" javaType="User" foreignColumn="user_id">
-			<id column="user_user_id" property="user_id"/>
-			<result column="user_name" property="name"/>
-			<result column="user_email" property="email"/>
-			<result column="user_phone" property="phone"/>
-			<result column="user_address" property="address"/>
-			<result column="user_address_detail" property="address_detail"/>
-			<result column="user_profile_img" property="profile_img"/>
-	</association>
-	<!-- 이미지 -->
-	<collection property="marketBoardImgs" javaType="java.util.ArrayList" ofType="MarketBoardImg" foreignColumn="market_board_no">
-		<id column="market_board_img_no" property="market_board_img_no" />
-		<result column="img_market_board_no" property="market_board_no"/>
-		<result column="img_img_path" property="img_path"/>
-	</collection>
+		<association property="user" javaType="User" foreignColumn="user_id">
+				<id column="user_user_id" property="user_id"/>
+				<result column="user_name" property="name"/>
+				<result column="user_email" property="email"/>
+				<result column="user_phone" property="phone"/>
+				<result column="user_address" property="address"/>
+				<result column="user_address_detail" property="address_detail"/>
+				<result column="user_profile_img" property="profile_img"/>
+		</association>
+		<!-- 이미지 -->
+		<collection property="marketBoardImgs" javaType="java.util.ArrayList" ofType="MarketBoardImg" foreignColumn="market_board_no">
+			<id column="market_board_img_no" property="market_board_img_no" />
+			<result column="img_market_board_no" property="market_board_no"/>
+			<result column="img_img_path" property="img_path"/>
+		</collection>
 		<!-- 마켓 리플 //이름(column) 똑같으면 안된다.~!-->
 		<collection property="marketReplys" javaType="java.util.ArrayList" ofType="MarketReply" foreignColumn="market_board_no">
 			<id column="market_reply_no" property="market_reply_no"/>
@@ -41,21 +50,41 @@
 		</collection>	
 		<!-- 유저 조인 -->
 		
-</resultMap>
-	<select id="selectAll" resultType="MarketBoard" resultMap="marketBoardMap">
+	</resultMap>
+	<select id="selectAll" resultType="MarketBoard" resultMap="marketBoardMap" parameterType="int">
 		select *,market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
 		 ,u.user_id user_user_id
 		 from market_board b LEFT JOIN user u on b.user_id=u.user_id 
 	</select>
+	<select id="selectPageAll"  resultType="MarketBoard">
+		select * from MARKET_BOARD
+			order by post_time
+			limit #{startRow},#{pageSize}
+	</select>
+	<select id="selectPageAllCount" resultType="int">
+		select count(*) from MARKET_BOARD 
+				
+	</select>
+		<select id="selectWishListAll" resultType="MarketBoard" resultMap="marketBoardMap">
+		select *,b.market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG i WHERE i.market_board_no=no limit 1) img_img_path
+		 ,u.user_id user_user_id
+		 ,w.wishlist_no,w.user_id wish_user_id, w.market_board_no wishlist_market_board_no
+		 from market_board b LEFT JOIN user u on b.user_id=u.user_id 
+		 LEFT JOIN wishList w ON b.market_board_no=w.market_board_no AND w.user_id=#{loginUserId}
+	</select>
 	
 	<select id="selectOne" parameterType="int" resultMap="marketBoardMap"> <!-- 쿼리  리플.. -->
-			select * ,
+		select * ,
 		b.market_board_no no,(SELECT img_path FROM MARKET_BOARD_IMG WHERE market_board_no=no limit 1) img_img_path
 		,r.market_reply_no market_reply_no
 		,r.contents rcontents
 		,r.post_time rpost_time
 		,r.user_id ruser_id
-		from market_board b LEFT JOIN market_reply r on b.market_board_no = r.market_board_no
+		,u.user_id 
+		
+		from market_board b inner join User u using (user_id)
+		
+		LEFT JOIN market_reply r on b.market_board_no = r.market_board_no
 		
 		 where b.market_board_no=#{market_board_no} 
 	</select>
@@ -65,8 +94,8 @@
 		 from market_board  where market_board_no=#{market_board_no}
 	</select>
 	<insert id="insertOne" parameterType="marketBoard" useGeneratedKeys="true" keyProperty="market_board_no"> <!--정확히 뭐가 필요한지 몰겠네  -->
-		insert into market_board (user_id,title,book_title,price,content,state) 
-		values (#{user.user_id},#{title},#{book_title},#{price},#{content},#{state})
+		insert into market_board (user_id,title,book_title,price,content,state,img_path) 
+		values (#{user.user_id},#{title},#{book_title},#{price},#{content},#{state},#{img_path})
 	</insert>
 	<update id="updateOne" parameterType="MarketBoard">
 		update market_board set
@@ -80,7 +109,12 @@
 	<delete id="deleteOne" parameterType="int">
 		delete from market_board where market_board_no=#{market_board_no}
 	</delete>
-
+	<select id="selectUserId" resultMap="marketBoardMap"> 
+		select * from 
+		market_board b left join User u
+		on b.user_id=u.user_id 
+		where b.user_id=#{userId}
+	</select>
 
 
 

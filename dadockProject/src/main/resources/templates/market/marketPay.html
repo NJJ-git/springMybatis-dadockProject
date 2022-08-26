@@ -13,12 +13,13 @@
 <header th:insert="headerNav"></header>
  <main>
   <h1 ><i class="bi bi-book"></i>결제 확인 창</h1>
-  <table class="table table-hover">
+  <table class="table table-hover" style="width: 500px;">
 			<thead>
 				<tr>
 					<th></th>
 					<th>상품이름</th>
 					<th>가격</th>
+					<th>수량</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,8 +30,9 @@
   			<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" style="width: 200px" class="card-img-top" alt="...">
   		</div>
 					</td>
-					<td th:text="${marketBoard.title}"></td>
+					<td th:text="${marketBoard.title}" id="title"></td>
 					<td th:text="${marketBoard.price}"></td>
+					<td>1</td>
 				</tr>
 			</tbody>
 		</table>

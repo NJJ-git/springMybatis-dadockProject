@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,18 +53,45 @@ public class MarketController {
 	@Autowired MarketBoardImgMapper marketBoardImgMapper;
 	@Autowired WishListMapper wishListMapper;
 	
-	///책검색 ㅌㅅㅌ///
 	@Autowired
 	BookApiCallService bookApiCallService;
 	@Autowired
 	ObjectMapper objectMapper;
 	
-	
+	@CrossOrigin //사진불러오는곳
 	@GetMapping("/goodsList/{page}")
-	public String goodsList (@PathVariable int page,Model model) {
-		List<MarketBoard> goodsList=marketMapper.selectAll();
+	public String goodsList (
+			@PathVariable int page,
+			Model model,
+			@SessionAttribute(name = "loginUser" ,required = false) User loginUser
+			) {
+		//페이징
+		int row=7; 
+		int startRow=(page-1)*row;
+		List<MarketBoard> goodsList=marketMapper.selectPageAll(startRow,row); 
+		int rowCount=marketMapper.selectPageAllCount();
+		
+		Paging paging=new Paging(page, rowCount, "/market/goodsList",row);
+		
+		//List<MarketBoard> goodsList=null;
+		if(loginUser!=null) {
+			List<WishList> wishLists=wishListMapper.selectWishList(loginUser.getUser_id());
+			System.out.println("wishLists: 출력쩜"+wishLists);
+			model.addAttribute("wishLists",wishLists);
+			
+			goodsList=marketMapper.selectWishListAll(loginUser.getUser_id());
+		}else {
+			goodsList=marketMapper.selectAll();
+		}
+	
 		System.out.println("goodsList: 출력쩜"+goodsList);
 		model.addAttribute("goodsList",goodsList);
+		
+		model.addAttribute("paging",paging);
+		model.addAttribute("row",row);
+		model.addAttribute("rowCount",rowCount);
+		model.addAttribute("page",page);
+
 		return "/market/goodsList";
 	}
 	
@@ -71,11 +99,10 @@ public class MarketController {
 	public String goodsDetail(
 			@PathVariable int marketBoardNo,
 			Model model,
-			@SessionAttribute(required = false)User loginUser) {
-		MarketBoard marketBoard=null;
+			MarketBoard marketBoard) {
 		try {
 			marketBoard=marketMapper.selectOne(marketBoardNo);
-			
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -294,8 +321,14 @@ public class MarketController {
 		return "/market/marketPayDetail";
 		
 	}
-	@GetMapping("/marketUserDetail")
-	public void marketUserDetail () {
+	@GetMapping("/marketUserDetail/{userId}")
+	public String marketUserDetail (
+				@PathVariable String userId,
+				Model model) {
+		List<MarketBoard>userDetail=marketMapper.selectUserId(userId);
+		model.addAttribute("userDetail",userDetail);
+		System.out.println("!!!userDetail"+userDetail);
+		return "/market/marketUserDetail";
 	}
 	
 	@GetMapping("/wishList/{page}") //검색은 보드넘버로

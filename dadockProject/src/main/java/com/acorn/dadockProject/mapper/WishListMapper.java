@@ -10,13 +10,14 @@ import com.acorn.dadockProject.dto.WishList;
 @Mapper
 public interface WishListMapper {
 	//찜 추가
-	public int addWishList (WishList wishList);
+	 int addWishList (WishList wishList);
 	//찜 목록 리스트
-	public List<WishList> selectWishList(String userId) ;
+	 List<WishList> selectWishList(String userId) ;
 	//삭제"selectWishList"
-	public int deleteWhishList(int wishlistNo);
+	 int deleteWhishList(int wishlistNo);
 	//체크되어있는지확인
-	public WishList checkWishList(WishList wishList);
+	WishList checkWishList(WishList wishList);
+	WishList checkJjim (String userId,int marketBoardNo);
 	
 	
 }

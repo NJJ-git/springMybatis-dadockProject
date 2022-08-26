@@ -8,75 +8,94 @@
 <header th:insert="headerNav"></header>
 <body>
 	
-	    <main id="container">
-	        <div id="box" class="m-3 d-flex justify-content-between">
-	          
-	            <h1 ><i class="bi bi-book"></i>다독마켓</h1>
-	            
-	            
-	            <form class="d-flex">
-	        <input class="form-control me-sm-2" type="text" placeholder="상품검색">
-	        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-	      </form>
-	        </div>
-	    <a href="/market/goodsInsertSearch1" class="btn btn-sm btn-primary">물건등록</a>
-	    <p>
-			페이지 :
-			<span class="badge text-bg-success" th:text="${page}"></span>
-			총 게시글 수:<span class="badge text-bg-primary" th:text="${rowCount}"></span>
-		</p>
-	    
-	 <div class="card mb-3" style="max-width: 540px;" th:each="marketBoard: ${goodsList}"  
-					th:onclick="location.href='/market/goodsDetail/[[${marketBoard.market_board_no}]]'"> <!--글 클릭하면 detail  -->
-		<!-- 	<div>
-	    		<img th:src="${marketBoard.img}"
-			</div> -->
-	  <div class="row g-0">
-	     <div class="col-md-4"  th:each="boardImg:${marketBoard.marketBoardImgs}">
-  				<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="img-fluid rounded-start" alt="...">
-	    </div>  
-	    <div>
-	    	<!-- d이미지!  -->
-	    </div>
-	    <div class="col-md-8">
-	      <div class="card-body" >
-	      글쓴이:
-	       <p class="card-title" th:text="${marketBoard.user?.user_id}"></p> 
-	      
-	      제목:
-	        <p class="card-title" th:text="${marketBoard.title}"></p> 
-	   
-	        가격:
-	        <p class="card-text" th:text="${marketBoard.price}"></p>
-	        내용:
-	        <p class="card-text" th:text="${marketBoard.content}">내용</p>
-	        <p class="card-text" th:text="${#dates.format(marketBoard.post_time,'yyyy-MM-dd: hh:mm:ss')}"><small class="text-muted">등록일</small></p>
-	      </div>
-		    <div class="d-flex flex-row-reverse">
-		  
-		    <!--//////////// 위시리스트 ////////////////// -->
-			    <form action="/market/wishListInsert.do" method="post" id="wishList">
-					<div class="col-12">
-				    	  <a id="Jjim"  type="submit"
-				    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
-				    	>
-				    	<i class="bi bi-heart"></i></a> 
-				
-				    	
-					</div>
-					
-				</form>
-		    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
-		    	class="btn btn-warning">자세히</a>
+  <main id="container">
+     	<div id="box" class="m-3 d-flex justify-content-between">
+          <h1 ><i class="bi bi-book"></i>다독마켓</h1>
+       	<form class="d-flex">
+      	<input class="form-control me-sm-2" type="text" placeholder="상품검색">
+      	<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+   	</form>
+      </div>
+      <div class="d-flex flex-row-reverse ">
+	    <a href="/market/goodsInsertSearch1" class="btn  btn-warning">물건등록</a>
+      </div>
+    <p>
+		페이지 :<span class="badge text-bg-primary" th:text="${page}"></span>
+		총 게시글 수:<span class="badge text-bg-warning" th:text="${rowCount}"></span>
+	</p>
+	<div class="row d-flex justify-content-center " >
+    <th:block th:each="marketBoard: ${goodsList}">
+    	<div class="card m-4" style="max-width: 600px;"
+    		th:onclick="location.href='/market/goodsDetail/[[${marketBoard.market_board_no}]]'">
+		  <div class="row g-0">
+		    <div class="col-md-4">
+		   		 <img th:src="@{{url}(url=${marketBoard.img_path})}"  th:alt="${marketBoard.title}" 
+		    		style=width:300px class="img-fluid rounded-start">
 		    </div>
-	    </div>
-	  </div>
-	</div> 
+		    <div class="col-md-8">
+		      <div class="card-body">
+		       <h5 th:text="'No.'+${marketBoard.market_board_no}"></h5>
+		       <hr>
+		        <h5 class="card-title" th:text="${marketBoard.title}"></h5>
+		        <hr>
+		        글쓴이
+		        <p class="card-text" th:text="${marketBoard.user_id}"></p>
+		        <p class="card-text" th:text="${marketBoard.price}+'원'"><i>원</i></p>
+		        <hr>
+		        내용
+		        <p class="card-text" th:text="${marketBoard.content}"></p>
+		        <small class="text-muted">등록일</small>
+		        <p class="card-text" th:text="${#dates.format(marketBoard.post_time,'yyyy-MM-dd: hh:mm:ss')}">
+		        </p>
+		      </div>
+		    </div>
+		  </div>
+			    <div class="d-flex flex-row-reverse">
+			  
+			    <!--//////////// 위시리스트 ////////////////// -->
+				    <form action="/market/wishListInsert.do" method="post" id="wishList">
+						 <!--  -->				    	
+						 <th:block th:if="${marketBoard.lgoinUserWishList!=null}">
+						 	 <a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
+					    	>
+					    	<i class="bi bi-heart-fill" style="color: #0B5ED7;"></i></a>  
+						</th:block>  
+						
+	   					 <th:block th:unless="${marketBoard.lgoinUserWishList!=null}">
+	   				    	<a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+					    	<i class="bi bi-heart" ></i></a>
+					    </th:block>
+					</form>
+			    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
+			    	class="btn btn-warning">자세히</a>
+			    	<a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+					    	<i class="bi bi-heart" ></i></a>
+					    	<a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+					    	<i class="bi bi-heart" ></i></a>
+					    	<a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+					    	<i class="bi bi-heart" ></i></a>
+					    	<a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+					    	<i class="bi bi-heart" ></i></a>
+					    	<a type="submit"
+					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+					    	<i class="bi bi-heart" ></i></a>
+			    </div>
+		    </div>
 	
+	 	 
+	</th:block>
+  </div>
 	
+	    <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div> 
 	<!-- <div class="d-flex justify-content-center" th:insert="/paging"></div>
 	 -->
-	    </main>
+   </main>
 	
 </body>
 </html>
