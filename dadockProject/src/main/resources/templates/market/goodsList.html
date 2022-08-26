@@ -9,20 +9,23 @@
 <body>
 	
   <main id="container">
+  <!-- <div style= "position: fixed;right:10px;bottom:10px;  ">
+  	<img th:src="@{/public/market/img/g.jpg}">
+  </div> -->
      	<div id="box" class="m-3 d-flex justify-content-between">
           <h1 ><i class="bi bi-book"></i>다독마켓</h1>
-       	<form class="d-flex">
+<!--        	<form class="d-flex">
       	<input class="form-control me-sm-2" type="text" placeholder="상품검색">
       	<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-   	</form>
+   	</form> -->
       </div>
       <div class="d-flex flex-row-reverse ">
 	    <a href="/market/goodsInsertSearch1" class="btn  btn-warning">물건등록</a>
       </div>
-    <p>
+ <!--    <p>
 		페이지 :<span class="badge text-bg-primary" th:text="${page}"></span>
 		총 게시글 수:<span class="badge text-bg-warning" th:text="${rowCount}"></span>
-	</p>
+	</p> -->
 	<div class="row d-flex justify-content-center " >
     <th:block th:each="marketBoard: ${goodsList}">
     	<div class="card m-4" style="max-width: 600px;"
@@ -70,21 +73,7 @@
 					</form>
 			    	<a th:href="@{/market/goodsDetail/{no}/(no=${marketBoard.market_board_no})}" 
 			    	class="btn btn-warning">자세히</a>
-			    	<a type="submit"
-					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
-					    	<i class="bi bi-heart" ></i></a>
-					    	<a type="submit"
-					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
-					    	<i class="bi bi-heart" ></i></a>
-					    	<a type="submit"
-					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
-					    	<i class="bi bi-heart" ></i></a>
-					    	<a type="submit"
-					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
-					    	<i class="bi bi-heart" ></i></a>
-					    	<a type="submit"
-					    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
-					    	<i class="bi bi-heart" ></i></a>
+			    	
 			    </div>
 		    </div>
 	
@@ -92,9 +81,8 @@
 	</th:block>
   </div>
 	
-	    <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div> 
-	<!-- <div class="d-flex justify-content-center" th:insert="/paging"></div>
-	 -->
+	    <div class="d-flex justify-content-center" th:insert="market/marketPaging"></div> 
+
    </main>
 	
 </body>

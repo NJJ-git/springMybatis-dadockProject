@@ -66,12 +66,13 @@ public class MarketController {
 			@SessionAttribute(name = "loginUser" ,required = false) User loginUser
 			) {
 		//페이징
-		int row=7; 
+		
+		int row=8; 
 		int startRow=(page-1)*row;
 		List<MarketBoard> goodsList=marketMapper.selectPageAll(startRow,row); 
 		int rowCount=marketMapper.selectPageAllCount();
 		
-		Paging paging=new Paging(page, rowCount, "/market/goodsList",row);
+		Paging paging=new Paging(page, rowCount, "/market/goodsList/",row);
 		
 		//List<MarketBoard> goodsList=null;
 		if(loginUser!=null) {
@@ -79,12 +80,10 @@ public class MarketController {
 			System.out.println("wishLists: 출력쩜"+wishLists);
 			model.addAttribute("wishLists",wishLists);
 			
-			goodsList=marketMapper.selectWishListAll(loginUser.getUser_id());
-		}else {
-			goodsList=marketMapper.selectAll();
+			//goodsList=marketMapper.selectWishListAll(loginUser.getUser_id());
 		}
 	
-		System.out.println("goodsList: 출력쩜"+goodsList);
+		//System.out.println("goodsList: 출력쩜"+goodsList);
 		model.addAttribute("goodsList",goodsList);
 		
 		model.addAttribute("paging",paging);
