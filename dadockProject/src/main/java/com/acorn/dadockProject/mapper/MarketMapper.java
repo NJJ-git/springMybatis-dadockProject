@@ -24,4 +24,5 @@ public interface MarketMapper {
 	List<MarketBoard> selectUserId(String userId);
 	
 	
+
 }

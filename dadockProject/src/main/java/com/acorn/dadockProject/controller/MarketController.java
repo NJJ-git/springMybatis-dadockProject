@@ -80,7 +80,7 @@ public class MarketController {
 			System.out.println("wishLists: 출력쩜"+wishLists);
 			model.addAttribute("wishLists",wishLists);
 			
-			//goodsList=marketMapper.selectWishListAll(loginUser.getUser_id());
+			goodsList=marketMapper.selectWishListAll(loginUser.getUser_id()); //위시 굿즈리스트
 		}
 	
 		//System.out.println("goodsList: 출력쩜"+goodsList);
@@ -273,21 +273,7 @@ public class MarketController {
 			
 		}
 	}
-	//user_id는 나중에 user쪽 작업 끝나면 추가하기! "/wishList/{userId}/{marketBoardNo}/{jjim}/"
-	/*
-	 * @GetMapping("/wishList/{marketBoardNo}/{jjim}") public String wishListInsert
-	 * (
-	 * 
-	 * @PathVariable int marketBoardNo,
-	 * 
-	 * @PathVariable boolean jjim, Model model) { String msg=""; WishList
-	 * wishList=new WishList(); wishList.setMarket_board_no(marketBoardNo);
-	 * wishList.setJjim(jjim); int insert=0; try {
-	 * insert=wishListMapper.addWishlist(wishList); if(insert>0) { if(jjim=true)
-	 * {msg="찜 성공";} }else { if(jjim=false) {msg="찜 실패";} } } catch (Exception e) {
-	 * e.printStackTrace(); if(jjim=false) {msg="찜 실패(오류)";} }
-	 * model.addAttribute("msg",msg); return "redirect:/market/goodsList/1"; }
-	  */
+	
   @GetMapping("/marketPay/{marketBoardNo}") //결제페이지
   	public String marketPay (
   			@PathVariable int marketBoardNo, 
@@ -320,16 +306,25 @@ public class MarketController {
 		return "/market/marketPayDetail";
 		
 	}
-	@GetMapping("/marketUserDetail/{userId}")
+	@GetMapping("/marketUserDetail/{userId}/{page}")
 	public String marketUserDetail (
 				@PathVariable String userId,
+				@PathVariable int page,
 				Model model) {
-		List<MarketBoard>userDetail=marketMapper.selectUserId(userId);
+		int row=8; 
+		int startRow=(page-1)*row;
+		List<MarketBoard> userDetail=marketMapper.selectPageAll(startRow,row); 
+		int rowCount=marketMapper.selectPageAllCount();
+		Paging paging=new Paging(page, rowCount, "/market/marketUserDetail/",row);
+		userDetail=marketMapper.selectUserId(userId);
 		model.addAttribute("userDetail",userDetail);
 		System.out.println("!!!userDetail"+userDetail);
+		model.addAttribute("paging",paging);
+		model.addAttribute("row",row);
+		model.addAttribute("rowCount",rowCount);
+		model.addAttribute("page",page);
 		return "/market/marketUserDetail";
 	}
-	
 	@GetMapping("/wishList/{page}") //검색은 보드넘버로
 	public String wishListInsert (
 			@PathVariable int page,
@@ -342,7 +337,6 @@ public class MarketController {
 		
 	}
 
-	
 	  @GetMapping("/wishList/insert/{marketBoardNo}") 
 	  public String wishListInsert(
 			  @PathVariable int marketBoardNo,

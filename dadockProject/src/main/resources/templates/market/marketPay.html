@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<!-- jQuery --> 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- <!-- jQuery 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> --> -->
+
+
  <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
  <script th:src="@{/public/market/js/marketPay.js}" defer="defer"> </script> 
@@ -44,7 +46,7 @@
 				
 	
 	
-<button id="marketPay" type="button" class="btn btn-primary">결제테스트</button>
+<button id="marketPay" type="button" class="btn btn-primary">결제</button>
 <input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}" id=marketBoardNo>
 	
 </body>

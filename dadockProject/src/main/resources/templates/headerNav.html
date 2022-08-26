@@ -57,12 +57,12 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             다독마켓
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu"><!-- url 수정 -->
             <li><a class="dropdown-item" href="/market/goodsList/1">마켓메인</a></li>
-            <li><a class="dropdown-item" href="/market/wishlist/1">찜/보관함</a></li>
+            <li><a class="dropdown-item" href="/market/wishList/1">찜/보관함</a></li>
            <th:block th:if="${session.loginUser!=null}"> 
             	<li>
-            		<a class="dropdown-item" th:href="|/market/marketUserDetail/${session.loginUser.user_id}|">내페이지</a>
+            		<a class="dropdown-item" th:href="|/market/marketUserDetail/${session.loginUser.user_id}/1|">내페이지</a>
            		</li>
            	</th:block>
            	<th:block th:unless="${session.loginUser!=null}">

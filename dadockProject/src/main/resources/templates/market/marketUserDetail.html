@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>마켓 유저 상세페이지</title>
+	
 </head>
 <body>
-<header th:insert="headerNav"></header>
-	<h1> 마켓 유저 상세페이지 </h1>
-<div class="row mb-3 g-3 align-items-center">
-			  	<button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#boarListCol">
-					유저가 작성한 Board List
-				</button>
-				<div class="collapse" id="boarListCol">
 
-					<ol class="list-group list-group-numbered">
-					  <li class="list-group-item d-flex justify-content-between align-items-start"
-					   th:each="m:${userDetail}">
-					    <div class="ms-2 me-auto">
-					      <div class="fw-bold" th:text="${m.title}"></div>
-					      	<div th:text="${m.content}"></div>
-					    </div>
-					    
-					  </li>
-					</ol>	
-				</div>
-			</div>
+<header th:insert="headerNav"></header>
+<div class="d-grid gap-3">
+		<div class="d-flex justify-content-center p-4">
+		 	<h1 class="card-title" th:text="${session.loginUser?.user_id}+' 의 페이지'">  </h1>
+		</div>
+	
+	<div class="d-flex justify-content-center p-4">
+		<div class="card " style="width: 40rem;">
+		  <div class="card-header text-center">
+		    <span th:text="${session.loginUser?.user_id}+'의 글 '"></span>
+		    <i class="badge text-bg-warning" th:text="${rowCount}"></i>
+		  </div>
+		  <ul class="list-group list-group-flush" th:each="m:${userDetail}">
+		    <li class="list-group-item"  th:text="${m.title}"></li>
+		  </ul>
+		</div>
+	</div>
+</div>
 			  
 </body>
 </html>

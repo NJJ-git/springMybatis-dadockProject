@@ -141,9 +141,23 @@
 	    	설명:
 	    <p class="card-text" th:text="${marketBoard.content}"></p>
 	    <span class="d-flex flex-row-reverse">
-		    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
+		   
+		   <th:block th:if="${marketBoard.lgoinUserWishList!=null}">
+		 	 <a type="submit"
+	    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
+	    	>
+	    	<i class="bi bi-heart-fill" style="color: #0B5ED7;"></i></a>  
+		</th:block>  
+		
+					 <th:block th:unless="${marketBoard.lgoinUserWishList!=null}">
+				    	<a type="submit"
+	    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+	    	<i class="bi bi-heart" ></i></a>
+	    </th:block>
+		   
+		    <!-- <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
 		    	th:href="@{/market/wishList}" class="btn btn-outline-warning">
-		    	<i class="bi bi-heart"></i></a>
+		    	<i class="bi bi-heart"></i></a> -->
 		    <a th:href="@{/market/marketPay/{no}(no=${marketBoard.market_board_no})}" class="btn btn-primary">결제</a>
 	    </span>
 	  </div>
