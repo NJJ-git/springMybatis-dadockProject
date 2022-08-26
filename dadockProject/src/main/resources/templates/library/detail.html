@@ -72,17 +72,23 @@
 		
 		<div class="col-3">
 			<p class="h6">별점 입력</p>
-		  	<div class="star-rating w-100" name="star" id="inputStar" th:value="${readBook.libraries.get(0).star}">
-				<input type="radio" id="5-stars" name="star" value="5" />
+		  	<div class="star-rating w-100" name="star" id="inputStar">
+		  	
+				<input type="radio" id="5" name="star" value="5" th:checked="${readBook.libraries.get(0).star == 5}"/>
 				<label for="5-stars" class="star">&#9733;</label>
-				<input type="radio" id="4-stars" name="star" value="4" />
+				
+				<input type="radio" id="4" name="star" value="4" th:checked="${readBook.libraries.get(0).star == 4}"/>
 				<label for="4-stars" class="star">&#9733;</label>
-				<input type="radio" id="3-stars" name="star" value="3" />
+				
+				<input type="radio" id="3" name="star" value="3" th:checked="${readBook.libraries.get(0).star == 3}"/>
 				<label for="3-stars" class="star">&#9733;</label>
-				<input type="radio" id="2-stars" name="star" value="2" />
+				
+				<input type="radio" id="2" name="star" value="2" th:checked="${readBook.libraries.get(0).star == 2}"/>
 				<label for="2-stars" class="star">&#9733;</label>
-				<input type="radio" id="1-star" name="star" value="1" />
+				
+				<input type="radio" id="1" name="star" value="1" th:checked="${readBook.libraries.get(0).star == 1}"/>
 				<label for="1-star" class="star">&#9733;</label>
+				
 			</div>
 		</div>
 	
@@ -97,14 +103,14 @@
 		  </div>
 		</div>
 		
-			<div class="mb-3 has-validation">
-		    	<label for="inputContent" class="form-label">코멘트</label>
-		    	<textarea name="comment" class="form-control" id="inputComment"></textarea>
-		    	<div class="invalid-feedback">
-		      		내용을 입력하세요.
-		    	</div>
-			</div>
-			<input type="text" name="isbn" th:value="${readBook.isbn}" hidden>
+		<div class="mb-3 has-validation">
+	    	<label for="inputContent" class="form-label">코멘트</label>
+	    	<textarea name="comment" class="form-control" id="inputComment" th:text="${readBook.libraries.get(0).comment}"></textarea>
+	    	<div class="invalid-feedback">
+	      		내용을 입력하세요.
+	    	</div>
+		</div>
+		<input type="text" name="isbn" th:value="${readBook.isbn}" hidden>
 
 				
 		<p>

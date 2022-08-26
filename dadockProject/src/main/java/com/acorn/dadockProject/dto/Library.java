@@ -30,7 +30,7 @@ public class Library {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date end_date;
 	private int star;
-	private Book book;
+	private ReadBook readBook;
 	private String comment;
 
 }
