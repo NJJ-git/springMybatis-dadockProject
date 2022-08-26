@@ -23,7 +23,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<th:block th:each=" library:${libraryList}">
+				<th:block th:each="library:${libraryList}">
 				 	<tr th:onclick="location.href='/library/detail/[[${library.library_no}]]'">
 						<td th:text="${library.library_no}"></td>
 						<td th:text="${library.readBook?.title}"></td>

@@ -72,10 +72,13 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/detail/{library_no}")
-	public String detail(@SessionAttribute(name="loginUser", required=false) User loginUser,
-			@PathVariable int library_no, Model model) {
+	public String detail(
+			@SessionAttribute(name="loginUser", required=false) User loginUser,
+			@PathVariable int library_no, 
+			Model model) {
 		List<ReadBook> readBook = readBookMapper.selectOneByIdReadBookAndLibrary(loginUser.getUser_id(), library_no);
 		model.addAttribute("readBook", readBook);
+		
 		return "/library/detail";
 	}
 	
