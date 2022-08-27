@@ -1,0 +1,321 @@
+//데이터 변경 log//
+
+-- 2022-08-16 -- 
+1. dibs 테이블명 wishlist로 변경 (칼럼 이름 함께 변경)
+	wishlist 테이블 wishlist boolean 삭제.
+2. isbn 데이터 타입 변경 (bigint -> varchar(255))
+3. library 테이블 추가 (star 칼럼 확인)
+
+-- 2022-08-17 --
+1. user 테이블 address_detail 칼럼 추가
+
+-- 2022-08-18 --
+1. library 샘플db insert
+
+-- 2022-08-19 --
+1. user 테이블 type 칼럼 추가
+2. user 테이블 keyword 칼럼 추가 
+alter table user add column type varchar(255);
+alter table user add column keyword varchar(255);
+
+-- 2022-08-23 --
+1. read_book 테이블 star, discount 칼럼 삭제
+2. library 테이블 isbn, title, author, publisher 칼럼 삭제
+3. comment 테이블 삭제 후 library에 comment 칼럼 추가
+
+-- 2022-08-24 --
+1. user 테이블 profile_img 칼럼 추가   
+alter table user add column profile_img varchar(255);
+
+-- 2022-08-25--
+1. user 테이블 
+alter table user add column pw_check varchar(255);
+////////// 테이블 목록 //////////
++------------------+
+| Tables_in_dadock |
++------------------+
+| grade            |
+| library          |
+| market_board     |
+| market_board_img |
+| market_reply     |
+| pay              |
+| read_book        |
+| user             |
+| user_group       |
+| wishList         |
++------------------+
+
+////////// 데이터 입력 //////////
+
+drop database dadock;
+create database dadock;
+
+drop user 'dadock_user'@'localhost';
+create user 'dadock_user'@'localhost' identified with mysql_native_password by '1234';
+
+grant select, insert, delete, update on dadock.* to 'dadock_user'@'localhost';
+
+use dadock;
+
+drop table user;
+create table user(
+user_id varchar(255),
+pw varchar(255),
+pw_check varchar(255),
+name varchar(255),
+signup datetime default current_timestamp,
+email varchar(255),
+phone varchar(255),
+address varchar(255),
+address_detail varchar(255),
+level int,
+point int,
+profile_img varchar(255),
+type varchar(255),
+keyword varchar(255),
+  primary key(user_id),
+  unique(phone),
+  unique(email)
+);
+
+insert into user (user_id, pw, name, email, phone, level, point)  values 
+('test', '1234', '테스트', 'test@gmail.com', '000-0000-0000', '3', '50');
+
+drop table read_book;
+create table read_book(
+isbn varchar(255),
+title varchar(255),
+author varchar(255),
+img varchar(255),
+publisher varchar(255),
+pubdate date,
+description text,
+link varchar(255),
+ primary key(isbn)
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9788946421851', '내 생애 단 한 번 (장영희 에세이 | 때론 아프게, 때론 불꽃같이)', '장영희', 'https://shopping-phinf.pstatic.net/main_3248051/32480513418.20220527085451.jpg', '샘터(샘터사)', '20210730', 
+'긍정적 삶과 희망, 사랑을 전하는 故 장영희 교수의 첫 번째 에세이집 더 느리게 그러나 더 깊이 세상을 보는 시선 장영희 교수가 처음으로 쓴 우리말 에세이집 《내 생애 단 한 번》이 그녀의 맑고 빛나는 영혼처럼 아름다운 옷으로 갈아입고 새롭게 출간된다. 번역가로 이름을 먼저 알렸으며 문학 에세이 《문학의 숲을 거닐다》와 《생일》, 《축복》으로 ‘문학 전도사’라는 별칭을 얻기도 한 장영희 교수. 그녀가 자신의 삶과 생각들을 섬세하게 풀어놓은 순수 에세이집 《내 생애 단 한 번》과 《살아온 기적 살아갈 기적》도 큰 사랑을 받았다. 이 책 《내 생애 단 한 번》은 월간 〈샘터〉에 연재하면서 이미 수많은 독자들에게 호평을 받았던 글들과 새로운 글들을 묶은 것이다. ‘생명의 소중함’, ‘희망’, ‘신뢰’를 주요 테마로, 생활 곳곳에서 마주치는 편린들을 통해 우리가 결코 잊어서는 안 될 삶의 소중한 가치들을 감동적으로 그리고 있다. ‘올해의 문장상’을 받기도 했던 이 책은 일상에서 건져낸 경쾌하고 참신한 맛의 글들로 하루하루 바쁘게 살아가며 잊고 지냈던 삶의 소중함을 깨닫게 해준다. 계속되는 힘겨운 상황 속에서 희망을 꿈꾸기 어려운 시기를 살아가는 지금 우리에게도 이 책은 세상이 여전히 아름답고 살 만한 곳이라는 것을 일깨워 줄뿐더러 다시 희망을 품을 수 있는 힘을 불어넣어 준다. ‘힘내라. 삶의 한가운데 서서 당당하고 치열하게 살았던 오늘을 떠올리며 살아가는 일이 아름답다고 느낄 그날을 위하여’라고 용기를 북돋아 주는 장영희 교수의 응원이 오늘을 살아갈 힘이 될 것이다.',
+'https://search.shopping.naver.com/book/catalog/32480513418');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9788901260716', '역행자 (돈.시간.운명으로부터 완전한 자유를 얻는 7단계 인생 공략집)', '자청', 'https://shopping-phinf.pstatic.net/main_3255028/32550285396.20220527031848.jpg', '웅진지식하우스', '20220530', 
+'“절대 읽지 마라! 죽을 때까지 순리자로 살고 싶다면!” 
+오타쿠 흙수저에서 
+월 1억 자동 수익을 실현한 무자본 연쇄창업마,
+라이프해커 자청의 인생 역주행 공식 대공개!
+대부분의 사람들은 유전자와 본성의 명령을 그대로 따르기 때문에 평범함을 벗어날 수 없다. 하지만 정작 자신은 이를 모른 채 ‘나는 달라’ 하는 자의식에 사로잡혀서 무한 합리화에 빠져 살아간다. 스스로가 얼마나 많은 정신적, 심리적 오류를 저지르는지 알지 못한 채 매일 똑같은 쳇바퀴를 돌 뿐이다. 왜 우리는 진짜 자유를 얻지 못하는가? 왜 늘 돈 이야기를 하면서도 평생 돈에 허덕이는가?
+저자 역시 스무 살까지는 이런 쳇바퀴에 갇혀 있었기 때문에, 그 상황을 누구보다 잘 알았다.  자청의 첫 책 『역행자』에는 가난한 인생에서 벗어나 경제적 자유와 행복을 얻은 저자가 깨달은 인생 레벨업 치트키가 빼곡히 담겨 있다. 10대 때의 그는 외모, 돈, 공부, 그 어떤 것에서도 최하위였다. 그러던 스무 살 무렵, ‘인생에도 게임처럼 공략집이 있다’는 사실을 깨닫고 삶이 180도 바뀌기 시작한다. 200여 권의 책을 독파하며 얻은 인생의 치트키들을 활용해 창업에 연이어 성공한 것이다. 
+ ‘연봉 10억 무자본 창업가’로 유명해진 그는 2020년, 단 20개의 영상으로 10만 구독자를 넘어서며 화제를 모았으나 곧장 미련 없이 유튜브를 그만뒀다. 이후 본업인 온라인 마케팅 비즈니스를 비롯해 다방면으로 사업을 확장하고 있다. 그 사이 ‘라이프해커 자청’이라는 캐릭터와 ‘무자본 창업’이라는 개념은 사람들의 고정관념을 깨는 상징이 됐다. 자청이 찾아낸 ‘역행자의 7단계 모델’을 통해 함께 ‘인생의 추월차선’으로 향하자.',
+'https://search.shopping.naver.com/book/catalog/32550285396');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9788972773641', '호감 가는 말투에는 비밀이 있다 (최고 스타강사의 상대를 사로잡는 말하기 비법 : 실전편)', '장신웨', 'https://shopping-phinf.pstatic.net/main_3329503/33295034650.20220722093755.jpg', '리드리드출판', '20220811', 
+'오해는 줄이고 이해는 높이는 말하기를 배우다!
+중국의 최대 포털 사이트 바이두의 말하기 전담 스타강사가
+10년 넘게 수많은 직원을 교육하며 정리한 대화의 기술
+“갈등은 줄이고 기회와 사람은 끌어당긴다”
+직장 동료, 남녀 간, 고집 센 상대, 부부, 부모와 자녀 등 
+하루에도 숱하게 부딪히는 불통의 고통에서 벗어나자.
+직장이나 가정에서 갈등이 생겨나는 원인은 대개 적절한 의사소통이 이뤄지지 않기 때문이다. 마음속으로는 차분하고 부드럽게 말해야겠다고 다짐하지만 실제 입을 열면 원하는 대로 말이 나오지 않는다. 그 결과 자꾸 난처한 상황이 발생하고 내 의도와는 다른 오해를 불러일으킨다. 이런 일이 반복되면 동료나 가족 사이에 돌이키기 힘든 갈등 관계가 형성되기도 한다. 의도와는 다른 말이 자꾸 나가 상대에게 상처를 주거나 오해를 불러일으키는 것은 공감 능력과 관련된 심리학적 문제가 숨어 있기 때문이다. 
+이 책의 저자는 300여 개 기업에서 1만 명 이상의 직원들을 교육한 경험과 현대 심리학의 연구 성과를 결합해 우리가 살아가면서 부딪히는 대부분 갈등 상황에 대한 대화법을 완성해 냈다. 대화의 목적에 따라 상황을 구분해서 어떻게 상대방의 말을 해석할지, 거절과 수용의 의사표시를 할지에 대한 방법론을 제시한다. 또한 서로 다른 유형의 사람에게 어떻게 공감하고 경청하고 접근해야 하는지를 알려준다. 군데군데 나는 어떤 유형인지 알아보는 테스트도 수록되어 있어 내가 어떤 사람이고, 어떻게 말하는지를 돌아볼 수 있다. 각 장의 끝부분에 마련된 실전 연습 노트는 저자의 말하기 비법을 손쉽게 내 것으로 만들어 바로 적용할 수 있게 도와준다. 
+‘속 빈 강정’식 말하기가 아니라 알맹이 있는 대화를 통해 긍정적 결과를 만들어내고 싶다면, 주변 이들이 내 말에 귀 기울이고 호응해주기를 바란다면, 갈등을 해소하고 더 많은 기회와 사람을 끌어당기고 싶다면 이 책이 구체적이고도 실용적인 해답을 알려줄 것이다.',
+'https://search.shopping.naver.com/book/catalog/33295034650');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9791191043761', '멘탈을 바꿔야 인생이 바뀐다 (원하는 것에만 집중해, 당신의 인생을 놀랍게 변화시켜라)', '박세니', 'https://shopping-phinf.pstatic.net/main_3248274/32482740751.20220527024833.jpg', '마인드셋(Mindset)', '20220430', 
+'국내 최고 성공심리학 전문가 박세니의 2022년 신간
+인생의 변화는 결국 멘탈에 달려있고, 자신의 삶을 행복하게 만드는 것도 결국 멘탈이다.
+멍한 상태로 주변 사람의 말을 그대로 믿지 마라. 실제로 실천하고 보여준 자가 아니면 결국 불가능하다는 말을 할 뿐이다. 보여준 자의 말만 철저하게 인정하고 따르면 된다. 그것이 꿈을 이루기 위해 당신이 반드시 기억해야 할 점이다.',
+'https://search.shopping.naver.com/book/catalog/32482740751');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9788954699914', '하얼빈 (김훈 장편소설)', '김훈', 'https://shopping-phinf.pstatic.net/main_3368498/33684983664.20220808092115.jpg', '문학동네', '20220803', 
+'『칼의 노래』를 넘어서는 깊이와 감동
+김훈이 반드시 써내야만 했던 일생의 과업
+‘우리 시대 최고의 문장가’ ‘작가들의 작가’로 일컬어지는 소설가 김훈의 신작 장편소설 『하얼빈』이 출간되었다. 『하얼빈』은 김훈이 작가로 활동하는 내내 인생 과업으로 삼아왔던 특별한 작품이다. 작가는 청년 시절부터 안중근의 짧고 강렬했던 생애를 소설로 쓰려는 구상을 품고 있었고, 안중근의 움직임이 뿜어내는 에너지를 글로 감당하기 위해 오랜 시간을 들여 ‘인간 안중근’을 깊이 이해해나갔다. 그리고 2022년 여름, 치열하고 절박한 집필 끝에 드디어 그 결과물을 세상에 내놓게 되었다.
+ 『하얼빈』에서는 단순하게 요약되기 쉬운 실존 인물의 삶을 역사적 기록보다도 철저한 상상으로 탄탄하게 재구성하는 김훈의 글쓰기 방식이 빛을 발한다. 이러한 서사는 자연스럽게 김훈의 대표작 『칼의 노래』를 떠올리게 하는데, 『칼의 노래』가 명장으로서 이룩한 업적에 가려졌던 이순신의 요동하는 내면을 묘사했다면 『하얼빈』은 안중근에게 드리워져 있던 영웅의 그늘을 걷어내고 그의 가장 뜨겁고 혼란스러웠을 시간을 현재에 되살려놓는다.
+난세를 헤쳐가야 하는 운명을 마주한 미약한 인간의 내면에 집중하는 김훈의 시선은 『하얼빈』에서 더욱 깊이 있고 오묘한 장면들을 직조해낸다. 소설 안에서 이토 히로부미로 상징되는 제국주의의 물결과 안중근으로 상징되는 청년기의 순수한 열정이 부딪치고, 살인이라는 중죄에 임하는 한 인간의 대의와 윤리가 부딪치며, 안중근이 천주교인으로서 지닌 신앙심과 속세의 인간으로서 지닌 증오심이 부딪친다. 이토록 다양한 층위에서 벌어지는 복합적인 갈등을 날렵하게 다뤄내며 안중근이라는 인물을 바라보는 시야의 차원을 높이는 이 작품은 김훈의 새로운 대표작으로 소개되기에 모자람이 없다.',
+'https://search.shopping.naver.com/book/catalog/33684983664');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9791168340541', '파친코 2 (개정판)', '이민진', 'https://shopping-phinf.pstatic.net/main_3393982/33939827618.20220808182811.jpg', '인플루엔셜(주)', '20220825', 
+'“역사는 우리를 저버렸지만, 그래도 상관없다”
+역사에 외면당한 재일조선인 가족의 대서사극
+전 세계를 감동시킨 이민진 작가 화제작 『파친코』 새롭게 출간! 
+“내게 ‘한국인’은 이야기의 주인공이 될 가치가 있는 이들이다.
+나는 가능한 한 오래 한국인 이야기를 쓰고 싶다.” 
+- ‘한국 독자들에게’ 중에서
+4대에 걸친 재일조선인 가족의 이야기를 그린 세계적 베스트셀러, 이민진 작가의 장편소설 『파친코』가 새롭게 출간되었다. 『파친코』는 재미교포 1.5세대인 이민진 작가가 30년에 달하는 세월에 걸쳐 집필한 대하소설로, 2017년 출간되어 [뉴욕타임스] 베스트셀러에 올랐다. 현재까지 전 세계 33개국에 번역 수출되었으며, BBC, 아마존 등 75개 이상의 주요 매체의 ‘올해의 책’으로 선정되었을 뿐 아니라 전미도서상 최종 후보에 이름을 올리며 평단과 대중을 모두 사로잡은 작품이다.',
+'https://search.shopping.naver.com/book/catalog/33939827618');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9791161571379', '불편한 편의점 2 (김호연 장편소설)', '김호연', 'https://shopping-phinf.pstatic.net/main_3368499/33684998621.20220811101806.jpg', '나무옆의자', '20220810', 
+'70만 독자를 사로잡은 재미와 감동 『불편한 편의점』이 다시 열렸다!
+한층 진득해진 이야기와 궁금증 가득한 캐릭터
+고난의 시간을 통과하는 사람들이 다시 편의점에 모여든다!
+출간 후 1년이 넘도록 독자의 사랑을 받으며 베스트셀러 상위권을 지키고 있는 소설, 김호연 작가의 『불편한 편의점』이 그 두 번째 이야기로 다시 찾아왔다. 서울역 노숙인 독고 씨가 편의점의 야간 알바로 일하면서 시작되는 1편의 이야기는 예측불허의 웃음과 따스한 온기로 잔잔한 감동을 선사했다. 『불편한 편의점 2』는 전편의 위트와 속 깊은 시선을 이어가며 더욱 진득한 이야기로 독자를 끌어당긴다. 
+소설은 1편의 시간으로부터 1년 반이 흐른 여름날의 편의점을 스케치하며 시작된다. 그동안 세상도 달라지고 청파동의 ALWAYS편의점도 이모저모 바뀌었다. 숨이 턱턱 막히는 더위에도 마스크를 써야 하는 도입부의 묘사는 소설 속 현실에도 코로나가 있음을 짐작케 한다. 아들과의 불화로 답답해하던 선숙은 점장이 되었고, 편의점을 팔자고 조르던 염 여사의 말썽꾼 아들 민식은 사장이 되어 있다. 말이 사장이지, 민식은 경영에는 관심이 없고 수익 운운하며 주휴수당 같은 비용 줄이기에만 열을 올리니, 여러모로 ‘진짜로 불편해진’ 편의점이 아닐 수 없는데……. 그러던 중 독고의 후임으로 밤 시간을 책임지던 곽 씨가 그만두고 새 야간 알바가 들어오면서 편의점은 다시 한 번 변화를 맞이한다.  
+새로 온 알바는 커다란 덩치와 부담스러운 행동이 누군가를 연상시키는 40대 사내. 그는 인간 알바몬이라도 되는 양 화려한 알바 경력을 자랑하지만 정작 편의점 일은 어수룩하기만 하다. 게다가 수다쟁이에 오지랖은 못 말릴 지경이어서 점장 선숙에게 핀잔을 뜯기 일쑤다. 그러거나 말거나 그는 황근배라는 이름 대신 홍금보라는 별명이 적힌 명찰을 가슴에 달고 마냥 느긋하게 손님들을 맞으며 편의점의 밤을 지켜 나간다.',
+'https://search.shopping.naver.com/book/catalog/33684998621');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9788932474755', '헤어질 결심 각본', '정서경^박찬욱', 'https://shopping-phinf.pstatic.net/main_3355622/33556223644.20220729092950.jpg', '을유문화사', '20220805', 
+'2022 칸 영화제 감독상 수상작
+〈헤어질 결심〉 오리지널 각본을 만나다
+영화 각본이 선사하는 즐거움 중 하나는 촬영과 편집을 마친 최종 결과물과의 차이를 발견하는 것이다. 『헤어질 결심 각본』은 특히 이런 발견의 즐거움을 풍부하게 담고 있다. 예를 들어 서래가 직접 지어낸 『산해경』 이야기는 서래의 내면을 바라볼 수 있는 열쇠를 하나 더 제공하며, 이포로 떠난 해준이 전해 듣게 되는 질곡동 사건의 후일담은 불길한 기운을 풍긴다. 이렇듯 편집 과정에서 삭제된 부분들 역시 하나같이 〈헤어질 결심〉의 세계를 더 풍요롭게 만들어 주고 있어서, 이 책의 독자들은 자신만의 ‘관객판’ 편집본을 상상할 수 있을 것이다.
+물론 영화 속의 명대사들을 그대로 재확인하는 즐거움도 크다. 〈헤어질 결심〉은 이 ‘확인’의 즐거움이 각별한 작품이기도 하다. 독특한 분위기를 풍기는 서래의 한국어 대사는 활자로 읽었을 때도 특별한 매력을 풍기며, 해준의 대사 역시 단어 선정에 얼마나 공을 들였는지를 천천히 톺아볼 수 있기 때문이다. 게다가 중국어 대사에는 원문이 함께 실려 있어 그 의미를 더 깊이 살펴볼 기회를 제공한다. 이렇게 영화의 안과 밖을 충실히 담은 각본을 읽고 나면 〈헤어질 결심〉의 여운을 더욱 오랫동안 간직할 수 있을 것이다.',
+'https://search.shopping.naver.com/book/catalog/33556223644');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9791157062645', '계속 가보겠습니다 (내부 고발 검사, 10년의 기록과 다짐)', '임은정', 'https://shopping-phinf.pstatic.net/main_3347482/33474829621.20220722093224.jpg', '메디치미디어', '20220722', 
+'“함께 꾸는 꿈의 힘을, 결국 함께 나아가는 
+역사의 힘찬 발걸음을 저는 굳게 믿습니다”
+검사 임은정,
+검찰 치부를 세상에 드러내고
+병든 검찰의 오늘을 기록하다
+《계속 가보겠습니다》의 저자인 임은정은 2007년 ‘공판 업무 유공’을 인정받아 검찰총장상을 받았고, 2012년에는 법무부가 선정하는 ‘우수 여성 검사’가 되어 서울중앙지검 공판부에 배치되는 등 검찰 내 엘리트 코스를 밟던 검사였다. 한때 ‘도가니 검사’로도 불리며 검찰 조직에서 승승장구하던 검사 임은정, 이제는 끊임없이 검사 적격 심사의 대상자에 오르는 검찰 조직의 ‘미운 오리 새끼’가 되었다. 검찰 내 각종 부조리를 폭로하고, 과거사 재심 사건에서 ‘백지 구형’이 아닌 ‘무죄 구형’을 강행하면서 골칫거리 문제 검사가 됐기 때문이다. 
+이 책은 내부 고발 검사 임은정의 첫 번째 단독 저서다. 내부자의 시선으로 검찰의 치부를 세상에 드러내 온 10년의 기록과 다짐이 담겨 있다. 저자는 검찰이 잘못의 무게를 다는 저울이라고 강조한다. 그러나 현재의 검찰은 자정능력을 상실해 고장 난 저울이 되었다고 말한다. 검찰 조직의 부끄러움을 알고, 검사의 양심을 지키고자 분투한 저자는 검찰이 바른길로 향하도록 하는 길을 열기 위해 온몸으로 부딪치고 있다. 이 책을 통해 독자들은 검찰 조직의 어두운 면과 이를 걷어내고자 하는 저자의 각오와 용기, 그리고 그 과정에서 내부 고발자의 힘겨움과 아픔을 느낄 수 있다.',
+'https://search.shopping.naver.com/book/catalog/33474829621');
+
+insert into read_book (isbn, title, author, img, publisher, pubdate, description, link) values
+('9791168340510', '파친코 1 (개정판)', '이민진', 'https://shopping-phinf.pstatic.net/main_3343571/33435716826.20220728093341.jpg', '인플루엔셜', '20220805', 
+'“역사는 우리를 저버렸지만, 그래도 상관없다”
+역사에 외면당한 재일조선인 가족의 대서사극
+전 세계를 감동시킨 이민진 작가 화제작 《파친코》 새롭게 출간!
+“내게 ‘한국인’은 이야기의 주인공이 될 가치가 있는 이들이다.
+나는 가능한 한 오래 한국인 이야기를 쓰고 싶다.” 
+- ‘한국 독자들에게’ 중에서
+4대에 걸친 재일조선인 가족의 이야기를 그린 세계적 베스트셀러, 이민진 작가의 장편소설 《파친코》가 새롭게 출간되었다. 《파친코》는 재미교포 1.5세대인 이민진 작가가 30년에 달하는 세월에 걸쳐 집필한 대하소설로, 2017년 출간되어 《뉴욕타임스》 베스트셀러에 올랐다. 현재까지 전 세계 33개국에 번역 수출되었으며, BBC, 아마존 등 75개 이상의 주요 매체의 ‘올해의 책’으로 선정되었을 뿐 아니라 전미도서상 최종 후보에 이름을 올리며 평단과 대중을 모두 사로잡은 작품이다. 버락 오바마 전 미국 대통령으로부터 “회복과 연민에 대한 강력한 이야기”라는 찬사를 받으며 주목을 받았다.
+2022년 애플TV가 제작한 동명의 드라마가 공개되며 화제의 중심에 선 《파친코》는 지난 4월 판권 계약이 종료되며 절판되었다가 새로운 번역과 디자인으로 한국 독자에게 돌아왔다. 첫 문장(“역사는 우리를 저버렸지만, 그래도 상관없다”)에서부터 원문의 의미를 보다 충실하게 전달하고자 했으며, 작품 특유의 속도감 있는 문체를 살리고자 노력했다. 또한 작가가 처음 의도한 구조와 흐름을 살리기 위해 총 세 파트(1부 ‘고향’, 2부 ‘모국’, 3부 ‘파친코’)로 된 원서의 구성을 그대로 따랐다. 새 출간을 기념해 ‘한국 독자들에게’ 보내는 글에는 한국인 이야기를 계속해서 쓰는 이유를 밝혔다. 작가는 “우리가 매력적이기 때문”이라며, “한국인은 지적으로나, 감성적으로나 깊이 있는 이야기의 주인공이 될 가치가 있는 이들”이기에 앞으로도 한국의 이야기를 젊은 세대들에게 들려주고 싶다며 한국 독자들에게 각별한 애정을 표했다.',
+'https://search.shopping.naver.com/book/catalog/33435716826');
+
+drop table user_group;
+create table user_group(
+user_group_no int auto_increment,
+title varchar(255),
+content varchar(255),
+user_id varchar(255),
+level int,
+isbn varchar(255),
+start_date date,
+end_date date,
+address varchar(255),
+ primary key(user_group_no),
+ foreign key(user_id) references user(user_id) on delete cascade on update cascade,
+ foreign key(isbn) references read_book(isbn) on delete cascade on update cascade
+);
+
+insert into user_group (title, content, user_id, isbn, start_date, end_date) values
+( '독서모임', '독서모임 안내...참가비 : 10000원', 'test', '9788946421851', '2022-08-11', '2022-08-26');
+
+
+drop table grade;
+create table grade(
+level int,
+start_point int,
+end_point int,
+ primary key(level)
+);
+
+insert into grade (level, start_point, end_point) values
+('1', '0', '10'),
+('2', '11', '30'),
+('3', '20', '50');
+
+
+drop table comment;
+
+drop table market_board;
+create table market_board(
+market_board_no int auto_increment,
+user_id varchar(255),
+title varchar(255),
+post_time datetime default current_timestamp,
+img_path varchar(255),
+content text,
+book_title varchar(255),
+isbn varchar(255),
+address varchar(255),
+price int,
+ primary key(market_board_no),
+ foreign key(user_id) references user(user_id) on delete cascade on update cascade,
+ foreign key(isbn) references read_book(isbn) on delete cascade on update cascade
+);
+
+
+
+drop table market_reply;
+create table market_reply(
+market_reply_no int auto_increment,
+contents varchar(255),
+post_time datetime default current_timestamp,
+market_board_no int,
+user_id varchar(255),
+ primary key(market_reply_no),
+ foreign key(market_board_no) references market_board(market_board_no) on delete cascade on update cascade,
+ foreign key(user_id) references user(user_id) on delete cascade on update cascade
+);
+
+drop table dibs;
+drop table wishlist;
+drop table wishList;
+create table wishList(
+wishlist_no int auto_increment,
+market_board_no int,
+user_id varchar(255),
+ primary key(wishlist_no),
+ foreign key(market_board_no) references market_board(market_board_no) on delete cascade on update cascade,
+ foreign key(user_id) references user(user_id) on delete cascade on update cascade,
+ unique key (market_board_no, user_id)
+);
+
+
+drop table pay;
+create table pay(
+pay_no int auto_increment,
+market_board_no int,
+pay_time datetime default current_timestamp,
+pay_img_path varchar(255),
+book_title varchar(255),
+pay_price int,
+user_id varchar(255),
+address varchar(255),
+phone varchar(255),
+ primary key(pay_no),
+ foreign key(market_board_no) references market_board(market_board_no) on delete cascade on update cascade,
+ foreign key(user_id) references user(user_id) on delete cascade on update cascade
+);
+
+drop table library;
+create table library(
+library_no int auto_increment,
+user_id varchar(255),
+isbn varchar(255),
+end_date datetime,
+star int not null default 0,
+comment varchar(255),
+ primary key(library_no)
+);
+
+insert into library (user_id, isbn, end_date, star, comment) values
+('test','9788901260716','2022-08-23','4','testtesttesttesttesttesttesttesttest'),
+('test','9788932474755','2022-08-23','5','testtesttesttesttesttesttesttesttest'),
+('test','9788946421851','2022-08-23','1','testtesttesttesttesttesttesttesttest'),
+('test','9788954699914','2022-08-23','1','testtesttesttesttesttesttesttesttest'),
+('test','9788972773641','2022-08-23','2','testtesttesttesttesttesttesttesttest'),
+('test','9791157062645','2022-08-23','3','testtesttesttesttesttesttesttesttest'),
+('test','9791161571379','2022-08-23','5','testtesttesttesttesttesttesttesttest'),
+('test','9791168340510','2022-08-23','5','testtesttesttesttesttesttesttesttest'),
+('test','9791168340541','2022-08-23','2','testtesttesttesttesttesttesttesttest'),
+('test','9791191043761','2022-08-23','4','testtesttesttesttesttesttesttesttest');
+
+ALTER TABLE wishlist RENAME to wishList;
+
+ALTER TABLE wishList ADD COLUMN jjim boolean ;
+ALTER TABLE market_board ADD state int ;
+
+commit;
