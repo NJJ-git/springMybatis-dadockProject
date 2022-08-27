@@ -5,15 +5,17 @@
 <title>marketPayDetail</title>
 </head>
 <body>
-	
+<header th:insert="headerNav"></header>	
 	<main>
   <h1 ><i class="bi bi-book"></i>결제내역상세페이지</h1>
-  <table class="table table-hover">
+  
+  <table class="table table-hover" style="width: 500px;">
 			<thead>
 				<tr>
 					<th></th>
 					<th>상품이름</th>
 					<th>가격</th>
+					<th>수량</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -26,8 +28,24 @@
 					</td>
 					<td th:text="${marketBoard.title}"></td>
 					<td th:text="${marketBoard.price}"></td>
+					<td>1</td>
 				</tr>
 			</tbody>
+		</table>
+		주문배송정보
+		<table class="table table-hover" style="width: 500px;">
+		    <tr>
+		      <th scope="row" >주문번호</th>
+		      <td>m03248039</td>
+		      
+		      </tr>
+		      <tr>
+		      <th scope="row" >유저아이디</th>
+		      <td th:text="${marketBoard.user_id}"></td>
+		      <td>
+						      
+		      </td>
+		      </tr>
 		</table>
 		<div>
 		

@@ -114,15 +114,12 @@
                 </th:block>
             </div>
         </div>
-        <p></p>
-        <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
-        <hr>
-        <footer th:insert="footer"></footer>
-        <script>
-            /* 이미지 lazy 로딩을 위한 script */
-            document.addEventListener("DOMContentLoaded", function () {
-                var lazyloadImages;
-
+    <hr>
+     <div class="d-flex justify-content-center" th:insert="/bookListPaging"></div>
+<script>
+/* 이미지 lazy 로딩을 위한 script */
+document.addEventListener("DOMContentLoaded", function() {
+	  var lazyloadImages;    
                 if ("IntersectionObserver" in window) {
                     lazyloadImages = document.querySelectorAll(".lazy");
                     var imageObserver = new IntersectionObserver(function (entries, observer) {
@@ -175,4 +172,5 @@
             })
         </script>
     </body>
+<footer th:insert="footer"></footer>
 </html>

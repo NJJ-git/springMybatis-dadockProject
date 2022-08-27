@@ -18,13 +18,14 @@
 		
 		<h1 class="m-3">마켓 등록 페이지</h1>
 
-		<form id="insertForm" action="/market/goodsInsertSearch.do" method="post" class="row g-3 needs-validation"
+		<form id="insertForm" action="/market/goodsInsertSearch2.do" method="post" class="row g-3 needs-validation"
 		enctype="multipart/form-data">
 		
-		<div class="container row">
-			<div class="col-4 mb-3 was-validated">
-				<img name="img_path" th:src="${book.image}" style=width:300px type="file">
-			</div> 
+		<div class="container row"><!-- 이미지 등록?!!! -->
+			 <div class="col-4 mb-3 was-validated">
+			 	<img name="img_path" th:src="${book.image}" style=width:300px type="file">
+				<input name="img_path"  th:value="${book.image}" type="text" hidden>
+			</div>   
 			
 			
 			<div class="col-6 mb-3 was-validated">
@@ -32,11 +33,13 @@
 			  <input name="title" class="form-control" id="inputTitle" th:value="${book.title}" readonly>
 			</div>
 		</div>
+		<div class="mb-3 was-validated" >
+		    <label for="inputId" class="form-label">글쓴이(아이디)</label>
+		    <input name="user.user_id" class="form-control" id="inputId" placeholder="" required readonly
+		    th:value="${session.loginUser.user_id}">
+		  </div>
 			
-		
-			 
-
-			< <div class="mb-3 was-validated">
+			 <div class="mb-3 was-validated">
 		  	<input name="state" type="radio" value="1"> 최상
 		  	<input name="state" type="radio" value="2"> 상
 		  	<input name="state" type="radio" value="3"> 중
@@ -59,7 +62,7 @@
 
 			  <div class="col-12">
 			    <button class="btn btn-primary" type="submit">등록</button>
-			    
+			   <!--  <p th:text="${marketBoard.user?.user_id}" readonly ></p> -->
 			  </div> 
 		  
 		

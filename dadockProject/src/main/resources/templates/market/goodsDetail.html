@@ -7,68 +7,188 @@
 <body>
 <!-- <header th:insert="headerNav"></header> -->
 <header th:insert="headerNav"></header>
-<div class="card-group">	
-	<div id="box" class="m-3">
+
+<div id="container">
+	<div id="box" class="m-3" >
        <div class="d-flex flex-row-reverse">
     	   <a th:href="@{/market/goodsDelete/{no}(no=${marketBoard.market_board_no})}" class="btn btn-danger">삭제</a>
 	       <a th:href="@{/market/goodsUpdate/{no}(no=${marketBoard.market_board_no})}" class="btn btn-success">수정</a>
        </div>
        <h1 th:text="'No.'+${marketBoard.market_board_no}"> <i class="bi bi-book"></i></h1>
-       <h1 th:text="'state.'+${marketBoard.state}"></h1>
      </div>
-     <div class="d-flex justify-content-center">
-     <div class="card" style="width: 500px;">
+<div class="card-group d-flex justify-content-center">	
+     <div >
+     <div class="card" style="width: 800px;">
      <div>
   		<div th:each="boardImg:${marketBoard.marketBoardImgs}">
   			<img th:src="@{/public/market/img/{fileName}(fileName=${boardImg.img_path})}" class="card-img-top" alt="...">
   		</div>
+  		
+			<div class="col-md-4">
+		   		 <img th:src="@{{url}(url=${marketBoard.img_path})}"  th:alt="${marketBoard.title}" 
+		    		style=width:300px class="img-fluid rounded-start">
+		    </div>
 	  	</div>
 	  	<div class="card-body">
 	  	제목:
-	    <h2 class="card-title mb-3" th:text="${marketBoard.title}"></h2>
+	    <h2 class="card-title mb-3" th:text="${marketBoard.title}" id="title"></h2>
+	  	글쓴이:
+	       <h5 class="card-title mb-3" th:text="${marketBoard.user_id}"></h5>
 	    등록시간:
 	    <h5 class="card-title mb-3" th:text="${marketBoard.post_time}"></h5>
-	   <!--  책 제목:
-	    <h2 class="card-title mb-3" th:text="${marketBoard.book_title}"></h2> -->
+	  
 	    <p class="card-text mb-3" >상태: 
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==1)?'active':''}">최상</button> 
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==2)?'active':''}">상</button> 
 	    	<button class="btn btn-outline-success" role="button" th:classappend="${(marketBoard.state==3)?'active':''}">중</button> 
 	    	</p> 
+	    	<p>
+			  <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+			    다독마켓 상태 가이드 <!-- 알라딘 중고 품질 판정가이드 가져옴 -->
+			  </button>
+			</p>
+			  <div class="collapse" id="collapseExample">
+				  <table class="table">
+						 <thead>
+					    <tr >
+					      <th scope="col">품질등급</th>
+					      <th scope="col">헌 상태</th>
+					      <th scope="col">표지</th>
+					      <th scope="col">책등/책배</th>
+					      <th scope="col">내부/제본상태</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr class=""
+					    	th:classappend="${(marketBoard.state==1)?'table-active':''}">
+					      <th scope="row" 
+					      >최상</th>
+					      <td>새것에 가까움</td>
+					      <td>
+					      	• 변색 없음<br>
+							• 찢어진 흔적 없음<br>
+							• 닳은 흔적 없음<br>
+							• 낙서 없음<br>
+							• 얼룩 없음<br>
+							• 도서 겉표지 있음
+					      
+					      </td>
+					      <td>
+					     	 • 변색 없음<br>
+							• 닳은 흔적 없음<br>
+							• 낙서 없음<br>
+							• 얼룩 없음<br>
+					      </td>
+					      <td>@mdo</td>
+					    </tr>
+					    <tr class=""
+					    	th:classappend="${(marketBoard.state==2)?'table-active':''}">
+					      <th scope="row">상</th>
+					      <td>약간의 사용감은 있으나 깨끗한 책</td>
+					      <td>
+					      	• 희미한 변색이나 작은 얼룩이 있음<br>
+							• 찢어진 흔적 없음<br>
+							• 약간의 모서리 해짐<br>
+							• 낙서 없음<br>
+							• 도서 겉표지 있음
+					      </td>
+					      <td>
+					      	• 희미한 변색이나 작은 얼룩이 있음<br>
+							• 약간의 닳은 흔적 있음<br>
+							• 낙서 없음
+					      </td>
+					      <td>
+					      	• 변색 없음<br>
+							• 낙서 없음<br>
+							• 변형 없음<br>
+							• 아주 약간의 접힌 흔적 있음<br>
+							• 얼룩 없음<br>
+							• 제본 탈착 없음
+						</td>
+					    </tr>
+					    <tr class=""
+					    	th:classappend="${(marketBoard.state==3)?'table-active':''}">
+					      <th scope="row" >중</th>
+					      <td >사용감이 많으며 헌 느낌이 나는 책</td>
+					      <td>
+					      	• 전체적인 변색<br>
+							• 모서리 해짐 있음<br>
+							• 2cm 이하의 찢어짐<br>
+							• 오염 있음<br>
+							• 낙서 있음<br>
+							• 도서 겉표지 없음
+					      </td>
+					      <td>
+					      	• 전체적인 변색<br>
+							• 모서리 해짐 있음<br>
+							• 오염 있음<br>
+							• 낙서 있음 (이름 포함)
+					      </td>
+					      <td>
+					      	• 변색 없음<br>
+							• 2cm 이하 찢어짐 있음<br>
+							• 5쪽 이하의 필기 및 풀이 또는 밑줄 있음<br>
+							• 얼룩 및 오염 있음<br>
+							• 제본 탈착 없음<br>
+							• 본문 읽기에 지장 없는 부록 없음
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
 	    	가격:
 	    	<p class="card-text" th:text="${marketBoard.price}" ></p>
 	    	설명:
 	    <p class="card-text" th:text="${marketBoard.content}"></p>
 	    <span class="d-flex flex-row-reverse">
-		    <!-- <a th:href="@{/market/wishlist/{no}no=${marketBoard.market_board_no})}" 
-		    class="btn btn-primary">
-		    <a th:href="@{/market/wishlist/{id}/{no}(id=${marketBoard.user_id},no=${marketBoard.market_board_no})}" 
-		    <i class="bi bi-bookmark-heart-fill">
-		    	<span ></span>
-		    </i>
-		    </a> -->
-		    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
+		   
+		   <th:block th:if="${marketBoard.lgoinUserWishList!=null}">
+		 	 <a type="submit"
+	    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning"
+	    	>
+	    	<i class="bi bi-heart-fill" style="color: #0B5ED7;"></i></a>  
+		</th:block>  
+		
+					 <th:block th:unless="${marketBoard.lgoinUserWishList!=null}">
+				    	<a type="submit"
+	    	th:href="|/market/wishList/insert/${marketBoard.market_board_no}|" class="btn btn-outline-warning">
+	    	<i class="bi bi-heart" ></i></a>
+	    </th:block>
+		   
+		    <!-- <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="찜하기"  
 		    	th:href="@{/market/wishList}" class="btn btn-outline-warning">
-		    	<i class="bi bi-heart"></i></a>
+		    	<i class="bi bi-heart"></i></a> -->
 		    <a th:href="@{/market/marketPay/{no}(no=${marketBoard.market_board_no})}" class="btn btn-primary">결제</a>
 	    </span>
 	  </div>
      </div>
 </div>
-		 <div>
-		 <h2 class="d-flex justify-content-between">
-				<span>댓글 리스트
-					<small th:text="${marketReplys?.size}"></small>
+</div>
+
+<!-- ///////////////////// 댓글 ///////////////////////////// -->
+		
+		
+			<div class="d-flex justify-content-center">
+				<span >댓글
+					:<span class="badge text-bg-primary" th:text="${marketBoard.marketReplys?.size}"></span>
 				</span>
-				
-			</h2>
-			<div class="card  mb-3" style="width: 18rem;">
-			  <ul class="list-group list-group-flush">
-			  	<li class="list-group-item text-bg-light border-success" >
-			  	<form action="/reply/insert.do" method="post">
+			</div>
+			
+			<!--댓글 등록 폼  -->
+		 <div class="d-flex justify-content-center">
+			<div class="card  mb-3" style="width: 40rem;">
+			  	<form action="/reply/insert.do" method="post"> 
 				  <div class="card-footer">
-					댓글등록
-				    <input name="title" type="text" class="form-control">
+				    <p class="input-group input-group-sm mb-1">
+						<span class="input-group-text">댓글작성자</span>
+						 <input name="user_id" th:value="${session.loginUser?.user_id}"
+							type="text" class="form-control">
+					</p>
+					<p class="input-group input-group-sm mb-1">
+						<span class="input-group-text">내용</span>
+						<input name="contents" 
+							type="text" class="form-control" style="height: 100px">
+					</p>
 				  </div>
 				    
 			   		 <p class="mb-1">
@@ -76,28 +196,60 @@
 						<button type="submit" class="btn btn-sm btn-outline-primary">제출</button>
 						<input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
 					</p>
-					</form>
-					</li>
+				</form>
 					
-			<th:block  th:each="reply : ${marketBoard.marketReplys}">
-		 
-		  	<li class="list-group-item">
-		  	<form action="/reply/update.do" method="post" >
-		  		<p class="input-group input-group-sm mb-1">
+					
+		<!-- <!--로그인 안되어있거나 로그인 한 사람이 다를때  -->
+
+	  	<div>
+	  	
+		 <h4>댓글 리스트</h4>
+
+ 	 <th:block  th:each="reply : ${marketBoard.marketReplys}">
+	
+				
+		  	 <li class="list-group-item d-flex ">
+		    	<div class="ms-2 me-auto">
+			    	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+				    	<button  class="btn btn-sm btn-outline-dark " type="button" 
+				    	data-bs-toggle="collapse" data-bs-target="#replyModify">
+							수정
+						</button> 
+			    	</div>
+			    	 <div>
+			    		글쓴이 : <span th:text="${reply.user?.user_id}"></span>
+			    	</div> 
+			    	<div>
+			    		등록일 : <span th:text="${#dates.format(reply.post_time,'yyyy-MM-dd HH:mm:ss')}"></span>
+			    	</div>
+			     	 <div class="fw-bold">
+			      	<span  th:text="${reply.market_reply_no}"></span>
+			      	</div>
+			      
+			    	<div  th:text="${reply.contents}"></div>
+		   		</div>
+		   		</li>
+	
+  
+	  	
+	  	<ul class="list-group collapse hide" id="replyModify">
+		  	<li   class="list-group-item">
+		  		<form action="/reply/update.do" method="post" >
+		  			<p class="input-group input-group-sm mb-1">
 						<span class="input-group-text">No</span>
 						<input name="market_reply_no" th:value="${reply.market_reply_no}"
 							type="text" class="form-control" readonly>
 							
-						<span class="input-group-text">글쓴이</span>
-						<input name="user.user_id" th:value="${reply.user.user_id}"
-							type="text" class="form-control" readonly>
+						 <span class="input-group-text">글쓴이</span>
+						<input name="user.user_id" th:value="${reply.user?.user_id}"
+							type="text" class="form-control" readonly> 
 					</p>
 					<div class="mb-1 d-flex justify-content-between">
 						<span>등록일 : <th:block th:text="${#dates.format(reply.post_time,'yyyy-MM-dd HH:mm:ss')}"></th:block></span>
 					</div>
 					
 					<p class="input-group input-group-sm mb-1">
-						<span class="input-group-text">내용?</span>
+						<span class="input-group-text">내용</span>
 						<textarea name="contents" class="form-control" th:text="${reply.contents}"></textarea>
 					</p>
 					<p class="mb-1">
@@ -106,14 +258,21 @@
 
 							class="btn btn-outline-danger btn-sm">삭제</a>
 						<button type="submit" class="btn btn-sm btn-outline-primary">제출</button>
-						<input type="hidden" name="board_no" th:value="${board.board_no}">
+						<input type="hidden" name="market_board_no" th:value="${marketBoard.market_board_no}">
 					</p>
-		  	</form>
+		  		</form>
 		  	</li>
-		  </th:block>
-			  </ul>
-		 </div>
+		  	</ul>
+	
+		
+	  </th:block>   
 </div>
-</div>		
+
+
+		 </div>
+		 
+		 </div> /
+
+	</div>	
 </body>
 </html>

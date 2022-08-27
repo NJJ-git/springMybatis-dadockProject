@@ -3,9 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>마켓 유저 상세페이지</title>
+	
 </head>
 <body>
+
 <header th:insert="headerNav"></header>
-	<h1> 마켓 유저 상세페이지 </h1>
+<div class="d-grid gap-3">
+		<div class="d-flex justify-content-center p-4">
+		 	<h1 class="card-title" th:text="${session.loginUser?.user_id}+' 의 페이지'">  </h1>
+		</div>
+	
+	<div class="d-flex justify-content-center p-4">
+		<div class="card " style="width: 40rem;">
+		  <div class="card-header text-center">
+		    <span th:text="${session.loginUser?.user_id}+'의 글 '"></span>
+		    <i class="badge text-bg-warning" th:text="${rowCount}"></i>
+		  </div>
+		  <ul class="list-group list-group-flush" th:each="m:${userDetail}">
+		    <li class="list-group-item"  th:text="${m.title}"></li>
+		  </ul>
+		</div>
+	</div>
+</div>
+			  
 </body>
 </html>

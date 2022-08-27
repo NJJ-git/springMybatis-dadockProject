@@ -66,7 +66,7 @@ class="text-dark text-decoration-none">
 					<th:block th:each="recommend : ${recommendList}">
 						<li class="splide__slide">
 							<div class="m-4 text-center" type="button" th:onclick="|location.href='@{/book/detail/__${recommend.isbn}__}'|">
-								<img th:src="${recommend.img}"  class= img "w-95"
+								<img th:src="${recommend.img}"  class="w-95"
 								style= "border-radius: 5px; height: 350px; padding: 2px;">
 								
 								<hr>
@@ -163,7 +163,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 } );
 </script>
 
-<footer th:insert="footer"></footer>
 </body>
+<footer th:insert="footer"></footer>
 
 </html>

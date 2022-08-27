@@ -14,7 +14,7 @@
 	<select id="selectOne" resultType="MarketReply" parameterType="int">
 		select *, user_id 'user.user_id' 
 		from market_reply 
-		where market_reply_no=#{marketReplyNo} <!-- delete할때 -->
+		where market_reply_no=#{marketReplyNo} 
 	</select>
 	<!-- updateOne,insertOne -->
 	<insert id="insertOne" parameterType="marketReply">
