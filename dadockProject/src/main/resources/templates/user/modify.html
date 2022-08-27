@@ -7,35 +7,30 @@
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 	<title>Dadock::다독</title>
-	<!--카카오톡  -->
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<!-- <script>
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	        }
-	    }).open();
-	</script> -->
-	<!-- 카카오톡 -->
 </head>
-	
 <body>
-	<header th:insert="headerNav"></header>
+	<header th:insert="headerNav"></header> 
     <div class="wrapper" style="text-align: center;">
-   		<h1 class="m-3 d-flex justify-content-between align-items-center">회원 상세</h1>
-        <div class="register-background">
-            <div class="filter-black"></div>
+   		<h1 class="m-3 d-flex justify-content-between align-items-center">회원 수정</h1>
+        <div>
+            
             <div class="container">
-                <div class="row">
+                <div class="row d-flex justify-content-center">
                     <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 ">
-                        <div class="avatar">
-                            <img src="/public/paper_img/chet_faker_2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                        </div>
-                        <div class="name">
-                            <h4>닉네임<br/><small>이름</small></h4>
-                        </div>
-                        <div class="register-card">
+                        <div>
                             <h3 class="title"></h3>
-                            <form action="/user/modify.do" method="post" class="detail-form">
+                            <form action="/user/modify.do" method="post" class="detail-form" enctype="multipart/form-data">
+						      <br>
+                              <label class="btn btn-outline-secondary" for="imgFile">
+                              	 프로필 사진 등록
+                              	 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+							  	 	<path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+							  		<path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+							     </svg>
+                              </label>
+                              <input style="display: none;" type="file" id="imgFile" name="imgFile">
+						      <img style="width:300px;"  id="preview-image" th:src="@{/public/user/img/{fileName}(fileName=${user.profile_img})}">
+                                	<br>
                                 	<br>
                                 	<label>아이디</label>
                                 	<input type="text" class="form-control" placeholder="id@example.com" th:value="${user.user_id}"  name="user_id" readonly>
@@ -45,6 +40,9 @@
                                     <br>
                                     <label>비밀번호</label>
                                     <input type="password" class="form-control" placeholder="비밀번호" th:value=${user.pw} name="pw">
+                                    <br>
+                                    <label>비밀번호 확인</label>
+                                    <input type="password" class="form-control" placeholder="비밀번호 확인" th:value=${user.pw_check} name="pw_check">
                                     <br>
                                     <label>주소</label>
                                     <input type="text" id="address_kakao" class="form-control" placeholder="주소" th:value="${user.address}" name="address" readonly>
@@ -57,14 +55,7 @@
                                     <br>
                                     <label>휴대폰 번호</label>
                                     <input type="text" class="form-control" placeholder="000-0000-0000" th:value=${user.phone} name="phone">
-                                      <br>
-                                    <label>보유 포인트</label>
-                                    <input type="text" class="form-control" th:value="${0}" name="point" readonly="readonly">
                                     <br>
-                                    <label>회원 등급</label>
-                                    <input type="text" class="form-control" th:value="${1}" name="level"readonly="readonly">
-                                    <br>
-                                    
                                     <button class="btn btn-danger btn-block">수정</button>
                                     <button type="button" class="btn btn-danger btn-block"
                                     th:onclick="location.href='/user/delete/'+[[${user.user_id}]]">삭제</button>
@@ -75,22 +66,23 @@
             </div>
         </div>
     </div>
-<footer th:insert="footer"></footer>
+    <br>
+ <footer th:insert="footer"></footer>
 </body>
-<!-- 카카오톡 -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ 
-        new daum.Postcode({
-            oncomplete: function(data) { 
-                document.getElementById("address_kakao").value = data.address;
-                document.querySelector("input[name=address_detail]").focus(); 
-            }
-        }).open();
-    });
-}
+<script type="text/javascript">
+	function readImage(input) {
+	    if(input.files && input.files[0]) {
+	        const reader = new FileReader()
+	        reader.onload = e => {
+	            const previewImage = document.getElementById("preview-image")
+	            previewImage.src = e.target.result
+	        }
+	        reader.readAsDataURL(input.files[0])
+	    }
+	}
+	const inputImage = document.getElementById("imgFile")
+	inputImage.addEventListener("change", e => {
+	    readImage(e.target)
+	});
 </script>
-<!-- 카카오톡 -->
-
 </html>

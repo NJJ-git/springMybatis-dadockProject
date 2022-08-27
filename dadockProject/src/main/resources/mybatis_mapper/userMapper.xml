@@ -23,31 +23,33 @@
 	<update id="updateOne" parameterType="User">
 		UPDATE USER SET
 			pw=#{pw},
+			pw_check=#{pw_check},
 			name=#{name},
 			email=#{email},
 			phone=#{phone},
 			address=#{address},
 			address_detail=#{address_detail},
-			level=${level},
-			point=${point}
+			profile_img=#{profile_img}
 			WHERE user_id=#{user_id}
 	</update>
 	
 	<update id="modifyOne" parameterType="User">
 		UPDATE USER SET
 			pw=#{pw},
+			pw_check=#{pw_check},
 			name=#{name},
 			email=#{email},
 			phone=#{phone},
 			address=#{address},
-			address_detail=#{address_detail}
+			address_detail=#{address_detail},
+			profile_img=#{profile_img}
 			WHERE user_id=#{user_id}
 	</update>
 	
 	<insert id="registerOne" parameterType="User">
 		INSERT INTO USER
-			(user_id,name,pw,phone,email,address,address_detail) VALUES
-			(#{user_id},#{name},#{pw},#{phone},#{email},#{address},#{address_detail})
+			(user_id,name,pw,pw_check,phone,email,address,address_detail,profile_img) VALUES
+			(#{user_id},#{name},#{pw},#{pw_check},#{phone},#{email},#{address},#{address_detail},#{profile_img})
 	</insert>
 	
 	<delete id="deleteOne" parameterType="String">

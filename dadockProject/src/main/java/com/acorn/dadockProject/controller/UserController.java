@@ -1,5 +1,9 @@
 package com.acorn.dadockProject.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.acorn.dadockProject.dto.IdCheck;
 import com.acorn.dadockProject.dto.Paging;
@@ -29,25 +37,36 @@ public class UserController {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Value("${spring.servlet.multipart.location}")
+	String savePath;
+	
 	@Autowired
 	   UserServiceImp userService;
+
+     private int modify;
 	
 	@GetMapping("/list/{page}")
-	public String list(@PathVariable int page, Model model) {
+	public String list(@PathVariable int page, @SessionAttribute (name = "loginUser", required=false) User loginUser,
+			HttpSession session,
+			Model model) {
+		
 		int row=7;
 		int startRow=(page-1)*row;
 		List<User> userList=userMapper.selectPageAll(startRow,row);
 		int rowCount=userMapper.selectPageAllCount();
-		
 		Paging paging=new Paging(page, rowCount, "/user/list/",row);
-		model.addAttribute("paging",paging);
-		model.addAttribute("userList",userList);
-		model.addAttribute("row",row);
-		model.addAttribute("rowCount",rowCount);
-		model.addAttribute("page",page);
-		System.out.println(userList);
-		return "/user/list";
+			if(loginUser.getUser_id().equals("admin")){
+				model.addAttribute("paging",paging);
+				model.addAttribute("userList",userList);
+				model.addAttribute("row",row);
+				model.addAttribute("rowCount",rowCount);
+				model.addAttribute("page",page);
+				return "/user/list";
+			}
+		session.setAttribute("msg", "관리자만 이용 가능합니다.");
+		return "redirect:/";
 	}
+			
 	@GetMapping("/detail/{userId}")
 	public String detail(@PathVariable String userId , Model model) {
 		System.out.println(userId);
@@ -76,14 +95,37 @@ public class UserController {
 	}
 	
 	@PostMapping("/modify.do")
-	public String modify(User user) {
-		int modify=0;
-		System.out.println(user);
-		modify=userMapper.modifyOne(user);
-		if(modify>0) {
-			return "redirect:/user/profile/"+user.getUser_id();
+	public String modify(User user, 
+			@SessionAttribute(required = false) User loginUser,
+			MultipartFile imgFile,
+			HttpSession session) {
+		if(loginUser!=null && loginUser.getUser_id().equals(user.getUser_id())) {
+			int modify=0;
+		    String msg="";
+				if(imgFile!=null && !imgFile.isEmpty()) {
+					String[] types=imgFile.getContentType().split("/");
+					if(types[0].equals("image")) {
+						if(user.getProfile_img()!=null) {
+							File file=new File(savePath+"/"+user.getProfile_img());
+							boolean del=file.delete();
+							System.out.println("기존 이미지 삭제"+del);
+						}
+						String newFileName="user_"+System.nanoTime()+"."+types[1];
+						Path path=Paths.get(savePath+"/"+newFileName);
+						try {
+							imgFile.transferTo(path);
+						} catch (IllegalStateException | IOException e) {
+							e.printStackTrace();
+						}
+						user.setProfile_img(newFileName);
+					}
+				}
+		    	modify=userMapper.modifyOne(user);
+		    	msg=(modify>0)?"수정 성공!":"수정 실패!";
+		    	session.setAttribute("msg", msg);
+		    return "redirect:/user/profile/"+user.getUser_id();
 		}else {
-			return "redirect:/user/modify.do";
+			return "/";
 		}
 	}
 	
@@ -150,7 +192,7 @@ public class UserController {
 			}
 			return "redirect:/";
 		}else {
-			session.setAttribute("loginMsg", "로그인 실패");
+			session.setAttribute("loginMsg", "아이디 혹은 비밀번호가 틀립니다");
 			return "redirect:"+prevPage;
 		}
 	}
@@ -189,7 +231,7 @@ public class UserController {
 	}
 	@GetMapping("/getSearchList/{page}")
 	   private String getSerchList(@RequestParam(value="type", required = false) String type,
-			   @PathVariable int page,
+		     @PathVariable int page,
 	         @RequestParam(value="keyword", required = false) String keyword, Model model) throws Exception{
 	     
 		List<User> getSerchList= userService.getSearchList(type,keyword);

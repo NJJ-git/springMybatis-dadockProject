@@ -7,10 +7,11 @@
 </head>
 <body>
 	<header th:insert="/headerNav"></header>
+<div style="background-color: beige;" >
 	<main class="container">
 		<h1 class="m-3 d-flex justify-content-between align-items-center">
-			<span>회원 리스트</span> <a href="/user/adminRegister.do"
-				class="small btn btn-secondary">등록</a>
+			<span>회원 리스트</span> 
+			<a href="/user/adminRegister.do" class="small btn btn-primary"><i class="small bi bi-person-plus-fill">회원 등록</i></a>
 		</h1>
 		<!-- 회원검색 -->
 		      <div class="d-flex flex-row-reverse">
@@ -28,8 +29,8 @@
 			페이지 : <span class="badge text-bg-success" th:text="${page}"></span> /
 			<span class="badge text-bg-primary" th:text="${rowCount}"></span>
 		</p>
-		<table class="table table-hover">
-			<thead>
+		<table class="table table-striped table-hover">
+			<thead class="table-dark">
 				<tr>
 					<th>아이디</th>
 					<th>이름</th>
@@ -37,8 +38,6 @@
 					<th>이메일</th>
 					<th>폰</th>
 					<th>주소+(상세주소)</th>
-					<th>레벨</th>
-					<th>포인트</th>
 					<th>상세(수정)</th>
 				</tr>
 			</thead>
@@ -50,17 +49,16 @@
 					<td th:text="${user.email}"></td>
 					<td th:text="${user.phone}"></td>
 					<td th:text="${user.address}+'('+${user.address_detail}+')'"></td>
-					<td th:text="${user.level}"></td>
-					<td th:text="${user.point}"></td>
 					<td><a th:href="@{/user/detail/{id}(id=${user.user_id})}">
-							상세보기 </a></td>
+							회원상세 </a></td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="d-flex justify-content-center" th:insert="/paging"></div>
 	</main>
-	<footer th:insert="footer"></footer>
+</div>
 </body>
+	<footer th:insert="footer"></footer>
 </html>
 
 

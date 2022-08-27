@@ -7,4 +7,4 @@ import com.acorn.dadockProject.dto.User;
 public interface UserService {
 
 	List<User> getSearchList(String type, String keyword);
-} 
+}
