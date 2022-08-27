@@ -1,5 +1,7 @@
 package com.acorn.dadockProject.Interceptor;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,8 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor{
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException{
 		System.out.println("LoginCheck.preHandle : 해당 url을 요청하기 전");
 		String prevPage=request.getHeader("Referer");
 		if(prevPage==null) {
@@ -22,11 +23,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor{
 		if(session.getAttribute("loginUser")!=null) {
 			return true;			
 		}else {
-			session.setAttribute("loginMsg", "로그인 후 이용 바랍니다.");
+			session.setAttribute("loginMsg", "로그인 후 이용바랍니다");
 			session.setAttribute("redirectPage", prevPage);
 			response.sendRedirect(prevPage);
 			return false;
 		}
+		
 	}
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,

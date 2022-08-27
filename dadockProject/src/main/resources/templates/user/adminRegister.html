@@ -7,15 +7,6 @@
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 	<title>Dadock::다독</title>
-	<!--카카오톡  -->
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<!-- <script>
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	        }
-	    }).open();
-	</script> -->
-	<!-- 카카오톡 -->
 </head>
 	
 <body>
@@ -25,14 +16,8 @@
         <div class="register-background">
             <div class="filter-black"></div>
             <div class="container">
-                <div class="row">
+                <div class="row d-flex justify-content-center">
                     <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 ">
-                        <div class="avatar">
-                            <img src="../public/paper_img/chet_faker_2.jpg" alt="프로필 사진" class="img-circle img-no-padding img-responsive">
-                        </div>
-                        <div class="name">
-                            <h4>아이디<br/><small>이름</small></h4>
-                        </div>
                         <div class="register-card">
                             <h3 class="title"></h3>
                             <form action="/user/adminRegister.do" method="post" class="register-form">
@@ -46,6 +31,9 @@
                                     <label>비밀번호</label>
                                     <input type="text" class="form-control" placeholder="비밀번호" name="pw">
                                     <br>
+                                    <label>비밀번호 확인</label>
+                                    <input type="text" class="form-control" placeholder="비밀번호 확인" name="pw_check">
+                                    <br>
                                     <label>주소</label>
                                     <input type="text" id="address_kakao" class="form-control" placeholder="주소" name="address" readonly>
                                      <br>
@@ -58,12 +46,6 @@
                                     <label>휴대폰 번호</label>
                                     <input type="text" class="form-control" placeholder="000-0000-0000" name="phone">
                                     <br>
-                                    <label>보유 포인트</label>
-                                    <input type="text" class="form-control" value="0" name="point">
-                                    <br>
-                                    <label>회원 등급</label>
-                                    <input type="text" class="form-control" value="1" name="level">
-                                    <br>
                                     <button class="btn btn-danger btn-block">회원 등록</button>
                              </form>
                         </div>
@@ -74,20 +56,4 @@
         </div>
     </div>
 </body>
-<!-- 카카오톡 -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){
-        new daum.Postcode({
-            oncomplete: function(data) {
-                document.getElementById("address_kakao").value = data.address; 
-                document.querySelector("input[name=address_detail]").focus(); 
-            }
-        }).open();
-    });
-}
-</script>
-<!-- 카카오톡 -->
-
 </html>

@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="/public/paper_img/favicon.1.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>다독</title>
+    <title>Dadock</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -16,17 +16,26 @@
     <link href="/public/css/demo.css" rel="stylesheet" />
     <link href="/public/css/examples.css" rel="stylesheet" />
 
-    <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-
+	
+	<script src="/public/js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="/public/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
+	
+	<script src="/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+	
+	<script src="/public/js/ct-paper-checkbox.js"></script>
+	<script src="/public/js/ct-paper-radio.js"></script>
+	<script src="/public/js/bootstrap-select.js"></script>
+	<script src="/public/js/bootstrap-datepicker.js"></script>
+	
+	<script src="/public/js/ct-paper.js"></script>
 </head>
 
 <body>
     <nav class="navbar navbar-ct-transparent navbar-fixed-top" role="navigation-demo" id="register-navbar">
         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
                     <span class="sr-only">Toggle navigation</span>
@@ -37,7 +46,6 @@
                 <a class="navbar-brand" href="/">DADOCK</a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navigation-example-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -61,44 +69,45 @@
 						</th:block>
 					</div>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-->
+            </div>
+        </div>
     </nav>
         <div class="register-background">
-            <div class="filter-black"></div>
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 ">
                         <div class="avatar">
-                            <img src="/public/paper_img/chet_faker_2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                        	
-                          	<p style="color:white" th:text="'아이디 :'+ ${user.user_id}"><p>
-                            <p style="color:white" th:text="'이름 : '+ ${user.name}"><p>
-                            <p style="color:white" th:text="'이메일 : ' + ${user.email}"><p>
-                            <p style="color:white" th:text="'연락처 : '+${user.phone}"><p>
-                            <p style="color:white" th:text="'회원 등급 : '+${user.level} +'레벨'"><p>
-                            <p style="color:white" th:text="'보유 포인트 : '+${user.point}+'점'"><p>
-
-                    </div>
-                </div>
-            </div>
-        </div>  
-<footer th:insert="footer"></footer>
+                            <img th:src="@{/public/user/img/{fileName}(fileName=${user.profile_img})}" alt="프로필 이미지" class="img-fluid img-thumbnail">
+	                          	<p style="color:white" th:text="'아이디 :'+ ${user.user_id}"><p>
+	                            <p style="color:white" th:text="'이름 : '+ ${user.name}"><p>
+	                            <p style="color:white" th:text="'이메일 : ' + ${user.email}"><p>
+	                            <p style="color:white" th:text="'연락처 : '+${user.phone}"><p>
+                   	 	</div>
+                	</div>
+            	</div>
+        	</div>  
+<div class="footer text-center bd-footer bg-dark">
+	<div>
+		<br>
+		    <a href="" style="font-size: 22px; text-decoration:none;">
+		    DaDock
+			</a>
+			<a href="" style="color: white; text-decoration:none; font-size: 13px">
+			   【회사소개】 
+			</a>
+			<a href="" style="color: white; text-decoration:none; font-size: 13px">
+			   【개인정보처리방침】 
+			</a>
+			<a href="" style="color: white; font-size: 13px; text-decoration:none;">
+			     【이용약관】
+			 </a>
+			<a href="" style="color: white; font-size: 13px; text-decoration:none;">
+			     【고객센터】
+			 </a>
+		<h6 style="color:white">Copyright &copy; Dadock<i style="color:Orange">♥</i> All rights reserved.</h6>
+		<br>
+	</div>
+</div>
     </div>
-    
 </body>
-
-<script src="/public/js/jquery-1.10.2.js" type="text/javascript"></script>
-<script src="/public/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
-
-<script src="/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-
-<!--  Plugins -->
-<script src="/public/js/ct-paper-checkbox.js"></script>
-<script src="/public/js/ct-paper-radio.js"></script>
-<script src="/public/js/bootstrap-select.js"></script>
-<script src="/public/js/bootstrap-datepicker.js"></script>
-
-<script src="/public/js/ct-paper.js"></script>
-
 </html>

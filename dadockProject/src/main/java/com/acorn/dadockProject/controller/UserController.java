@@ -1,10 +1,10 @@
 package com.acorn.dadockProject.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +28,6 @@ import com.acorn.dadockProject.dto.User;
 import com.acorn.dadockProject.mapper.UserMapper;
 import com.acorn.dadockProject.service.UserServiceImp;
 
-import lombok.val;
 
 @RequestMapping("/user")
 @Controller
@@ -41,24 +39,32 @@ public class UserController {
 	private UserMapper userMapper;
 	
 	@Autowired
-	   UserServiceImp userService;
+	UserServiceImp userService;
+
+     
 	
 	@GetMapping("/list/{page}")
-	public String list(@PathVariable int page, Model model) {
+	public String list(@PathVariable int page, @SessionAttribute (name = "loginUser", required=false) User loginUser,
+			HttpSession session,
+			Model model) {
+		
 		int row=7;
 		int startRow=(page-1)*row;
 		List<User> userList=userMapper.selectPageAll(startRow,row);
 		int rowCount=userMapper.selectPageAllCount();
-		
 		Paging paging=new Paging(page, rowCount, "/user/list/",row);
-		model.addAttribute("paging",paging);
-		model.addAttribute("userList",userList);
-		model.addAttribute("row",row);
-		model.addAttribute("rowCount",rowCount);
-		model.addAttribute("page",page);
-		System.out.println(userList);
-		return "/user/list";
+			if(loginUser.getUser_id().equals("admin")){
+				model.addAttribute("paging",paging);
+				model.addAttribute("userList",userList);
+				model.addAttribute("row",row);
+				model.addAttribute("rowCount",rowCount);
+				model.addAttribute("page",page);
+				return "/user/list";
+			}
+		session.setAttribute("msg", "관리자만 이용 가능합니다.");
+		return "redirect:/";
 	}
+			
 	@GetMapping("/detail/{userId}")
 	public String detail(@PathVariable String userId , Model model) {
 		System.out.println(userId);
@@ -88,23 +94,37 @@ public class UserController {
 	
 	@PostMapping("/modify.do")
 	public String modify(User user, 
-			@RequestParam(name = "profile_img", required = false) MultipartFile imgFile,
-			HttpSession session) throws IllegalStateException, IOException {
-		int modify=0;
-		String[] type=imgFile.getContentType().split("/");
-		if(type[0].equals("image")) {
-			String newFileName="user_"+System.nanoTime()+"."+type[1];
-			Path path=Paths.get(savePath+"/"+newFileName);
-			imgFile.transferTo(path);
-			user.setProfile_img(newFileName);
-			//여기서 파일 저장하고 파라미터로 받은 user 입력하는거고
-		}
-		System.out.println(user);
-		modify=userService.modifyUserRemoveImg(user);
-		if(modify>0) {
-			return "redirect:/user/profile/"+user.getUser_id();
+			@SessionAttribute(required = false) User loginUser,
+			MultipartFile imgFile,
+			HttpSession session) {
+		
+		if(loginUser!=null && loginUser.getUser_id().equals(user.getUser_id())) {
+			int modify=0;
+		    String msg="";
+				if(imgFile!=null && !imgFile.isEmpty()) {
+					String[] types=imgFile.getContentType().split("/");
+					if(types[0].equals("image")) {
+						if(user.getProfile_img()!=null) {
+							File file=new File(savePath+"/"+user.getProfile_img());
+							boolean del=file.delete();
+							System.out.println("기존 이미지 삭제"+del);
+						}
+						String newFileName="user_"+System.nanoTime()+"."+types[1];
+						Path path=Paths.get(savePath+"/"+newFileName);
+						try {
+							imgFile.transferTo(path);
+						} catch (IllegalStateException | IOException e) {
+							e.printStackTrace();
+						}
+						user.setProfile_img(newFileName);
+					}
+				}
+		    	modify=userMapper.modifyOne(user);
+		    	msg=(modify>0)?"수정 성공!":"수정 실패!";
+		    	session.setAttribute("msg", msg);
+		    return "redirect:/user/profile/"+user.getUser_id();
 		}else {
-			return "redirect:/user/modify.do";
+			return "/";
 		}
 	}
 	
@@ -174,7 +194,7 @@ public class UserController {
 			}
 			return "redirect:/";
 		}else {
-			session.setAttribute("loginMsg", "로그인 실패");
+			session.setAttribute("loginMsg", "아이디 혹은 비밀번호가 틀립니다");
 			return "redirect:"+prevPage;
 		}
 	}
@@ -213,7 +233,7 @@ public class UserController {
 	}
 	@GetMapping("/getSearchList/{page}")
 	   private String getSerchList(@RequestParam(value="type", required = false) String type,
-			   @PathVariable int page,
+		     @PathVariable int page,
 	         @RequestParam(value="keyword", required = false) String keyword, Model model) throws Exception{
 	     
 		List<User> getSerchList= userService.getSearchList(type,keyword);
