@@ -21,7 +21,7 @@
 		</collection>
 	</resultMap>
 		
-	<!-- 메인, 책추천 -->
+	<!-- 메인, 별점 순 -->
 	<select id="selectReadBookByStar" resultMap="ReadBookMap"> 
 		select r.isbn as isbn, r.title as title, r.author as author, r.img as img, avg_star as star 
 		from read_book as r join 
@@ -30,7 +30,7 @@
 		order by avg_star desc limit 20
 	</select>
 	
-	<!-- 메인, 책추천 -->
+	<!-- 메인, 담은 count 순 -->
 	<select id="selectByAppRecommendAll" resultMap="ReadBookMap">
 		select r.*, l.user_count, s.avg_star as star
 		from read_book as r

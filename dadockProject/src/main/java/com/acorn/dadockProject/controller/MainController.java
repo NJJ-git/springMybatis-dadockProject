@@ -17,8 +17,8 @@ public class MainController {
 	
 	@GetMapping("")
 	public String main(Model model) {
-		List<ReadBook> recommendList=readBookMapper.selectReadBookByStar(); //db
-		List<ReadBook> dadockList=readBookMapper.selectByAppRecommendAll(); //naver or db
+		List<ReadBook> recommendList=readBookMapper.selectReadBookByStar(); // 별점 평균 순 출력
+		List<ReadBook> dadockList=readBookMapper.selectByAppRecommendAll(); // 담은 유저 count 순 출력
 		model.addAttribute("recommendList",recommendList);
 		model.addAttribute("dadockList",dadockList);
 		return "/index";
