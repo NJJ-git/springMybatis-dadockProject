@@ -53,6 +53,7 @@ public class UserController {
 		List<User> userList=userMapper.selectPageAll(startRow,row);
 		int rowCount=userMapper.selectPageAllCount();
 		Paging paging=new Paging(page, rowCount, "/user/list/",row);
+		System.out.println("유저 아이디: "+loginUser.getUser_id());
 			if(loginUser.getUser_id().equals("admin")){
 				model.addAttribute("paging",paging);
 				model.addAttribute("userList",userList);

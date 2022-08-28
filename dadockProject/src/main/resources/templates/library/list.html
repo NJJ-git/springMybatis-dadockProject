@@ -25,7 +25,8 @@
 			<tbody>
 				<th:block th:each="library:${libraryList}">
 				 	<tr th:onclick="location.href='/library/detail/[[${library.library_no}]]'">
-						<td th:text="${library.library_no}"></td>
+						<td th:text="${libraryStat.count}"></td>
+						<td th:text="${library.library_no}" style="display:none;"></td>
 						<td th:text="${library.readBook?.title}"></td>
 						<td th:text="${library.readBook?.author}"></td>
 						<td th:text="${library.readBook?.publisher}"></td>
@@ -48,6 +49,7 @@
 
 	</main>
 </body>
+<footer th:insert="footer"></footer>
 </html>
 
 

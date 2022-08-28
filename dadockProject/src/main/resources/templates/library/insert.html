@@ -34,7 +34,6 @@
 	<main class="container">
 	<!-- 책 정보 불러오기(페이지 전체 반복) -->
 	<h1 class="m-3">서재 등록 페이지</h1>
-		[[${bookDetails}]]
 	<th:block th:each="book:${bookDetails}">
 		<!-- library db 입력 -->
 		<form id="insertForm" name="insertForm" action="/book/insert.do" method="post" class="needs-validation">
@@ -68,7 +67,7 @@
 						<input type="radio" id="2-stars" name="star" value="2" />
 						<label for="2-stars" class="star">★</label>
 						<input type="radio" id="1-stars" name="star" value="1" />
-						<label for="1-star" class="star">★</label>
+						<label for="1-stars" class="star">★</label>
 					</div>
 				</div>
 				<div class="col-8">
@@ -109,7 +108,6 @@
 		</form>
 </th:block>
 </main>
-<footer th:insert="/footer"></footer>
 </body>
 <script type="text/javascript">
 	// 중복 sbumit 방지 스크립트
@@ -127,6 +125,7 @@
         }
     }
 </script>
+<footer th:insert="footer"></footer>
 </html>
 
 

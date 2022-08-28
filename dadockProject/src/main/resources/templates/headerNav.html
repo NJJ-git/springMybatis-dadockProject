@@ -33,7 +33,7 @@
 	  	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
-	    <a class="navbar-brand" href="#">상단</a>
+	    <a class="navbar-brand" href="/">다독</a>
   	</div>
     
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -76,12 +76,12 @@
               <th:block th:unless="${session.loginUser==null}">
               <th:block th:if="${session.loginUser.verify==9}">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           				 관리자 메뉴
-         			 </a>
+                        관리자 메뉴
+                   </a>
              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal"data-bs-target="#loginModal">회원 리스트</a></li>
+                <li><a class="dropdown-item" href="/user/list/1">회원 리스트</a></li>
              </ul>
-		  </ul>
+        </ul>
       <hr>
     <hr>
     </div>

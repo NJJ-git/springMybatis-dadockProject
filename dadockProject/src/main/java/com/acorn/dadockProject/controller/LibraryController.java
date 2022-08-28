@@ -56,7 +56,7 @@ public class LibraryController {
 		
 		int row=15;
 		int startRow=(page-1)*row;
-		List<Library> libraryList=libraryMapper.selectPageAll(startRow,row);
+		List<Library> libraryList=libraryMapper.selectPageAll(startRow,row, loginUser.getUser_id());
 		int rowCount=libraryMapper.selectPageAllCount();
 		
 		Paging paging=new Paging(page, rowCount, "/library/list/",row);

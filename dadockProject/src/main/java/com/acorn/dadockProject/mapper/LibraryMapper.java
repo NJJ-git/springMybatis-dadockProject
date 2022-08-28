@@ -12,7 +12,7 @@ public interface LibraryMapper {
 	
 	List<Library> selectAll();
 	List<Library> selectAllByIsbn(String isbn);
-	List<Library> selectPageAll(int startRow,int pageSize);
+	List<Library> selectPageAll(int startRow,int pageSize, String user_id);
 	int selectPageAllCount();
 	
 	Library selectOne(int libraryNo);

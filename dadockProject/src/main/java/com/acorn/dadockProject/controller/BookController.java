@@ -120,6 +120,12 @@ public class BookController {
 		
 		naver_result_arr=(JSONArray) naver_result.get("items");
 		
+		// 로그인 유저 확인
+		String user="";
+		if(loginUser!=null) {
+			user=loginUser.getUser_id();
+		}	
+		
 		// JSONArray 파싱
 		String jsonBookArray=naver_result.get("items").toString();
 		
@@ -127,12 +133,15 @@ public class BookController {
 		
 		// 라이브러리 전체 목록
 		List<Library> libraryAll=libraryMapper.selectAll();
+		
 		// 페이징
 		Long total_long=(Long)naver_result.get("total");
 		int total=Math.toIntExact(total_long);
 		int rowCount=total;
 		Paging paging = new Paging(page, rowCount, "/book/searchList/", row);
 		
+		
+		model.addAttribute("loginUser",user);
 		model.addAttribute("libraryAll",libraryAll);
 		model.addAttribute("paging", paging);
 		model.addAttribute("rowCount", rowCount);

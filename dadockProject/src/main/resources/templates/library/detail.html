@@ -35,9 +35,6 @@
 <body>
 	<header th:insert="/headerNav"></header>
 	<main class="container">
-	<div>
-	[[${readBook}]]
-	</div>
 	<th:block th:each="readBook : ${readBook}">
 	<form action="/library/update.do" method="post">
 		<h1 class="m-3">
@@ -118,6 +115,7 @@
 	</th:block>
 </main>
 </body>
+<footer th:insert="footer"></footer>
 </html>
 
 
