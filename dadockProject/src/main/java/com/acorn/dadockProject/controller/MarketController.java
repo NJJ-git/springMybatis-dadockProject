@@ -69,6 +69,7 @@ public class MarketController {
 		
 		int row=8; 
 		int startRow=(page-1)*row;
+		
 		List<MarketBoard> goodsList=marketMapper.selectPageAll(startRow,row); 
 		int rowCount=marketMapper.selectPageAllCount();
 		
@@ -79,12 +80,14 @@ public class MarketController {
 			List<WishList> wishLists=wishListMapper.selectWishList(loginUser.getUser_id());
 			System.out.println("wishLists: 출력쩜"+wishLists);
 			model.addAttribute("wishLists",wishLists);
-			
 			goodsList=marketMapper.selectWishListAll(loginUser.getUser_id()); //위시 굿즈리스트
+			goodsList=marketMapper.selectPageAll(startRow,row); 
+			rowCount=marketMapper.selectPageAllCount();
 		}
 	
 		//System.out.println("goodsList: 출력쩜"+goodsList);
 		model.addAttribute("goodsList",goodsList);
+		//model.addAttribute("wishLists",wishLists);
 		
 		model.addAttribute("paging",paging);
 		model.addAttribute("row",row);

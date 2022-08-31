@@ -24,14 +24,55 @@ color:#fc0;
 transform: scale(1.2);
 transition: 1s;
 }
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    flex: 18;
+    line-height: 1.2em;
+}
 
-/* .img:hover{
-border-radius: 5px; 
-height: 350px; 
-padding: 2px;
-transform: scale(1.5);
-transition: 1s;
-} */
+/* section: hero */
+.hero {
+    /* border: 5px solid rgb(56, 82, 117); */
+    height: 70vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgba(14, 17, 86, 0.401) ; */
+    /*background:linear-gradient(to left, rgba(72, 79, 5, 0.318), transparent);*/
+}
+#img {
+	margin-top:20px;
+    position: absolute;
+    /* top: 0;
+    left: 0; */
+    top: 70%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+	width:2500px;
+	height: 100vh;
+    /* 비디오는 항상 앞z-index를 -1로 줘서 뒤로 뺀다 */
+    z-index: -1;
+} 
+.hero .heading {
+    color: #fff;
+    text-align: center;
+    width: 60%;
+
+}
+.hero .heading h1 {
+    font-weight: 500;
+    line-height: 1.6em;
+    font-style: 2em;
+    flex: s;
+}
+.hero .heading span {
+    color: rgb(239, 255, 255);
+    display: block;
+}
+
 </style>
 </head>
 <body>
@@ -49,6 +90,20 @@ transition: 1s;
 		</form>
 	</div>
 </div>
+<section class="hero">
+            <div class="heading">
+                <h1>
+                    <span>Dadock::마음을 웅앵</span> 
+                    Picture a wave in the ocean. 
+
+                </h1>
+                <hr>
+                <p>
+                    Picture a wave in the ocean. You can see it, measure it - its height, the way the sunlight refracts as it passes through - and it's there, you can see it, and you know what it is, it's a wave. And then it crashes on the shore and it's gone. But the water is still there.
+                </p>
+            </div>
+            <img id="img" src="public\img\bgImg5.jpg"></img>
+        </section>
 <!-- Carousel 시작  -->
 <div class="m-5">
 <a href="/book/recommend"
