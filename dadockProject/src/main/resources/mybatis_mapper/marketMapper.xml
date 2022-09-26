@@ -71,6 +71,7 @@
 		 ,w.wishlist_no,w.user_id wish_user_id, w.market_board_no wishlist_market_board_no
 		 from market_board b LEFT JOIN user u on b.user_id=u.user_id 
 		 LEFT JOIN wishList w ON b.market_board_no=w.market_board_no AND w.user_id=#{loginUserId}
+		
 	</select>
 	
 	<select id="selectOne" parameterType="int" resultMap="marketBoardMap"> <!-- 쿼리  리플.. -->

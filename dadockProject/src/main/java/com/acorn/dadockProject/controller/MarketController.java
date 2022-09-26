@@ -58,7 +58,7 @@ public class MarketController {
 	@Autowired
 	ObjectMapper objectMapper;
 	
-	@CrossOrigin //사진불러오는곳
+	@CrossOrigin //사진불러오는곳에 추가
 	@GetMapping("/goodsList/{page}")
 	public String goodsList (
 			@PathVariable int page,
@@ -75,19 +75,17 @@ public class MarketController {
 		
 		Paging paging=new Paging(page, rowCount, "/market/goodsList/",row);
 		
-		//List<MarketBoard> goodsList=null;
-		if(loginUser!=null) {
+		if(loginUser!=null) { //유저 로그인 했을때 보여지는 페이지
 			List<WishList> wishLists=wishListMapper.selectWishList(loginUser.getUser_id());
-			System.out.println("wishLists: 출력쩜"+wishLists);
+			System.out.println("wishLists: 출력"+wishLists);
 			model.addAttribute("wishLists",wishLists);
 			goodsList=marketMapper.selectWishListAll(loginUser.getUser_id()); //위시 굿즈리스트
-			goodsList=marketMapper.selectPageAll(startRow,row); 
-			rowCount=marketMapper.selectPageAllCount();
+			
+			model.addAttribute(goodsList);
+			
 		}
 	
-		//System.out.println("goodsList: 출력쩜"+goodsList);
 		model.addAttribute("goodsList",goodsList);
-		//model.addAttribute("wishLists",wishLists);
 		
 		model.addAttribute("paging",paging);
 		model.addAttribute("row",row);
